@@ -12,7 +12,7 @@ function ShowCard(props) {
       key={props.index}
     >
       <div className={styles.cardPic}>
-        <a href="/">
+        <a href="/admin">
           <img alt="example" width="100%" src={props.pic} />
         </a>
       </div>
