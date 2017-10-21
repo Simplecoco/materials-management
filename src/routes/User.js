@@ -44,7 +44,7 @@ class User extends React.Component {
           >
             <SideNav userName="user" type="user" />
           </Sider>
-          <Layout style={{ minWidth: '1000px', marginLeft: 64 }}>
+          <Layout style={{ minWidth: '1100px', marginLeft: 64 }}>
             <Affix>
               <Header
                 style={{ padding: 0, height: 'auto', lineHeight: '46px' }}

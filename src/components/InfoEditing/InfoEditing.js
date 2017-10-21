@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button, Upload, Input, Icon } from 'antd';
-// import styles from './InfoEditing.css';
+import styles from './InfoEditing.css';
 
 // function InfoEditing() {
 //   return (
@@ -56,17 +56,7 @@ class InfoEditing extends React.Component {
         <Button
           type="primary"
           onClick={this.showModal}
-          style={{
-            position: 'fixed',
-            bottom: '25px',
-            right: '30px',
-            width: 60,
-            height: 60,
-            borderRadius: '50%',
-            boxShadow: '3px 4px 8px gray',
-            textAlign: 'center',
-            padding: 0,
-          }}
+          className={styles.addButton}
         >
           +Add
         </Button>
