@@ -12,7 +12,7 @@ export default {
   },
   effects: {
     *fetch({ payload: { limit } }, { call, put }) {
-      const { data } = yield call(userService.fetch, { limit });
+      const { data } = yield call(userService.fetchCards, { limit });
       yield put({ type: 'save', payload: { data } });
     },
   },

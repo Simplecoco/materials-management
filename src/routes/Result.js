@@ -16,7 +16,7 @@ class Result extends React.Component {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
           <ShowCard
-            title={item.title}
+            title={item.name}
             pic={item.pic}
             key={index}
             loading={item.loading || false}

@@ -22,7 +22,7 @@ class RequestList extends React.Component {
         title: '申请人',
         dataIndex: 'name',
         key: 'name',
-        render: text => <a href="/">{text}</a>,
+        // render: text => <a href="/">{text}</a>,
       },
       {
         title: '申请日期',

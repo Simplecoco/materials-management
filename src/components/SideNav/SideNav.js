@@ -125,7 +125,7 @@ class SideNav extends React.Component {
             用户信息管理
           </Menu.Item>
         </SubMenu>
-        <Menu.Item key="8">
+        <Menu.Item key="8" path="/admin/requestList">
           <Icon type="notification" />
           <span>物资申请</span>
         </Menu.Item>

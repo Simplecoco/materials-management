@@ -6,6 +6,8 @@ const app = dva();
 
 app.model(require('./models/users'));
 
+app.model(require('./models/userInfo'));
+
 app.model(require('./models/result'));
 
 app.model(require('./models/MaterialInfo'));
