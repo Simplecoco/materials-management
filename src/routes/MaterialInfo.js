@@ -11,6 +11,7 @@ class MaterialInfo extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,     // 暂时
+      EditVisible: false,
     };
   }
 
@@ -28,6 +29,12 @@ class MaterialInfo extends React.Component {
       detailVisible: bool,
     });       // 暂时
   };
+
+//   showEdit = () => {
+//   this.setState({
+//     EditVisible: true,
+//   });
+// };
 
   render() {
     const { items, reqItem } = this.props;

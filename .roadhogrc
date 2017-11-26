@@ -16,9 +16,10 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://jsonplaceholder.typicode.com/",
+      "target": "http://www.easy-mock.com/mock/59eaf2e3784f01172f35c5e7/",
       "changeOrigin": true,
-      "pathRewrite": { "^/api" : "" }
+      "pathRewrite": { "^/api" : "api/1/supply" }
     }
-  }
+  },
+  "less": true
 }
