@@ -3,7 +3,11 @@ import { Modal, Button, Upload, Input, Icon } from 'antd';
 import styles from './InfoEditing.css';
 
 class InfoEditing extends React.Component {
-  // static defaultProps = {};
+  static defaultProps = {
+    showBtClassName: 'addButton',
+    showBtTitle: '+add',
+    btType: 'primary',
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +52,7 @@ class InfoEditing extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
+    const { showBtClassName, showBtTitle, btType } = this.props;
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
@@ -58,11 +63,11 @@ class InfoEditing extends React.Component {
     return (
       <div>
         <Button
-          type="primary"
+          type={btType}
           onClick={this.showModal}
-          className={styles.addButton}
+          className={styles[showBtClassName]}
         >
-          +Add
+          {showBtTitle}
         </Button>
         <Modal
           title="Basic Modal"
@@ -88,6 +93,7 @@ class InfoEditing extends React.Component {
             placeholder="Enter your userName"
             prefix={<Icon type="user" />}
             style={{ marginBottom: 10 }}
+            defaultValue="sdfsdf"
           />
           <Input
             placeholder="Enter your userName"

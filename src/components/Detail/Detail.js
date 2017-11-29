@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import styles from './Detail.less';
+import InfoEditing from '../InfoEditing/InfoEditing';
 
 function Detail(props) {
   // const showModal = () => {
@@ -35,14 +36,14 @@ function Detail(props) {
     <div className={styles.normal}>
       <Modal
         title="Basic Modal"
-        visible={props.visible}
+        visible={props.detailVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         width={650}
         className={styles.modal}
       >
         <div className="clearfix">
-          <Button className={styles.edit} >编辑</Button>
+          <InfoEditing showBtClassName="editButton" showBtTitle="编辑" btType="default" />
           <div className={styles.picWrap}>
             <img src={props.reqItem.pic} alt="" className={styles.pic} />
             <img src={props.reqItem.qrCode} alt="" className={styles.qrCode} />

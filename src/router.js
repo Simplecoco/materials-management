@@ -4,21 +4,22 @@ import IndexPage from './routes/IndexPage';
 
 // import Users from "./routes/Users.js";
 
-import User from './routes/User.js';
+import User from './routes/User';
 
-import Test1 from './routes/Test1.js';
+import Test1 from './routes/Test1';
 
-import Test2 from './routes/Test2.js';
+import Test2 from './routes/Test2';
 
-import Result from './routes/Result.js';
+import Result from './routes/Result';
 
-import Admin from './routes/Admin.js';
+import Admin from './routes/Admin';
 
-import RequestList from './routes/RequestList.js';
+import RequestList from './routes/RequestList';
 
-import UserInfo from './routes/UserInfo.js';
+import UserInfo from './routes/UserInfo';
 
-import MaterialInfo from './routes/MaterialInfo.js';
+import MaterialInfo from './routes/MaterialInfo';
+
 
 function RouterConfig({ history }) {
   return (

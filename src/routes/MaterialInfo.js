@@ -11,7 +11,7 @@ class MaterialInfo extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,     // 暂时
-      EditVisible: false,
+      // editVisible: false,
     };
   }
 
@@ -30,9 +30,9 @@ class MaterialInfo extends React.Component {
     });       // 暂时
   };
 
-//   showEdit = () => {
+//   changeEditVisible = (bool) => {
 //   this.setState({
-//     EditVisible: true,
+//     editVisible: bool,
 //   });
 // };
 
@@ -60,7 +60,7 @@ class MaterialInfo extends React.Component {
         <InfoEditing />
         <Detail
           reqItem={reqItem}
-          visible={this.state.detailVisible}
+          detailVisible={this.state.detailVisible}
           changeDetailVisible={this.changeDetailVisible}
         />
       </div>
