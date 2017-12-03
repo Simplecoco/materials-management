@@ -90,7 +90,7 @@ class UserInfo extends React.Component {
 
     const { items } = this.props;
     return (
-      <div>
+      <div className={styles.normal}>
         <Table columns={columns} dataSource={items} size="small" />
         <InfoEditing />
       </div>
