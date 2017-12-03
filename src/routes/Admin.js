@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-// import styles from './Admin.css';
 import { Layout, Affix } from 'antd';
 import { routerRedux } from 'dva/router';
 import SideNav from '../components/SideNav/SideNav.js';
