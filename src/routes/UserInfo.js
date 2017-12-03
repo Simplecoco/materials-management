@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popover, Button, Popconfirm, Tabs } from 'antd';
 import InfoEditing from '../components/InfoEditing/InfoEditing';
+import styles from './UserInfo.css';
 
 const TabPane = Tabs.TabPane;
 // import styles from './UserInfo.css';
@@ -46,15 +47,14 @@ class UserInfo extends React.Component {
         title: '操作',
         key: 'action',
         render: (record) => {
-          console.log(record);
           // const content = (    //这种比较常用
           //   <div>
           //     <p>{record.name}</p>
           //     <p>{record.studentID}</p>
           //   </div>
           // );
-          const details = Object.entries(record).map(item => (
-            <div style={{ marginBottom: '0.5em' }}>
+          const details = Object.entries(record).map((item, index) => (
+            <div style={{ marginBottom: '0.5em' }} key={index}>
               <p style={{ borderBottom: '1px solid #eee', fontSize: 14 }}>{ `${item[0]}: ${item[1]}` }</p>
             </div>
           ));
@@ -90,7 +90,7 @@ class UserInfo extends React.Component {
 
     const { items } = this.props;
     return (
-      <div>
+      <div className={styles.normal}>
         <Table columns={columns} dataSource={items} size="small" />
         <InfoEditing />
       </div>

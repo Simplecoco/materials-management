@@ -20,6 +20,14 @@ import UserInfo from './routes/UserInfo';
 
 import MaterialInfo from './routes/MaterialInfo';
 
+import Records from './routes/Records.js';
+
+
+import PersonalInfo from './routes/PersonalInfo.js';
+
+
+import Message from './routes/Message.js';
+
 
 function RouterConfig({ history }) {
   return (
@@ -27,14 +35,19 @@ function RouterConfig({ history }) {
       <Route path="/" component={IndexPage} />
       <Route path="/user" component={User}>
         <IndexRoute component={Test1} />
+        <Route path="personalInfo" component={PersonalInfo} />
         <Route path="result" component={Result} />
-        <Route path="test2" component={Test2} />
+        <Route path="records" component={Records} />
+        <Route path="message" component={Message} />
       </Route>
       <Route path="/admin" component={Admin}>
-        <IndexRoute component={Test1} />
+        <IndexRoute component={Test2} />
+        <Route path="personalInfo" component={PersonalInfo} />
         <Route path="requestList" component={RequestList} />
         <Route path="userInfo" component={UserInfo} />
         <Route path="materialInfo" component={MaterialInfo} />
+        <Route path="records" component={Records} />
+        <Route path="message" component={Message} />
       </Route>
     </Router>
   );

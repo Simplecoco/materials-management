@@ -1,11 +1,11 @@
 import request from '../utils/request';
 
 function fetchCards({ limit = 20 }) {
-  return request(`/api/cards?limit=${limit}`);
+  return request(`/api/1/supply/cards?limit=${limit}`);
 }
 
 function fetchUsers({ limit = 10 }) {
-  return request(`/api/users?limit=${limit}`);
+  return request(`/api/1/supply/users?limit=${limit}`);
 }
 
 function fetchDetails({ url }) {

@@ -1,5 +1,11 @@
 import request from '../utils/request';
 
-export function fetchCards({ limit = 10 }) {
-  return request(`/api/cards?limit=${limit}`);
+function fetchCards({ limit = 20 }) {
+  return request(`/api/1/supply/cards?limit=${limit}`);
 }
+
+function fetchDetails({ url }) {
+  return request(url);
+}
+
+export { fetchCards, fetchDetails };
