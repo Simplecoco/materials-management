@@ -59,6 +59,7 @@ class MaterialInfo extends React.Component {
         </Row>
         <InfoEditing />
         <Detail
+          type="admin"
           reqItem={reqItem}
           detailVisible={this.state.detailVisible}
           changeDetailVisible={this.changeDetailVisible}
