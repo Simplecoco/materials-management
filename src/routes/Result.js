@@ -48,7 +48,6 @@ class Result extends React.Component {
         <Row type="flex" gutter={24}>
           {layout}
         </Row>
-        <InfoEditing />
         <Detail
           type="user"
           reqItem={reqItem}

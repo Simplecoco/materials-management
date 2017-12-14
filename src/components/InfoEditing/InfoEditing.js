@@ -1,12 +1,15 @@
 import React from 'react';
 import { Modal, Button, Upload, Input, Icon } from 'antd';
-import styles from './InfoEditing.css';
+import styles from './InfoEditing.less';
+
+const { TextArea } = Input;
 
 class InfoEditing extends React.Component {
   static defaultProps = {
     showBtClassName: 'addButton',
     showBtTitle: '+add',
     btType: 'primary',
+    Operator: 'xxxxx',
   };
   constructor(props) {
     super(props);
@@ -52,7 +55,7 @@ class InfoEditing extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { showBtClassName, showBtTitle, btType } = this.props;
+    const { showBtClassName, showBtTitle, btType, Operator } = this.props;
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
@@ -61,7 +64,7 @@ class InfoEditing extends React.Component {
       </div>
     );
     return (
-      <div>
+      <div className={styles.infoEditing}>
         <Button
           type={btType}
           onClick={this.showModal}
@@ -70,7 +73,7 @@ class InfoEditing extends React.Component {
           {showBtTitle}
         </Button>
         <Modal
-          title="Basic Modal"
+          title="添加物品"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -90,24 +93,40 @@ class InfoEditing extends React.Component {
             </Modal>
           </div>
           <Input
-            placeholder="Enter your userName"
+            placeholder="操作者名称"
             prefix={<Icon type="user" />}
+            addonBefore="操作者"
             style={{ marginBottom: 10 }}
-            defaultValue="sdfsdf"
+            defaultValue={Operator}
+            disabled
           />
           <Input
-            placeholder="Enter your userName"
+            placeholder="请输入物资名称"
+            addonBefore="物资名称"
+            style={{ marginBottom: 10 }}
+            prefix={<Icon type="tag" />}
+          />
+          <Input
+            placeholder="请输入物资所有者"
+            addonBefore="所有者"
+            style={{ marginBottom: 10 }}
             prefix={<Icon type="user" />}
           />
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <Input
+            placeholder="请输入物资数量"
+            addonBefore="物资数量"
+            style={{ marginBottom: 10 }}
+            prefix={<Icon type="bar-chart" />}
+          />
+          <TextArea
+            placeholder="请输入详细物资描述"
+            style={{ marginBottom: 10 }}
+            autosize={{ minRows: 2, maxRows: 5 }}
+          />
         </Modal>
       </div>
     );
   }
 }
-
-// ReactDOM.render(<App />, mountNode);
 
 export default InfoEditing;
