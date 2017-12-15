@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import styles from './ShowCard.css';
 
 function ShowCard(props) {
-  // console.log(props);
+  // console.log(props.loading);
   return (
     <Card
       loading={props.loading}

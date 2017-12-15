@@ -37,7 +37,7 @@ class MaterialInfo extends React.Component {
 // };
 
   render() {
-    const { items, reqItem } = this.props;
+    const { items, reqItem, detailLoading, resultLoading } = this.props;
     const layout = items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -45,7 +45,7 @@ class MaterialInfo extends React.Component {
             title={item.name}
             pic={item.pic}
             key={index}
-            loading={item.loading || false}
+            loading={resultLoading}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
           />
@@ -61,6 +61,7 @@ class MaterialInfo extends React.Component {
         <Detail
           type="admin"
           reqItem={reqItem}
+          detailLoading={detailLoading}
           detailVisible={this.state.detailVisible}
           changeDetailVisible={this.changeDetailVisible}
         />
@@ -70,8 +71,8 @@ class MaterialInfo extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { items, reqItem } = state.MaterialInfo;
-  return { items, reqItem };
+  const { items, reqItem, detailLoading, resultLoading } = state.MaterialInfo;
+  return { items, reqItem, detailLoading, resultLoading };
 }
 
 // function mapDispatchToProps(dispatch) {
