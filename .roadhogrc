@@ -17,9 +17,14 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://www.easy-mock.com/mock/59eaf2e3784f01172f35c5e7/",
+      "target": "http://asset.starstudio.org/v1/supply/",
       "changeOrigin": true,
-      "pathRewrite": { "^/api" : "api" }
+      "pathRewrite": { "^/api": "" }
+    },
+    "/v1/supply": {
+      "target": "http://asset.starstudio.org/v1/supply/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/v1/supply": "" }
     }
   },
   "less": true

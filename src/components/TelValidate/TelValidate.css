@@ -2,19 +2,14 @@
 .normal {
 }
 
-.loginForm {
+.telForm {
   max-width: 400px;
   width: 100%;
   box-shadow: 1px 2px 5px #D2D2D2;
   padding: 16px;
   border-radius: 3px;
-  /*position: absolute;*/
-  /*top: 50%;*/
-  /*right: 50%;*/
 }
-.loginFormForgot {
-  float: right;
-}
-.loginFormButton {
+
+.telFormButton {
   width: 100%;
 }

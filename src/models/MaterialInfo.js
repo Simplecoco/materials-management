@@ -26,6 +26,7 @@ export default {
     *fetch({ payload: { limit } }, { call, put }) {
       yield put({ type: 'resultLoadingChange' });
       const { data } = yield call(adminService.fetchCards, { limit });
+      console.log(data);
       yield put({ type: 'save', payload: { data } });
       yield put({ type: 'resultLoadingChange' });
     },

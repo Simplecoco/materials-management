@@ -3,7 +3,6 @@ import { Card } from 'antd';
 import styles from './ShowCard.css';
 
 function ShowCard(props) {
-  // console.log(props.loading);
   return (
     <Card
       loading={props.loading}
@@ -18,7 +17,7 @@ function ShowCard(props) {
         </a>
       </div>
       <div className={styles.cardContent}>
-        <p>{props.content || 'content'}</p>
+        <p>{props.content || props.title}</p>
       </div>
     </Card>
   );

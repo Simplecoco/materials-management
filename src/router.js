@@ -2,8 +2,6 @@ import React from 'react';
 import { Router, Route, IndexRoute } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 
-// import Users from "./routes/Users.js";
-
 import User from './routes/User';
 
 import Test1 from './routes/Test1';
@@ -29,10 +27,18 @@ import PersonalInfo from './routes/PersonalInfo.js';
 import Message from './routes/Message.js';
 
 
+import Register from './routes/Register.js';
+
+
+import Login from './routes/LoginPage.js';
+
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Route path="/" component={IndexPage} />
+      <Route path="/register" component={Register} />
+      <Route path="/login" component={Login} />
       <Route path="/user" component={User}>
         <IndexRoute component={Test1} />
         <Route path="personalInfo" component={PersonalInfo} />

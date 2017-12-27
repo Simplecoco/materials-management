@@ -6,10 +6,14 @@ import ShowCard from '../components/ShowCard/ShowCard';
 import Detail from '../components/Detail/Detail';
 
 class Result extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      detailVisible: false,
+    };
+  }
   showDetail = (url, e) => {
     e.preventDefault();
-    // this.setState({detailLoading: true});
     this.props.dispatch({
       type: 'result/fetchDetail',
       payload: { url },
@@ -25,6 +29,7 @@ class Result extends React.Component {
 
   render() {
     const { items, reqItem, detailLoading, resultLoading } = this.props;
+    console.log(this.props, detailLoading);
     const layout = items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -32,6 +37,7 @@ class Result extends React.Component {
             title={item.name}
             pic={item.pic}
             key={index}
+            content={item.desc}
             loading={resultLoading}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
@@ -39,18 +45,26 @@ class Result extends React.Component {
         </Col>
       );
     });
+    const detailLayout = () => {
+      if (Object.keys(reqItem).length !== 0 && this.state.detailVisible) {
+        return (
+          <Detail
+            type="user"
+            reqItem={reqItem}
+            detailLoading={detailLoading}
+            detailVisible={this.state.detailVisible}
+            changeDetailVisible={this.changeDetailVisible}
+          />
+        );
+      }
+    };
+
     return (
       <div className={styles.normal}>
         <Row type="flex" gutter={24}>
           {layout}
         </Row>
-        <Detail
-          type="user"
-          reqItem={reqItem}
-          detailLoading={detailLoading}
-          detailVisible={this.state.detailVisible}
-          changeDetailVisible={this.changeDetailVisible}
-        />
+        {detailLayout()}
       </div>
     );
   }
