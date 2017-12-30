@@ -34,7 +34,7 @@ class SideNav extends React.Component {
     const userLayout = () => (                                // 这里layout待处理,想通过传入数据去自动构造
       <Menu
         mode="inline"
-        theme="dark"
+        theme="light"
         onOpenChange={this.onOpenChange}
         onClick={pageChangeHandler}
       >
@@ -83,7 +83,7 @@ class SideNav extends React.Component {
     const adminLayout = () => ((
       <Menu
         mode="inline"
-        theme="dark"
+        theme="light"
         onOpenChange={this.onOpenChange}
         onClick={pageChangeHandler}
       >

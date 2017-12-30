@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
+import { Row, Col, message } from 'antd';
 import styles from './MaterialInfo.css';
 import ShowCard from '../components/ShowCard/ShowCard';
 import InfoEditing from '../components/InfoEditing/InfoEditing';
@@ -18,6 +18,7 @@ class MaterialInfo extends React.Component {
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
+    this.hide = message.loading('正在努力加载~~~', 0);
     this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'MaterialInfo/fetchDetail',
@@ -65,6 +66,9 @@ class MaterialInfo extends React.Component {
     } = this.props;
 
     const layout = items.map((item, index) => {
+      if (this.hide) {
+        setTimeout(this.hide, 800);
+      }
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
           <ShowCard

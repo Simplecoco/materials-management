@@ -49,7 +49,7 @@ class Detail extends React.Component {
     );
 
     const finalLayout = () => {
-      if (this.props.detailLoading) {
+      if (this.props.detailLoading || Object.keys(this.props.reqItem).length === 0) {
         return (
           <div className={styles.loadingContainer}>
             <Icon type="loading" style={{ fontSize: 24 }} spin />
