@@ -1,12 +1,12 @@
 import request from '../utils/request';
+import * as cookie from '../utils/cookie';
 
-function fetchCards() {
-  // return request(`/api/1/supply/cards?limit=${limit}`);
-  return request('/api/materials/list?from=1&len=2', {
+function fetchCards({ from = 0, len = 20 }) {
+  return request(`/api/materials/list?from=${from}&len=${len}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
-      token: 'ff9dd5e3-2eeb-4430-a16b-22af69d738c3',
+      token: cookie.getCookie('token'),
     },
   });
 }
@@ -16,7 +16,25 @@ function fetchUsers({ limit = 10 }) {
 }
 
 function fetchDetails({ url }) {
-  return request(url);
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
 }
 
-export { fetchCards, fetchUsers, fetchDetails };
+function addMaterial({ values }) {
+  console.log(values);
+  return request('/api/materials/add', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify(values),
+  });
+}
+
+export { fetchCards, fetchUsers, fetchDetails, addMaterial };

@@ -12,7 +12,12 @@ function ShowCard(props) {
       key={props.index}
     >
       <div className={styles.cardPic}>
-        <a href={props.detail_url} onClick={props.showDetail.bind(this, props.detail_url)}>
+        <a
+          href={props.detail_url}
+          onClick={props.showDetail.bind(this, {
+            url: props.detail_url, title: props.title
+          })}
+        >
           <img alt="example" width="100%" src={props.pic} />
         </a>
       </div>

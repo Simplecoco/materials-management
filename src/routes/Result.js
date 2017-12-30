@@ -10,26 +10,34 @@ class Result extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,
+      detailTitle: ''
     };
   }
-  showDetail = (url, e) => {
+  showDetail = ({ url, title }, e) => {
     e.preventDefault();
+    this.setState({ detailTitle: title });
+    this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'result/fetchDetail',
       payload: { url },
     });
-    this.changeDetailVisible(true);
   };
 
   changeDetailVisible = (bool) => {
     this.setState({
       detailVisible: bool,
-    });       // 暂时
+    });
+  };
+
+  resetReqItem = () => {
+    this.props.dispatch({
+      type: 'result/resetReqItem',
+      payload: { data: {} },
+    });
   };
 
   render() {
     const { items, reqItem, detailLoading, resultLoading } = this.props;
-    console.log(this.props, detailLoading);
     const layout = items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -52,8 +60,10 @@ class Result extends React.Component {
             type="user"
             reqItem={reqItem}
             detailLoading={detailLoading}
+            detailTitle={this.state.detailTitle}
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
+            resetReqItem={this.resetReqItem}
           />
         );
       }

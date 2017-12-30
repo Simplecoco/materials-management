@@ -11,33 +11,59 @@ class MaterialInfo extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,     // 暂时
-      // editVisible: false,
+      detailTitle: ''
     };
   }
 
-  showDetail = (url, e) => {
+  showDetail = ({ url, title }, e) => {
     e.preventDefault();
+    this.setState({ detailTitle: title });
+    this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'MaterialInfo/fetchDetail',
       payload: { url },
     });
-    this.changeDetailVisible(true);
   };
 
   changeDetailVisible = (bool) => {
     this.setState({
       detailVisible: bool,
-    });       // 暂时
+    });
   };
+
+  addMaterial = (values) => {
+    this.props.dispatch({
+      type: 'MaterialInfo/addMaterial',
+      payload: { values }
+    });
+  };
+
+  resetReqItem = () => {
+    this.props.dispatch({
+      type: 'MaterialInfo/resetReqItem',
+      payload: { data: {} },
+    });
+  };
+
 
 //   changeEditVisible = (bool) => {
 //   this.setState({
 //     editVisible: bool,
-//   });
+//
+// });
 // };
 
   render() {
-    const { items, reqItem, detailLoading, resultLoading } = this.props;
+    const {
+      items,
+      reqItem,
+      resultLoading,
+      addLoading,
+      detailLoading,
+      addCode,
+      addMsg
+    } = this.props;
+
     const layout = items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -45,6 +71,7 @@ class MaterialInfo extends React.Component {
             title={item.name}
             pic={item.pic}
             key={index}
+            content={item.desc}
             loading={resultLoading}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
@@ -52,18 +79,35 @@ class MaterialInfo extends React.Component {
         </Col>
       );
     });
+
+    const detailLayout = () => {
+      if (Object.keys(reqItem).length !== 0 && this.state.detailVisible) {
+        return (
+          <Detail
+            type="admin"
+            reqItem={reqItem}
+            detailLoading={detailLoading}
+            detailTitle={this.state.detailTitle}
+            detailVisible={this.state.detailVisible}
+            changeDetailVisible={this.changeDetailVisible}
+            resetReqItem={this.resetReqItem}
+          />
+        );
+      }
+    };
+
     return (
       <div className={styles.normal}>
         <Row type="flex" gutter={24}>
           {layout}
         </Row>
-        <InfoEditing />
-        <Detail
-          type="admin"
-          reqItem={reqItem}
-          detailLoading={detailLoading}
-          detailVisible={this.state.detailVisible}
-          changeDetailVisible={this.changeDetailVisible}
+        {detailLayout()}
+        <InfoEditing
+          addMaterial={this.addMaterial}
+          addLoading={addLoading}
+          addCode={addCode}
+          addMsg={addMsg}
+          dispatch={this.props.dispatch}
         />
       </div>
     );
@@ -71,14 +115,24 @@ class MaterialInfo extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { items, reqItem, detailLoading, resultLoading } = state.MaterialInfo;
-  return { items, reqItem, detailLoading, resultLoading };
+  const {
+    items,
+    reqItem,
+    detailLoading,
+    resultLoading,
+    addLoading,
+    addCode,
+    addMsg
+  } = state.MaterialInfo;
+  return {
+    items,
+    reqItem,
+    detailLoading,
+    resultLoading,
+    addLoading,
+    addCode,
+    addMsg
+  };
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     dispatch,
-//   };
-// }
 
 export default connect(mapStateToProps)(MaterialInfo);

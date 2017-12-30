@@ -1,5 +1,10 @@
 import * as userService from '../services/user';
 
+const fetchQuery = {
+  from: 0,
+  len: 20,
+};
+
 export default {
   namespace: 'result',
   state: {
@@ -7,10 +12,6 @@ export default {
     reqItem: {},
     detailLoading: false,
     resultLoading: false,
-    query: {
-      from: 0,
-      len: 20,
-    },
     userData: {
       avatar: 'http://asset.starstudio.org/static/img/avatar.jpg',
       name: '',
@@ -24,30 +25,29 @@ export default {
     saveDetails(state, { payload: { data: reqItem } }) {
       return Object.assign({}, { ...state }, { reqItem });
     },
-    detailLoadingChange(state) {
-      return Object.assign({}, { ...state }, { detailLoading: !state.detailLoading });
+    detailLoadingChange(state, { payload: { loading } }) {
+      return Object.assign({}, { ...state }, { detailLoading: loading });
     },
-    resultLoadingChange(state) {
-      return Object.assign({}, { ...state }, { resultLoading: !state.resultLoading });
+    resultLoadingChange(state, { payload: { loading } }) {
+      return Object.assign({}, { ...state }, { resultLoading: loading });
     },
   },
   effects: {
-    *fetch({ payload: { from = 0, len = 20 } }, { call, put }) {
-      yield put({ type: 'resultLoadingChange' });
+    *fetch({ payload: { from = fetchQuery.from, len = fetchQuery.len } }, { call, put }) {
+      yield put({ type: 'resultLoadingChange', payload: { loading: true } });
       const { data } = yield call(userService.fetchCards, { from, len });
-      console.log(data, 222);
       yield put({ type: 'save', payload: { data } });
-      yield put({ type: 'resultLoadingChange' });
+      yield put({ type: 'resultLoadingChange', payload: { loading: false } });
     },
     *fetchDetail({ payload: { url } }, { call, put }) {
-      console.log(23232);
-      yield put({ type: 'detailLoadingChange' });
-      console.log(2323277);
+      yield put({ type: 'detailLoadingChange', payload: { loading: true } });
       const { data } = yield call(userService.fetchDetails, { url });
-      console.log(data, 333);
       yield put({ type: 'saveDetails', payload: { data } });
-      yield put({ type: 'detailLoadingChange' });
+      yield put({ type: 'detailLoadingChange', payload: { loading: false } });
     },
+    *resetReqItem({ payload: { data } }, { put }) {
+      yield put({ type: 'saveDetails', payload: { data } });
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

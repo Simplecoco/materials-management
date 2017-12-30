@@ -1,49 +1,23 @@
 import React from 'react';
 import { Modal, Button, Icon, Carousel } from 'antd';
-// import $ from 'jquery';
 import styles from './Detail.less';
 import InfoEditing from '../InfoEditing/InfoEditing';
+import { transName } from '../../utils/trans';
 
 class Detail extends React.Component {
   static defaultProps = {
     reqItem: '',
-    refresh: false,
   };
-
-  // componentDidUpdate = () => {
-  //   console.log('did');
-  //   console.log(this);
-  // };
 
   handleOk = () => {
     this.props.changeDetailVisible(false);
   };
   handleCancel = () => {
     this.props.changeDetailVisible(false);
+    this.props.resetReqItem();
   };
 
-  // test = () => {
-  //   console.log(window);
-  //   console.log($(window).trigger('resize'));
-  //   window.innerWidth = 800;
-  // };
-
   render() {
-    const trans = {
-      id: '物资编号',
-      count: '剩余数量',
-      desc: '描述',
-      name: '名称',
-      price: '价格',
-      params: '参数',
-      manufacturer: '所属者ID（管理员编号)',
-      partners: '其他配件',
-      state: '是否可借',
-      location: '存放位置',
-      keyName: '关键字',
-      create_time: '创建日期',
-    };
-
     const extraBt = this.props.type === 'user'
         ? <Button className={styles.extra} onClick={this.test} >点我申请</Button>
         : <InfoEditing showBtClassName="editButton" showBtTitle="编辑" btType="default" />;
@@ -57,7 +31,7 @@ class Detail extends React.Component {
         }
         return (
           <li key={index}>
-            <span className={styles.itemName}>{ `${trans[item[0]]}: ` }</span>
+            <span className={styles.itemName}>{ `${transName[item[0]]}: ` }</span>
             <span className={styles.itemContent}>{item[1]}</span>
           </li>
         );

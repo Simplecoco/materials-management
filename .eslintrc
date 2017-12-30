@@ -25,7 +25,8 @@
     "require-yield": [1],
     "no-console": [0],
     "no-undef": [0],
-    "no-plusplus": [0]
+    "no-plusplus": [0],
+    "comma-dangle": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

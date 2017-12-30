@@ -31,8 +31,8 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        if (pathname === '/') {
-          dispatch(routerRedux.push('/login'));    // 用户进入首页时自动跳转到result
+        if (pathname === '/login' && cookie.getCookie('token')) {
+          dispatch(routerRedux.push('/user'));    // 用户进入首页时自动跳转到result
         }
       });
     },
