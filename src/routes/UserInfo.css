@@ -1,0 +1,7 @@
+
+.normal {
+}
+
+:global(.ant-popover-inner-content *) {
+    word-break: keep-all;
+}

@@ -22,7 +22,11 @@
     "react/jsx-no-bind": [0],
     "react/prefer-stateless-function": [0],
     "react/prop-types": [0],
-    "require-yield": [1]
+    "require-yield": [1],
+    "no-console": [0],
+    "no-undef": [0],
+    "no-plusplus": [0],
+    "comma-dangle": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

@@ -1,0 +1,73 @@
+
+.normal {}
+
+.extra {
+    float: right;
+}
+
+.modal {
+  min-width: 650px;
+}
+
+.picWrap {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-right: 20px;
+    .carousel {
+      //width: 200px;
+      //height: 200px;
+      overflow: hidden;
+      //.slick-list {
+      //  overflow: visible !important;
+      //}
+      .slide {
+        //width: 200px !important;
+        //height: 200px !important;
+        //left: 0 !important;
+        //position: relative !important;
+        .pic {
+          width: 200px;
+          height: 200px;
+          line-height: 0;
+        }
+      }
+    }
+  .qrCode {
+    position: absolute;
+    width: 35%;
+    height: 35%;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.detailList {
+    overflow: hidden;
+    li {
+        word-break: break-all;
+        line-height: 22px;
+        font-size: 14px;
+        span.itemName {
+            font-family: "Microsoft YaHei";
+            font-weight: 500;
+        }
+        span.itemContent {
+            color: #B3B4C2;
+        }
+    }
+}
+
+.loadingContainer {
+    text-align: center;
+}
+
+/*清除浮动*/
+//.clearFix::after {
+//    content: '';
+//    display: table;
+//    height: 0;
+//    clear: both;
+//    visibility: hidden;
+//}

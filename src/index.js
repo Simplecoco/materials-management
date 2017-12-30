@@ -9,6 +9,23 @@ const app = dva();
 
 // 3. Model
 // app.model(require('./models/example'));
+app.model(require('./models/users'));
+
+app.model(require('./models/register'));
+
+app.model(require('./models/login'));
+
+app.model(require('./models/IndexPage'));
+
+app.model(require('./models/userInfo'));
+
+app.model(require('./models/result'));
+
+app.model(require('./models/MaterialInfo'));
+
+app.model(require('./models/admin'));
+
+app.model(require('./models/user'));
 
 // 4. Router
 app.router(require('./router'));
