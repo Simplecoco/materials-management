@@ -7,24 +7,9 @@ const MenuItemGroup = Menu.ItemGroup;
 const Search = Input.Search;
 
 class TopNav extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     current: 'mail',
-  //   };
-  // }
-  //
-  // handleClick = (e) => {
-  //   console.log('click ', e);
-  //   this.setState({
-  //     current: e.key,
-  //   });
-  // };
 
   render() {
     const { title, sideCollapsed, sideToggle, topNavIcon } = this.props;
-    console.log(styles);
-
     const iconLayout = () => {
       if (topNavIcon === 'goTop') {
         return (
@@ -92,6 +77,7 @@ class TopNav extends React.Component {
           <Search
             style={{ lineHeight: 'none', width: '90%' }}
             size="large"
+            onSearch={this.props.searchHandle}
             placeholder="请输入你想查询的物品"
           />
         </Col>

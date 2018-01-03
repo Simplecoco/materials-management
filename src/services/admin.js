@@ -37,4 +37,15 @@ function addMaterial({ values }) {
   });
 }
 
-export { fetchCards, fetchUsers, fetchDetails, addMaterial };
+function searchMaterial({ key }) {
+  return request('/api/materials/search', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ key }),
+  });
+}
+
+export { fetchCards, fetchUsers, fetchDetails, addMaterial, searchMaterial };

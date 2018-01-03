@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, message } from 'antd';
+import { Row, Col, Pagination } from 'antd';
 import styles from './MaterialInfo.css';
 import ShowCard from '../components/ShowCard/ShowCard';
 import InfoEditing from '../components/InfoEditing/InfoEditing';
@@ -13,12 +13,19 @@ class MaterialInfo extends React.Component {
       detailVisible: false,     // 暂时
       detailTitle: ''
     };
+    this.type = 'admin';
   }
+
+  componentDidUpdate = () => {
+    // if (this.hide) {
+    //   setTimeout(this.hide, 800);
+    // }
+  };
 
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
-    this.hide = message.loading('正在努力加载~~~', 0);
+    // this.hide = message.loading('正在努力加载~~~', 0);
     this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'MaterialInfo/fetchDetail',
@@ -32,6 +39,10 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  // edit = (values) => {
+  //
+  // };
+
   addMaterial = (values) => {
     this.props.dispatch({
       type: 'MaterialInfo/addMaterial',
@@ -43,6 +54,17 @@ class MaterialInfo extends React.Component {
     this.props.dispatch({
       type: 'MaterialInfo/resetReqItem',
       payload: { data: {} },
+    });
+  };
+
+  pageHandle = (page, pageSize) => {
+    console.log(page, pageSize);
+    this.props.dispatch({
+      type: 'MaterialInfo/fetch',
+      payload: {
+        from: (pageSize * (page - 1)) + 1,
+        len: pageSize,
+      },
     });
   };
 
@@ -66,17 +88,17 @@ class MaterialInfo extends React.Component {
     } = this.props;
 
     const layout = items.map((item, index) => {
-      if (this.hide) {
-        setTimeout(this.hide, 800);
-      }
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
           <ShowCard
+            type={this.type}
             title={item.name}
-            pic={item.pic}
+            pic={item.attach[0]}
             key={index}
+            cardId={item.id}
             content={item.desc}
             loading={resultLoading}
+            eidt={this.edit}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
           />
@@ -105,6 +127,14 @@ class MaterialInfo extends React.Component {
         <Row type="flex" gutter={24}>
           {layout}
         </Row>
+        <Pagination
+          total={40}
+          style={{ textAlign: 'center' }}
+          current={2}
+          onChange={this.pageHandle}
+          pageSize={20}
+          hideOnSinglePage={true}
+        />
         {detailLayout()}
         <InfoEditing
           addMaterial={this.addMaterial}

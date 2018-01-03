@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Divider } from 'antd';
 import styles from './Login.css';
 
 const FormItem = Form.Item;
@@ -19,6 +19,10 @@ class NormalLoginForm extends React.Component {
     const { switchToRegister } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
+        <FormItem style={{ textAlign: 'center', fontSize: '25px' }}>
+          物资管理系统
+        </FormItem>
+        <Divider style={{ color: 'lightgray' }}>请登录</Divider>
         <FormItem>
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: '请输入您的账号' }],

@@ -10,7 +10,6 @@ class IndexPage extends React.Component {
   };
 
   render() {
-    console.log(styles);
     return (
       <div className={styles.indexPage}>
         <Login switchToRegister={this.switchToRegister} />

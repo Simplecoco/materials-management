@@ -17,6 +17,13 @@ class Admin extends React.Component {
     };
   }
 
+  searchHandle = (key) => {
+    this.props.dispatch({
+      type: 'MaterialInfo/searchMaterial',
+      payload: { key }
+    });
+  };
+
   pageChangeHandler = (arg) => {
     this.props.dispatch(routerRedux.push(arg.item.props.path));
   };
@@ -28,7 +35,6 @@ class Admin extends React.Component {
   };
 
   changeIcon = (affixed) => {
-    console.log(affixed);
     if (affixed) {
       this.setState({ topNavIcon: 'goTop' });
     }
@@ -65,6 +71,7 @@ class Admin extends React.Component {
                 sideToggle={this.toggle}
                 sideCollapsed={this.state.sideCollapsed}
                 topNavIcon={this.state.topNavIcon}
+                searchHandle={this.searchHandle}
               />
             </Header>
           </Affix>

@@ -4,12 +4,18 @@ import './index.css';
 // 1. Initialize
 const app = dva();
 
+// console.log({ app });
+
+export { app };
+
 // 2. Plugins
 // app.use({});
 
 // 3. Model
 // app.model(require('./models/example'));
 app.model(require('./models/users'));
+
+app.model(require('./models/applyList'));
 
 app.model(require('./models/register'));
 
@@ -32,3 +38,4 @@ app.router(require('./router'));
 
 // 5. Start
 app.start('#root');
+

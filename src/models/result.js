@@ -1,9 +1,12 @@
+import { message } from 'antd';
 import * as userService from '../services/user';
 
 const fetchQuery = {
   from: 0,
   len: 20,
 };
+
+let hide;
 
 export default {
   namespace: 'result',
@@ -47,6 +50,13 @@ export default {
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });
+    },
+    *searchMaterial({ payload: { key } }, { put, call }) {
+      hide = message.loading('请稍等哇~~~', 0);
+      const { data } = yield call(userService.searchMaterial, { key });
+      console.log({ data });
+      yield put({ type: 'save', payload: { data } });
+      setTimeout(hide, 800);
     }
   },
   subscriptions: {

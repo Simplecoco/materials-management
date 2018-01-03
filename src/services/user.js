@@ -22,4 +22,38 @@ function fetchDetails({ url }) {
   });
 }
 
-export { fetchCards, fetchDetails };
+function searchMaterial({ key }) {
+  return request('/api/materials/search', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ key }),
+  });
+}
+
+function newApply() {
+  return request('/api/orders/new', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
+}
+
+function submitApply({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark }) {
+  console.log({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark });
+  return request('api/orders/add', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark }),
+  });
+}
+
+
+export { fetchCards, fetchDetails, searchMaterial, newApply, submitApply };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Divider } from 'antd';
 import styles from './StuIdValidate.css';
 
 const FormItem = Form.Item;
@@ -10,6 +10,7 @@ class StuIdValidate extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.stuIdValidate(values);
       }
     });
   };
@@ -18,15 +19,19 @@ class StuIdValidate extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className={styles.stuForm}>
+        <FormItem style={{ textAlign: 'center', fontSize: '25px' }}>
+          物资管理系统
+        </FormItem>
+        <Divider style={{ color: 'lightgray' }}>请验证您的身份信息</Divider>
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('stuid', {
             rules: [{ required: true, message: '请输入您的信息门户账号' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入您的信息门户账号" />,
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('password', {
+          {getFieldDecorator('stupasswd', {
             rules: [{ required: true, message: '请输入您的信息门户密码' }],
           })(
             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="请输入您的信息门户密码" />,

@@ -1,9 +1,12 @@
+import { message } from 'antd';
 import * as adminService from '../services/admin';
 
 const fetchQuery = {
   from: 0,
   len: 20,
 };
+
+let hide;
 
 export default {
   namespace: 'MaterialInfo',
@@ -43,6 +46,7 @@ export default {
   },
   effects: {
     *fetch({ payload: { from = fetchQuery.from, len = fetchQuery.len } }, { call, put }) {
+      console.log(from, len);
       yield put({ type: 'resultLoadingChange', payload: { loading: true } });
       const { data } = yield call(adminService.fetchCards, { from, len });
       yield put({ type: 'save', payload: { data } });
@@ -71,6 +75,13 @@ export default {
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });
+    },
+    *searchMaterial({ payload: { key } }, { put, call }) {
+      hide = message.loading('请稍等哇~~~', 0);
+      const { data } = yield call(adminService.searchMaterial, { key });
+      console.log({ data });
+      yield put({ type: 'save', payload: { data } });
+      setTimeout(hide, 800);
     }
   },
   subscriptions: {

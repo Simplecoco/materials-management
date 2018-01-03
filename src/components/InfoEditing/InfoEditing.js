@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 class InfoEditing extends React.Component {
   static defaultProps = {
     showBtClassName: 'addButton',
-    showBtTitle: '+add',
+    showBtTitle: '+Add',
     btType: 'primary',
     Operator: 'xxxxx',
   };
@@ -125,6 +125,7 @@ class InfoEditing extends React.Component {
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           confirmLoading={addLoading}
+          style={{ marginTop: '-50px' }}
         >
           <div className="clearfix">
             <Form onSubmit={this.handleSubmit} className={styles.infoEditingForm}>

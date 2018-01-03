@@ -33,6 +33,9 @@ import Register from './routes/Register.js';
 import Login from './routes/LoginPage.js';
 
 
+import ApplyList from './routes/ApplyList.js';
+
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
@@ -45,6 +48,7 @@ function RouterConfig({ history }) {
         <Route path="result" component={Result} />
         <Route path="records" component={Records} />
         <Route path="message" component={Message} />
+        <Route path="applyList" component={ApplyList} />
       </Route>
       <Route path="/admin" component={Admin}>
         <IndexRoute component={Test2} />

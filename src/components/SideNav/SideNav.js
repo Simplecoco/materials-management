@@ -54,7 +54,7 @@ class SideNav extends React.Component {
           <Icon type="notification" />
           <span>我的消息</span>
         </Menu.Item>
-        <Menu.Item key="5">
+        <Menu.Item key="5" path="/user/applyList">
           <Icon type="shopping-cart" />
           <span>申请清单</span>
         </Menu.Item>

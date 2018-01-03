@@ -1,0 +1,161 @@
+import React from 'react';
+import { Modal, Button, Input, Icon, Form, DatePicker, Tag } from 'antd';
+import styles from './ApplyForm.css';
+import * as cookie from '../../utils/cookie';
+
+const { TextArea } = Input;
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
+
+class ApplyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+  }
+
+  getMids = () => {
+    return this.props.selected.map((item) => {
+      return item.mid;
+    });
+  };
+
+  showModal = () => {
+    this.props.getNewApply();
+    this.setState({
+      visible: true,
+    });
+  };
+  handleOk = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const rangeValue = values['range-picker'];
+        const begtime = new Date(rangeValue[0].format('YYYY-MM-DD')).valueOf();
+        const endtime = new Date(rangeValue[1].format('YYYY-MM-DD')).valueOf();
+        console.log(begtime, endtime);
+        // console.log(rangeValue[0].format('YYYY-MM-DD'));
+        console.log('Received values of form: ', { ...values, begtime, endtime, mids: this.getMids() });
+        this.props.submitApply({ ...values, begtime, endtime, mids: this.getMids() });
+      }
+    });
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const dateFormat = 'YYYY/MM/DD';
+
+    const tagLayout = () => {
+      console.log(this.props.selected);
+      return this.props.selected.map((item) => {
+        return (
+          <Tag color="cyan">{item.title}</Tag>
+        );
+      });
+    };
+
+    return (
+      <div style={{ margin: '30px 15px 0 0', overflow: 'hidden' }}>
+        <Button type="primary" onClick={this.showModal} style={{ float: 'right' }}>
+          点击申请
+        </Button>
+        <Modal
+          title="填写订单"
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          onCancel={this.handleCancel}
+        >
+          <Form onSubmit={this.handleSubmit} className={styles.ApplyForm}>
+            <FormItem className={styles.ApplyFormItem}>
+              {tagLayout()}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem} initialValue={cookie.getCookie('uid')}>
+              {getFieldDecorator('uid', {
+                rules: [{ required: true, message: '请输入用户id' }],
+                initialValue: cookie.getCookie('uid'),
+              })(
+                <Input
+                  placeholder="用户id"
+                  addonBefore="用户id"
+                  prefix={<Icon type="user" />}
+                  disabled
+                />
+              )}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem}>
+              {getFieldDecorator('tel', {
+                rules: [{ required: true, message: '请输入手机号码' }],
+                initialValue: this.props.tel,
+              })(
+                <Input
+                  placeholder="请输入手机号码"
+                  addonBefore="手机号码"
+                  prefix={<Icon type="phone" />}
+                  disabled
+                />
+              )}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem}>
+              {getFieldDecorator('title', {
+                rules: [{ required: true, message: '请输入标题' }],
+              })(
+                <Input
+                  placeholder="请输入标题"
+                  addonBefore="标题"
+                  prefix={<Icon type="tag-o" />}
+                />
+              )}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem} label="起始时间">
+              {getFieldDecorator('range-picker', {
+                rules: [{ required: true, message: '请选择借用起止时间' }],
+              })(
+                <RangePicker
+                  format={dateFormat}
+                  addonBefore="借用结束时间"
+                />
+              )}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem}>
+              {getFieldDecorator('reason', {
+                rules: [{ required: true, message: '请输入借用原因', whitespace: true, }],
+              })(
+                <TextArea
+                  placeholder="请输入借用原因"
+                  autosize={{ minRows: 2, maxRows: 5 }}
+                />
+              )}
+            </FormItem>
+            <FormItem className={styles.ApplyFormItem}>
+              {getFieldDecorator('remark', {
+                rules: [{ required: true, message: '请输入备注', whitespace: true, }],
+              })(
+                <TextArea
+                  placeholder="备注"
+                  autosize={{ minRows: 2, maxRows: 5 }}
+                />
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+const WrappedNormalApplyForm = Form.create()(ApplyForm);
+
+export default WrappedNormalApplyForm;
