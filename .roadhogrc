@@ -16,15 +16,10 @@
     }
   },
   "proxy": {
-    "/api": {
-      "target": "http://asset.starstudio.org/v1/supply/",
+    "/v1/supply/": {
+      "target": "http://asset.starstudio.org",
       "changeOrigin": true,
-      "pathRewrite": { "^/api": "" }
-    },
-    "/v1/supply": {
-      "target": "http://asset.starstudio.org/v1/supply/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/v1/supply": "" }
+      "pathRewrite": { "^/v1/supply/": "/v1/supply/" }
     }
   },
   "less": true

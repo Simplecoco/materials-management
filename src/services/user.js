@@ -2,7 +2,7 @@ import request from '../utils/request';
 import * as cookie from '../utils/cookie';
 
 function fetchCards({ from = 0, len = 20 }) {
-  return request(`/api/materials/list?from=${from}&len=${len}`, {
+  return request(`/v1/supply/materials/list?from=${from}&len=${len}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -23,7 +23,7 @@ function fetchDetails({ url }) {
 }
 
 function searchMaterial({ key }) {
-  return request('/api/materials/search', {
+  return request('/v1/supply/materials/search', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -34,7 +34,7 @@ function searchMaterial({ key }) {
 }
 
 function newApply() {
-  return request('/api/orders/new', {
+  return request('/v1/supply/orders/new', {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -45,7 +45,7 @@ function newApply() {
 
 function submitApply({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark }) {
   console.log({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark });
-  return request('api/orders/add', {
+  return request('/v1/supply/orders/add', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',

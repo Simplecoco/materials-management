@@ -2,7 +2,7 @@ import request from '../utils/request';
 // import * as cookie from '../utils/cookie';
 
 function stuIdValidate({ stuid, passwd }) {
-  return request('/api/user/stu', {
+  return request('/v1/supply/user/stu', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -12,7 +12,7 @@ function stuIdValidate({ stuid, passwd }) {
 }
 
 function telValidate({ tel, token }) {
-  return request('/api/user/tel', {
+  return request('/v1/supply/user/tel', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -23,7 +23,7 @@ function telValidate({ tel, token }) {
 }
 
 function register({ name, mail, passwd, tel, code, device = 'device', token }) {
-  return request('/api/user/tel', {
+  return request('/v1/supply/user/tel', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',

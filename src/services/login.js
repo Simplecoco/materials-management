@@ -5,7 +5,7 @@ export default function login(payload) {
     return;
   }
 
-  return request('/api/user/login', {
+  return request('/v1/supply/user/login', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
