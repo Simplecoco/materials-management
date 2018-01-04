@@ -7,10 +7,17 @@ import RegisterInfo from '../components/RegisterInfo/RegisterInfo';
 
 class Register extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.changeNext = true;
+  }
+
+
   componentWillReceiveProps = (nextProps) => {
     console.log(nextProps.token);
-    if (nextProps.token !== '') {
+    if (nextProps.token !== '' && this.changeNext) {
       this.toNext();
+      this.changeNext = false;
     }
   };
 

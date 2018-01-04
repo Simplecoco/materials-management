@@ -1,4 +1,5 @@
-import { message } from 'antd';
+import { message, notification, Icon } from 'antd';
+import { routerRedux } from 'dva/router';
 import * as registerService from '../services/register';
 
 export default {
@@ -43,8 +44,27 @@ export default {
     },
     *register({ payload }, { call }) {
       console.log(payload);
-      const { data } = yield call(registerService.register, payload);
-      console.log(data);
+      const { data, code } = yield call(registerService.register, payload);
+      console.log(data, code);
+      if (code === 0) {
+        notification.open({
+          message: 'Success !!!',
+          description: '注册成功啦, 祝好~',
+          icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+          duration: 1.8,
+          placement: 'topLeft'
+        });
+        yield put(routerRedux.push('/login'));
+      }
+      else {
+        notification.open({
+          message: 'Failed !!!',
+          description: '注册失败哦, 再试试吧~',
+          icon: <Icon type="frown" style={{ color: '#108ee9' }} />,
+          duration: 1.8,
+          placement: 'topLeft'
+        });
+      }
     }
   },
   subscriptions: {},
