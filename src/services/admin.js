@@ -12,7 +12,7 @@ function fetchCards({ from = 0, len = 20 }) {
 }
 
 function fetchUsers({ limit = 10 }) {
-  return request(`/v1/supply/users?limit=${limit}`);
+  return request(`/api/users?limit=${limit}`);
 }
 
 function fetchDetails({ url }) {

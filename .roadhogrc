@@ -20,6 +20,11 @@
       "target": "http://asset.starstudio.org",
       "changeOrigin": true,
       "pathRewrite": { "^/v1/supply/": "/v1/supply/" }
+    },
+    "/api": {
+      "target": "http://www.easy-mock.com/mock/59eaf2e3784f01172f35c5e7",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api": "/api/1/supply/" }
     }
   },
   "less": true

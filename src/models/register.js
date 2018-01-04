@@ -60,7 +60,7 @@ export default {
         notification.open({
           message: 'Failed !!!',
           description: '注册失败哦, 再试试吧~',
-          icon: <Icon type="frown" style={{ color: '#108ee9' }} />,
+          icon: <Icon type="frown" style={{ color: 'pink' }} />,
           duration: 1.8,
           placement: 'topLeft'
         });
