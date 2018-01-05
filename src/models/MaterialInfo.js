@@ -12,6 +12,7 @@ export default {
   namespace: 'MaterialInfo',
   state: {
     items: [],
+    total: 0,
     reqItem: {},
     detailLoading: false,
     resultLoading: false,
@@ -25,8 +26,8 @@ export default {
     },
   },
   reducers: {
-    save(state, { payload: { data: { list: items } } }) {
-      return Object.assign({}, { ...state }, { items });
+    save(state, { payload: { data: { list: items, total } } }) {
+      return Object.assign({}, { ...state }, { items }, { total });
     },
     saveDetails(state, { payload: { data: reqItem } }) {
       return Object.assign({}, { ...state }, { reqItem });

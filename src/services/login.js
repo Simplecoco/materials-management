@@ -1,6 +1,7 @@
 import request from '../utils/request';
+import * as cookie from '../utils/cookie';
 
-export default function login(payload) {
+function login(payload) {
   if (!payload) {
     return;
   }
@@ -13,3 +14,16 @@ export default function login(payload) {
     body: JSON.stringify(payload),
   });
 }
+
+function logout() {
+  return request('/v1/supply/user/logout', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ uid: cookie.getCookie('uid') }),
+  });
+}
+
+export { login, logout };

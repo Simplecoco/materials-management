@@ -78,6 +78,10 @@ class SideNav extends React.Component {
           <Icon type="setting" />
           <span>设置</span>
         </Menu.Item>
+        <Menu.Item key="logout">
+          <Icon type="logout" />
+          <span>退出登录</span>
+        </Menu.Item>
       </Menu>
     );
     const adminLayout = () => ((
@@ -118,6 +122,10 @@ class SideNav extends React.Component {
         <Menu.Item key="6">
           <Icon type="setting" />
           <span>设置</span>
+        </Menu.Item>
+        <Menu.Item key="logout">
+          <Icon type="logout" />
+          <span>退出登录</span>
         </Menu.Item>
       </Menu>
     ));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Row, Col, message, Pagination } from 'antd';
 import styles from './Result.css';
 import ShowCard from '../components/ShowCard/ShowCard';
@@ -11,6 +12,7 @@ class Result extends React.Component {
     this.state = {
       detailVisible: false,
       detailTitle: '',
+      currentPage: 1,
     };
     this.type = 'user';
   }
@@ -23,13 +25,14 @@ class Result extends React.Component {
 
   pageHandle = (page, pageSize) => {
     console.log(page, pageSize);
-    this.props.dispatch({
-      type: 'result/fetch',
-      payload: {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/user/result',
+      query: {
         from: (pageSize * (page - 1)) + 1,
         len: pageSize,
       },
-    });
+    }));
+    this.setState({ currentPage: page });
   };
 
   showDetail = ({ url, title }, e) => {
@@ -65,7 +68,7 @@ class Result extends React.Component {
   };
 
   render() {
-    const { items, reqItem, detailLoading, resultLoading } = this.props;
+    const { items, reqItem, detailLoading, resultLoading, total } = this.props;
     const layout = items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -106,12 +109,11 @@ class Result extends React.Component {
           {layout}
         </Row>
         <Pagination
-          total={40}
+          total={total}
           style={{ textAlign: 'center' }}
-          current={1}
+          current={this.state.currentPage}
           onChange={this.pageHandle}
           pageSize={20}
-          hideOnSinglePage={true}
         />
         {detailLayout()}
       </div>
@@ -120,8 +122,8 @@ class Result extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { items, reqItem, detailLoading, resultLoading } = state.result;
-  return { items, reqItem, detailLoading, resultLoading };
+  const { items, reqItem, detailLoading, resultLoading, total } = state.result;
+  return { items, reqItem, detailLoading, resultLoading, total };
 }
 
 export default connect(mapStateToProps)(Result);

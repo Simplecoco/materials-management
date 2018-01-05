@@ -24,8 +24,22 @@ class User extends React.Component {
     });
   };
 
-  pageChangeHandler = (arg) => {
-    this.props.dispatch(routerRedux.push(arg.item.props.path));
+  logout = () => {
+    console.log('222');
+    this.props.dispatch({
+      type: 'login/logout',
+      payload: {},
+    });
+  };
+
+  pageChangeHandler = ({ item, key }) => {
+    console.log(key);
+    if (item.props.path) {
+      this.props.dispatch(routerRedux.push(item.props.path));
+    }
+    if (key === 'logout') {
+      this.logout();
+    }
   };
 
   toggle = () => {

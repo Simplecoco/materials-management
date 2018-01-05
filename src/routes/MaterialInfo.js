@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Row, Col, Pagination } from 'antd';
 import styles from './MaterialInfo.css';
 import ShowCard from '../components/ShowCard/ShowCard';
@@ -11,7 +12,8 @@ class MaterialInfo extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,     // 暂时
-      detailTitle: ''
+      detailTitle: '',
+      currentPage: 1,
     };
     this.type = 'admin';
   }
@@ -59,13 +61,14 @@ class MaterialInfo extends React.Component {
 
   pageHandle = (page, pageSize) => {
     console.log(page, pageSize);
-    this.props.dispatch({
-      type: 'MaterialInfo/fetch',
-      payload: {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/admin/materialInfo',
+      query: {
         from: (pageSize * (page - 1)) + 1,
         len: pageSize,
       },
-    });
+    }));
+    this.setState({ currentPage: page });
   };
 
 
@@ -84,7 +87,8 @@ class MaterialInfo extends React.Component {
       addLoading,
       detailLoading,
       addCode,
-      addMsg
+      addMsg,
+      total
     } = this.props;
 
     const layout = items.map((item, index) => {
@@ -128,12 +132,11 @@ class MaterialInfo extends React.Component {
           {layout}
         </Row>
         <Pagination
-          total={40}
+          total={total}
           style={{ textAlign: 'center' }}
-          current={2}
+          current={this.state.currentPage}
           onChange={this.pageHandle}
           pageSize={20}
-          hideOnSinglePage={true}
         />
         {detailLayout()}
         <InfoEditing
@@ -156,7 +159,8 @@ function mapStateToProps(state) {
     resultLoading,
     addLoading,
     addCode,
-    addMsg
+    addMsg,
+    total
   } = state.MaterialInfo;
   return {
     items,
@@ -165,7 +169,8 @@ function mapStateToProps(state) {
     resultLoading,
     addLoading,
     addCode,
-    addMsg
+    addMsg,
+    total
   };
 }
 
