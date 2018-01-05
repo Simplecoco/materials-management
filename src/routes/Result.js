@@ -60,7 +60,6 @@ class Result extends React.Component {
   };
 
   addToList = ({ mid, pic, title, content }) => {
-    // console.log(props);
     this.props.dispatch({
       type: 'applyList/addToList',
       payload: { mid, pic, title, content },
@@ -98,6 +97,7 @@ class Result extends React.Component {
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
+            addToList={this.addToList}
           />
         );
       }

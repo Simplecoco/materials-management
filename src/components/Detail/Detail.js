@@ -10,6 +10,13 @@ class Detail extends React.Component {
   };
 
   handleOk = () => {
+    const item = this.props.reqItem;
+    this.props.addToList({
+      mid: item.id,
+      pic: item.attach[0],
+      title: item.name,
+      content: item.desc,
+    });
     this.props.changeDetailVisible(false);
   };
   handleCancel = () => {
@@ -18,6 +25,7 @@ class Detail extends React.Component {
   };
 
   render() {
+    console.log(this.props.reqItem);
     const extraBt = this.props.type === 'user'
         ? <Button className={styles.extra} onClick={this.test} >点我申请</Button>
         : <InfoEditing showBtClassName="editButton" showBtTitle="编辑" btType="default" />;
