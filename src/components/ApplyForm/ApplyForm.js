@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Input, Icon, Form, DatePicker, Tag } from 'antd';
+import { connect } from 'dva';
 import styles from './ApplyForm.css';
 import * as cookie from '../../utils/cookie';
 
@@ -16,13 +17,33 @@ class ApplyForm extends React.Component {
   }
 
   getMids = () => {
-    return this.props.selected.map((item) => {
-      return item.mid;
+    if (this.props.selected) {
+      return this.props.selected.map((item) => {
+        return item.mid;
+      });
+    }
+  };
+
+  getNewApply = () => {
+    this.props.dispatch({
+      type: 'applyList/newApply',
+    });
+  };
+
+  submitApply = (values) => {
+    console.log(values, 'values');
+    this.props.dispatch({
+      type: 'applyList/submitApply',
+      payload: {
+        ...values,
+        orderid: this.props.orderid
+      },
     });
   };
 
   showModal = () => {
-    this.props.getNewApply();
+    // this.props.changeDetailVisible && this.props.changeDetailVisible(false);
+    this.getNewApply();
     this.setState({
       visible: true,
     });
@@ -47,9 +68,8 @@ class ApplyForm extends React.Component {
         const begtime = new Date(rangeValue[0].format('YYYY-MM-DD')).valueOf();
         const endtime = new Date(rangeValue[1].format('YYYY-MM-DD')).valueOf();
         console.log(begtime, endtime);
-        // console.log(rangeValue[0].format('YYYY-MM-DD'));
         console.log('Received values of form: ', { ...values, begtime, endtime, mids: this.getMids() });
-        this.props.submitApply({ ...values, begtime, endtime, mids: this.getMids() });
+        this.submitApply({ ...values, begtime, endtime, mids: this.getMids() });
       }
     });
   };
@@ -59,17 +79,18 @@ class ApplyForm extends React.Component {
     const dateFormat = 'YYYY/MM/DD';
 
     const tagLayout = () => {
-      console.log(this.props.selected);
-      return this.props.selected.map((item) => {
-        return (
-          <Tag color="cyan">{item.title}</Tag>
-        );
-      });
+      if (this.props.selected) {
+        return this.props.selected.map((item) => {
+          return (
+            <Tag color="cyan">{item.title}</Tag>
+          );
+        });
+      }
     };
 
     return (
-      <div style={{ margin: '30px 15px 0 0', overflow: 'hidden' }}>
-        <Button type="primary" onClick={this.showModal} style={{ float: 'right' }}>
+      <div>
+        <Button type="default" onClick={this.showModal}>
           点击申请
         </Button>
         <Modal
@@ -77,6 +98,7 @@ class ApplyForm extends React.Component {
           visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
+          style={{ marginTop: '-35px' }}
         >
           <Form onSubmit={this.handleSubmit} className={styles.ApplyForm}>
             <FormItem className={styles.ApplyFormItem}>
@@ -158,4 +180,10 @@ class ApplyForm extends React.Component {
 
 const WrappedNormalApplyForm = Form.create()(ApplyForm);
 
-export default WrappedNormalApplyForm;
+function mapStateToProps(state) {
+  console.log(state.applyList);
+  const { tel, orderid } = state.applyList;
+  return { tel, orderid };
+}
+
+export default connect(mapStateToProps)(WrappedNormalApplyForm);

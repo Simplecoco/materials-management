@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table } from 'antd';
+import { Table, Popconfirm, Icon } from 'antd';
 import ApplyForm from '../components/ApplyForm/ApplyForm';
-// import styles from './ApplyList.css';
+import styles from './ApplyList.css';
 
 class ApplyList extends React.Component {
 
@@ -13,25 +13,16 @@ class ApplyList extends React.Component {
     };
   }
 
-  getNewApply = () => {
+  deleteIt = ({ key }) => {
+    console.log(key);
     this.props.dispatch({
-      type: 'applyList/newApply',
-    });
-  };
-
-  submitApply = (values) => {
-    console.log(values, 'values');
-    this.props.dispatch({
-      type: 'applyList/submitApply',
-      payload: {
-        ...values,
-        orderid: this.props.orderid
-      },
+      type: 'applyList/deleteIt',
+      payload: { key }
     });
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.props.applyList);
     const columns = [
       {
         title: '图片',
@@ -47,12 +38,24 @@ class ApplyList extends React.Component {
       }, {
         title: '物资编号',
         dataIndex: 'mid',
+      }, {
+        title: '操作',
+        key: 'action',
+        render: (record) => {
+          console.log(record);
+          return (
+            <div>
+              <Popconfirm title="确认删除？" okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.deleteIt(record); }}>
+                <Icon type="close-circle" className={styles.close} />
+              </Popconfirm>
+            </div>
+          );
+        },
       }];
     const data = this.props.applyList.map((item, index) => {
       item.key = index;
       return item;
     });
-    // const pager =  ;
 
 // rowSelection object indicates the need for row selection
     const rowSelection = {
@@ -63,6 +66,7 @@ class ApplyList extends React.Component {
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
       }),
+      type: true,
     };
 
     return (
@@ -72,23 +76,23 @@ class ApplyList extends React.Component {
           columns={columns}
           dataSource={data}
           size="small"
+          title={() =>
+            <div style={{ paddingLeft: 25, color: 'darkGray' }}>
+              <Icon type="smile-o" style={{ marginRight: 10 }} />
+              <span>请选择您需要申请物品</span>
+            </div>}
         />
-        <ApplyForm
-          selected={this.state.selected}
-          submitApply={this.submitApply}
-          getNewApply={this.getNewApply}
-          tel={this.props.tel}
-        />
+        <div style={{ margin: '30px 15px 0 0' }}>
+          <ApplyForm selected={this.state.selected} />
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  console.log(state.applyList);
-  const { applyList, orderid, tel } = state.applyList;
-  return { applyList, orderid, tel };
+  const { applyList } = state.applyList;
+  return { applyList };
 }
-
 
 export default connect(mapStateToProps)(ApplyList);

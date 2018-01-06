@@ -64,6 +64,7 @@ class Result extends React.Component {
       type: 'applyList/addToList',
       payload: { mid, pic, title, content },
     });
+    message.success('添加成功!');
   };
 
   render() {

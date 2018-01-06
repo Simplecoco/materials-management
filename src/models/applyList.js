@@ -1,5 +1,6 @@
+import { message } from 'antd';
+import { routerRedux } from 'dva/router';
 import * as userService from '../services/user';
-// import { message } from 'antd';
 
 export default {
   namespace: 'applyList',
@@ -27,6 +28,15 @@ export default {
       console.log(data);
       return Object.assign({}, { ...state }, { ...data });
     },
+    deleteIt(state, { payload: { key } }) {
+      console.log(key);
+      return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
+        return item.key !== key;
+      }) });
+    },
+    deleteAll(state) {
+      return Object.assign({}, { ...state }, { applyList: [] });
+    },
   },
   effects: {
     *newApply({ payload }, { call, put }) {
@@ -38,8 +48,16 @@ export default {
 
     *submitApply({ payload }, { call }) {
       console.log(payload);
-      const { data } = yield call(userService.submitApply, payload);
+      const { data, code, msg } = yield call(userService.submitApply, payload);
       console.log(data);
+      if (code === 0) {
+        yield message.success('提交申请成功啦~');
+        yield put({ type: 'deleteAll' });
+        yield put(routerRedux.push('/user/applyList'));
+      }
+      else {
+        yield message.error(msg || '出错啦!');
+      }
     },
   },
   subscriptions: {

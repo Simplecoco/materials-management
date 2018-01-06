@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Popover, Button, Popconfirm, Tabs } from 'antd';
-import InfoEditing from '../components/InfoEditing/InfoEditing';
+// import InfoEditing from '../components/InfoEditing/InfoEditing';
 import styles from './UserInfo.css';
 
 const TabPane = Tabs.TabPane;
@@ -92,7 +92,6 @@ class UserInfo extends React.Component {
     return (
       <div className={styles.normal}>
         <Table columns={columns} dataSource={items} size="small" />
-        <InfoEditing />
       </div>
     );
   }

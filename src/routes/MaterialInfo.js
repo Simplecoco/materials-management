@@ -71,7 +71,6 @@ class MaterialInfo extends React.Component {
     this.setState({ currentPage: page });
   };
 
-
 //   changeEditVisible = (bool) => {
 //   this.setState({
 //     editVisible: bool,
