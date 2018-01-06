@@ -54,12 +54,12 @@ class Detail extends React.Component {
     // );
 
     const extraBtn = () => {
-      if (reqItem.sta === 'order') {
-        return (
-          <Button disabled>物品已被借用</Button>
-        );
-      }
       if (type === 'user') {
+        if (reqItem.sta === 'order') {
+          return (
+            <Button disabled>物品已被借用</Button>
+          );
+        }
         return (
           <ApplyForm
             selected={selected}
