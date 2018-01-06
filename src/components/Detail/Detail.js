@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Icon, Carousel, List } from 'antd';
+import { Modal, Icon, Carousel, List, Button } from 'antd';
 import styles from './Detail.less';
 import InfoEditing from '../InfoEditing/InfoEditing';
 import ApplyForm from '../ApplyForm/ApplyForm';
@@ -21,7 +21,9 @@ class Detail extends React.Component {
   };
 
   handleOk = () => {
-    this.props.addToList(this.getInfo());
+    if (this.props.reqItem.sta !== 'order') {
+      this.props.addToList(this.getInfo());
+    }
     this.props.changeDetailVisible(false);
   };
   handleCancel = () => {
@@ -45,14 +47,26 @@ class Detail extends React.Component {
     console.log(this.props.reqItem);
     const { changeDetailVisible, type, reqItem, detailLoading, detailVisible } = this.props;
     const selected = [this.getInfo()];
+    // const startBtn = (
+    //   <Button type="default" onClick={this.showModal}>
+    //     点我直接申请
+    //   </Button>
+    // );
 
     const extraBtn = () => {
+      if (reqItem.sta === 'order') {
+        return (
+          <Button disabled>物品已被借用</Button>
+        );
+      }
       if (type === 'user') {
         return (
           <ApplyForm
             selected={selected}
             className={styles.extra}
             changeDetailVisible={changeDetailVisible}
+            BtnType="default"
+            BtnTitle="点击申请"
           />
         );
       }
@@ -63,7 +77,7 @@ class Detail extends React.Component {
       }
     };
 
-    const okText = type === 'user' ? '加入借用清单' : '确定';
+    const okText = ((type === 'user') && (reqItem.sta !== 'order')) ? '加入借用清单' : '确定';
 
     const hiddenItem = ['pic', 'qrCode', 'attach', 'count', 'snum', 'sta'];
 
@@ -105,7 +119,7 @@ class Detail extends React.Component {
       return (
         <div className="clearfix">
           <div className={styles.leftWrap}>
-            <div>
+            <div className={styles.picWrap}>
               <Carousel className={styles.carousel} autoplay effect="scrollx">
                 {carouselLayout()}
               </Carousel>

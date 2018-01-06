@@ -19,6 +19,58 @@ class ShowCard extends React.Component {
     this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
   };
 
+  showActions = () => {
+    console.log(this.props);
+    if (this.props.sta === 'order') {
+      return ([
+        <div>
+          <Icon
+            type="frown"
+            style={{ fontSize: '18px', marginRight: '10px', verticalAlign: 'text-top' }}
+          />
+          <span>物品已被借用</span>
+        </div>
+      ]);
+    }
+    return (
+      this.props.type === 'user'
+        ? [
+          <Tooltip title={this.state.iconStatus === 'plus' ? '添加到清单' : '添加成功!'} onVisibleChange={this.mouseLeaveHandle}>
+            <Icon
+              type={this.state.iconStatus === 'plus' ? 'plus-square-o' : 'check'}
+              onClick={this.state.iconStatus === 'plus' ? this.addIt : ''}
+              style={{ fontSize: '18px' }}
+            />
+          </Tooltip>,
+          <Tooltip title="查看更多">
+            <Icon
+              type="ellipsis"
+              style={{ fontSize: '18px' }}
+              onClick={this.props.showDetail.bind(this, {
+                url: this.props.detail_url, title: this.props.title
+              })}
+            />
+          </Tooltip>
+        ] : [
+          <Tooltip title="编辑">
+            <Icon
+              type="edit"
+              style={{ fontSize: '18px' }}
+              onClick={this.props.edit}
+            />,
+          </Tooltip>,
+          <Tooltip title="查看更多">
+            <Icon
+              type="ellipsis"
+              onClick={this.props.showDetail.bind(this, {
+                url: this.props.detail_url, title: this.props.title
+              })}
+              style={{ fontSize: '18px' }}
+            />
+          </Tooltip>
+        ]);
+  };
+
   render() {
     return (
       <Card
@@ -28,44 +80,7 @@ class ShowCard extends React.Component {
         bodyStyle={{ padding: 0 }}
         key={this.props.index}
         hoverable={true}
-        actions={
-          this.props.type === 'user'
-            ? [
-              <Tooltip title={this.state.iconStatus === 'plus' ? '添加到清单' : '添加成功!'} onVisibleChange={this.mouseLeaveHandle}>
-                <Icon
-                  type={this.state.iconStatus === 'plus' ? 'plus-square-o' : 'check'}
-                  onClick={this.state.iconStatus === 'plus' ? this.addIt : ''}
-                  style={{ fontSize: '18px' }}
-                />
-              </Tooltip>,
-              <Tooltip title="查看更多">
-                <Icon
-                  type="ellipsis"
-                  style={{ fontSize: '18px' }}
-                  onClick={this.props.showDetail.bind(this, {
-                    url: this.props.detail_url, title: this.props.title
-                  })}
-                />
-              </Tooltip>
-            ] : [
-              <Tooltip title="编辑">
-                <Icon
-                  type="edit"
-                  style={{ fontSize: '18px' }}
-                  onClick={this.props.edit}
-                />,
-              </Tooltip>,
-              <Tooltip title="查看更多">
-                <Icon
-                  type="ellipsis"
-                  onClick={this.props.showDetail.bind(this, {
-                    url: this.props.detail_url, title: this.props.title
-                  })}
-                  style={{ fontSize: '18px' }}
-                />
-              </Tooltip>
-            ]
-        }
+        actions={this.showActions()}
       >
         <div className={styles.cardPic}>
           <a

@@ -19,10 +19,14 @@ class ApplyList extends React.Component {
       type: 'applyList/deleteIt',
       payload: { key }
     });
+    const newSelected = this.state.selected.filter((item) => {
+      return item.key !== key;
+    });
+    this.setState({ selected: Object.assign([], newSelected) });
   };
 
   render() {
-    console.log(this.props.applyList);
+    console.log(this.state.selected, 'selected');
     const columns = [
       {
         title: '图片',
@@ -67,6 +71,7 @@ class ApplyList extends React.Component {
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
       }),
       type: true,
+      // selectedRowKeys: this.state.selected,
     };
 
     return (
@@ -82,8 +87,12 @@ class ApplyList extends React.Component {
               <span>请选择您需要申请物品</span>
             </div>}
         />
-        <div style={{ margin: '30px 15px 0 0' }}>
-          <ApplyForm selected={this.state.selected} />
+        <div style={{ margin: '30px 15px 0 0', float: 'right' }}>
+          <ApplyForm
+            selected={this.state.selected}
+            BtnType="primary"
+            BtnTitle="点击申请"
+          />
         </div>
       </div>
     );

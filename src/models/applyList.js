@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { routerRedux } from 'dva/router';
+// import { routerRedux } from 'dva/router';
 import * as userService from '../services/user';
 
 export default {
@@ -7,6 +7,7 @@ export default {
   state: {
     applyListMid: [],
     applyList: [],
+    selected: [],
     mail: '1@163.com',
     name: 'joker',
     orderid: '20171226162827d978',
@@ -34,8 +35,16 @@ export default {
         return item.key !== key;
       }) });
     },
-    deleteAll(state) {
-      return Object.assign({}, { ...state }, { applyList: [] });
+    deleteSuccess(state, { payload: { mids } }) {
+      console.log(mids);
+      console.log(state.applyList);
+
+      return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
+        console.log(mids, item.mid, mids.indexOf(item.mid));
+        const result = mids.indexOf(item.mid) === -1;
+        console.log(result);
+        return result;
+      }) });
     },
   },
   effects: {
@@ -46,17 +55,18 @@ export default {
       yield put({ type: 'saveNewApply', payload: { data } });
     },
 
-    *submitApply({ payload }, { call }) {
-      console.log(payload);
-      const { data, code, msg } = yield call(userService.submitApply, payload);
-      console.log(data);
+    *submitApply({ payload, payload: { mids } }, { call, put }) {
+      console.log(payload, mids, 'mids');
+      const { data, code, msg, mes } = yield call(userService.submitApply, payload);
+      console.log({ data, msg }, 'data', 'msg');
       if (code === 0) {
         yield message.success('提交申请成功啦~');
-        yield put({ type: 'deleteAll' });
-        yield put(routerRedux.push('/user/applyList'));
+        // console.log({ data });
+        yield put({ type: 'deleteSuccess', payload: { mids } });
+        // yield put(routerRedux.push('/user/applyList'));
       }
       else {
-        yield message.error(msg || '出错啦!');
+        yield message.error(msg || mes || '出错啦!');
       }
     },
   },

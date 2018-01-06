@@ -76,7 +76,13 @@ class ApplyForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { BtnType, BtnTitle } = this.props;
     const dateFormat = 'YYYY/MM/DD';
+    const startBtn = (
+      <Button type={BtnType} onClick={this.showModal}>
+        {BtnTitle}
+      </Button>
+      );
 
     const tagLayout = () => {
       if (this.props.selected) {
@@ -90,9 +96,7 @@ class ApplyForm extends React.Component {
 
     return (
       <div>
-        <Button type="default" onClick={this.showModal}>
-          点击申请
-        </Button>
+        {startBtn}
         <Modal
           title="填写订单"
           visible={this.state.visible}
