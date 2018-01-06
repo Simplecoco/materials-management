@@ -36,34 +36,27 @@ export default {
       }) });
     },
     deleteSuccess(state, { payload: { mids } }) {
-      console.log(mids);
-      console.log(state.applyList);
-
       return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
         console.log(mids, item.mid, mids.indexOf(item.mid));
-        const result = mids.indexOf(item.mid) === -1;
-        console.log(result);
-        return result;
+        return mids.indexOf(item.mid) === -1;
       }) });
     },
   },
   effects: {
     *newApply({ payload }, { call, put }) {
-      // console.log(payload);
       const { data } = yield call(userService.newApply);
       console.log(data);
       yield put({ type: 'saveNewApply', payload: { data } });
     },
 
-    *submitApply({ payload, payload: { mids } }, { call, put }) {
+    *submitApply({ payload, payload: { mids, okCallback } }, { call, put }) {
       console.log(payload, mids, 'mids');
       const { data, code, msg, mes } = yield call(userService.submitApply, payload);
       console.log({ data, msg }, 'data', 'msg');
       if (code === 0) {
         yield message.success('提交申请成功啦~');
-        // console.log({ data });
         yield put({ type: 'deleteSuccess', payload: { mids } });
-        // yield put(routerRedux.push('/user/applyList'));
+        yield okCallback && okCallback();
       }
       else {
         yield message.error(msg || mes || '出错啦!');

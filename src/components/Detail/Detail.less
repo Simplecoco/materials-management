@@ -24,10 +24,19 @@
     .carousel {
       overflow: hidden;
       .slide {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        //line-height: 200px;
+        //text-align: center;
         .pic {
           width: 200px;
-          height: 200px;
-          line-height: 0;
+          display: inline-block;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          //margin-top: -100px;
+          //height: 200px;
         }
       }
     }

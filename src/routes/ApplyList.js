@@ -9,7 +9,8 @@ class ApplyList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: []
+      selected: [],
+      selectedRowKeys: []
     };
   }
 
@@ -23,6 +24,10 @@ class ApplyList extends React.Component {
       return item.key !== key;
     });
     this.setState({ selected: Object.assign([], newSelected) });
+  };
+
+  cancelSelected = () => {
+    this.setState({ selectedRowKeys: [] });
   };
 
   render() {
@@ -63,15 +68,15 @@ class ApplyList extends React.Component {
 
 // rowSelection object indicates the need for row selection
     const rowSelection = {
+      selectedRowKeys: this.state.selectedRowKeys,
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        this.setState({ selected: selectedRows });
+        this.setState({ selected: selectedRows, selectedRowKeys });
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
       }),
       type: true,
-      // selectedRowKeys: this.state.selected,
     };
 
     return (
@@ -92,6 +97,8 @@ class ApplyList extends React.Component {
             selected={this.state.selected}
             BtnType="primary"
             BtnTitle="点击申请"
+            disabled={this.state.selected.length === 0}
+            cancelSelected={this.cancelSelected}
           />
         </div>
       </div>

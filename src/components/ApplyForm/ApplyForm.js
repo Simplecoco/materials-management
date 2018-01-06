@@ -36,7 +36,8 @@ class ApplyForm extends React.Component {
       type: 'applyList/submitApply',
       payload: {
         ...values,
-        orderid: this.props.orderid
+        orderid: this.props.orderid,
+        okCallback: this.handleOk,
       },
     });
   };
@@ -48,14 +49,13 @@ class ApplyForm extends React.Component {
       visible: true,
     });
   };
-  handleOk = (e) => {
-    console.log(e);
+  handleOk = () => {
     this.setState({
       visible: false,
     });
+    this.props.cancelSelected && this.props.cancelSelected();
   };
-  handleCancel = (e) => {
-    console.log(e);
+  handleCancel = () => {
     this.setState({
       visible: false,
     });
@@ -79,7 +79,7 @@ class ApplyForm extends React.Component {
     const { BtnType, BtnTitle } = this.props;
     const dateFormat = 'YYYY/MM/DD';
     const startBtn = (
-      <Button type={BtnType} onClick={this.showModal}>
+      <Button type={BtnType} onClick={this.showModal} disabled={this.props.disabled || false}>
         {BtnTitle}
       </Button>
       );
