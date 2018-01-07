@@ -67,6 +67,7 @@ class Detail extends React.Component {
             changeDetailVisible={changeDetailVisible}
             BtnType="default"
             BtnTitle="点击申请"
+            onClick={this.applyIt}
           />
         );
       }

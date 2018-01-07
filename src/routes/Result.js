@@ -78,7 +78,6 @@ class Result extends React.Component {
             pic={item.attach[0]}
             key={index}
             mid={item.id}
-            sta={item.sta}
             content={item.desc}
             loading={resultLoading}
             addToList={this.addToList}

@@ -15,6 +15,8 @@ export { app };
 // app.model(require('./models/example'));
 app.model(require('./models/users'));
 
+app.model(require('./models/requestList'));
+
 app.model(require('./models/applyList'));
 
 app.model(require('./models/register'));

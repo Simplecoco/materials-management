@@ -48,4 +48,33 @@ function searchMaterial({ key }) {
   });
 }
 
-export { fetchCards, fetchUsers, fetchDetails, addMaterial, searchMaterial };
+function fetchOrders() {
+  return request('/v1/supply/orders/mine', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
+}
+
+function fetchOrderDetail({ orderId }) {
+  console.log(orderId);
+  return request(`/v1/supply/orders/${orderId}`, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
+}
+
+export {
+  fetchCards,
+  fetchUsers,
+  fetchDetails,
+  addMaterial,
+  searchMaterial,
+  fetchOrders,
+  fetchOrderDetail
+};

@@ -32,13 +32,14 @@ class InfoEditing extends React.Component {
       console.log(this.props.addCode);
       if (this.props.addCode !== 0) {
         // this.props.dispatch({ type: 'addLoadingChange', payload: { loading: false } });
-        message.error(`添加物品失败啦! 错误信息: ${transInfo[this.props.addMsg]}`);
+        message.error(`添加物品失败啦! 错误信息: ${transInfo[this.props.addMsg] || this.props.addMsg}`);
         return;
       }
       message.success('添加物品成功啦!');
       setTimeout(() => {
         console.log(this);  // this指向infoEditing
         this.resetForm();
+        this.props.backToHomepage && this.props.backToHomepage();
       }, 1500);
     }
   };

@@ -59,6 +59,10 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  backToHomepage = () => {
+    this.setState({ currentPage: 1 });
+  };
+
   pageHandle = (page, pageSize) => {
     console.log(page, pageSize);
     this.props.dispatch(routerRedux.push({
@@ -144,6 +148,7 @@ class MaterialInfo extends React.Component {
           addCode={addCode}
           addMsg={addMsg}
           dispatch={this.props.dispatch}
+          backToHomepage
         />
       </div>
     );
