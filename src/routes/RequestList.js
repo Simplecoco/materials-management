@@ -100,7 +100,7 @@ class RequestList extends React.Component {
     ];
 
     const data = this.props.mine;
-    return <Table columns={columns} dataSource={data} size='small' />;
+    return <Table columns={columns} dataSource={data} size="small" />;
   }
 }
 
