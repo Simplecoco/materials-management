@@ -35,6 +35,11 @@ class Result extends React.Component {
     this.setState({ currentPage: page });
   };
 
+  backToHomepage = () => {
+    this.props.dispatch(routerRedux.push('/user/result'));
+    this.setState({ currentPage: 1 });
+  };
+
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
@@ -78,6 +83,7 @@ class Result extends React.Component {
             pic={item.attach[0]}
             key={index}
             mid={item.id}
+            sta={item.sta}
             content={item.desc}
             loading={resultLoading}
             addToList={this.addToList}
@@ -99,6 +105,7 @@ class Result extends React.Component {
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
             addToList={this.addToList}
+            backToHomepage={this.backToHomepage}
           />
         );
       }

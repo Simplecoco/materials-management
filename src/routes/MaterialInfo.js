@@ -103,6 +103,7 @@ class MaterialInfo extends React.Component {
             pic={item.attach[0]}
             key={index}
             cardId={item.id}
+            sta={item.sta}
             content={item.desc}
             loading={resultLoading}
             eidt={this.edit}

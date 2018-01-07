@@ -29,6 +29,7 @@ class Detail extends React.Component {
   handleCancel = () => {
     this.props.changeDetailVisible(false);
     this.props.resetReqItem();
+    this.props.backToHomepage && this.props.backToHomepage();
   };
 
   applyIt = () => {
@@ -68,6 +69,7 @@ class Detail extends React.Component {
             BtnType="default"
             BtnTitle="点击申请"
             onClick={this.applyIt}
+            afterApply={this.handleCancel}
           />
         );
       }

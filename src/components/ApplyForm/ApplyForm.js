@@ -54,6 +54,7 @@ class ApplyForm extends React.Component {
       visible: false,
     });
     this.props.cancelSelected && this.props.cancelSelected();
+    this.props.afterApply && this.props.afterApply();
   };
   handleCancel = () => {
     this.setState({
