@@ -23,7 +23,7 @@ function telValidate({ tel, token }) {
 }
 
 function register({ name, mail, passwd, tel, code, device = 'device', token }) {
-  return request('/v1/supply/user/tel', {
+  return request('/v1/supply/user/register', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
