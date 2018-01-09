@@ -15,9 +15,9 @@ class ShowCard extends React.Component {
     this.setState({ iconStatus: 'ok' });
   };
 
-  mouseLeaveHandle = () => {
-    this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
-  };
+  // mouseLeaveHandle = () => {
+  //   this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
+  // };
 
   showActions = () => {
     if (this.props.sta === 'order') {
@@ -85,7 +85,7 @@ class ShowCard extends React.Component {
           <a
             href={this.props.detail_url}
             onClick={this.props.showDetail.bind(this, {
-              url: this.props.detail_url, title: this.props.title
+              url: this.props.detail_url, title: this.props.title, addSta: this.state.iconStatus
             })}
           >
             <img alt="example" width="100%" src={this.props.pic} />

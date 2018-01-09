@@ -29,7 +29,6 @@ class Detail extends React.Component {
   handleCancel = () => {
     this.props.changeDetailVisible(false);
     this.props.resetReqItem();
-    this.props.backToHomepage && this.props.backToHomepage();
   };
 
   applyIt = () => {
@@ -45,20 +44,19 @@ class Detail extends React.Component {
   };
 
   render() {
-    console.log(this.props.reqItem);
     const { changeDetailVisible, type, reqItem, detailLoading, detailVisible } = this.props;
     const selected = [this.getInfo()];
-    // const startBtn = (
-    //   <Button type="default" onClick={this.showModal}>
-    //     点我直接申请
-    //   </Button>
-    // );
 
     const extraBtn = () => {
       if (type === 'user') {
         if (reqItem.sta === 'order') {
           return (
             <Button disabled>物品已被借用</Button>
+          );
+        }
+        if (this.props.detailAddSta === 'ok') {
+          return (
+            <Button disabled>物品已添加到清单</Button>
           );
         }
         return (
@@ -70,6 +68,7 @@ class Detail extends React.Component {
             BtnTitle="点击申请"
             onClick={this.applyIt}
             afterApply={this.handleCancel}
+            backToHomepage={this.props.backToHomepage}
           />
         );
       }
@@ -146,7 +145,6 @@ class Detail extends React.Component {
             className={styles.detailList}
             style={{ maxWidth: '350px' }}
           />
-
         </div>
       );
     };
