@@ -51,25 +51,24 @@ class ShowCard extends React.Component {
               })}
             />
           </Tooltip>
-      ] : [
-        <Tooltip title="编辑">
-          <Icon
-            type="edit"
-            style={{ fontSize: '18px' }}
-            onClick={this.props.edit}
-          />,
-        </Tooltip>,
-        <Tooltip title="查看更多">
-          <Icon
-            type="ellipsis"
-            onClick={this.props.showDetail.bind(this, {
-              url: this.props.detail_url, title: this.props.title
-            })}
-            style={{ fontSize: '18px' }}
-          />
-        </Tooltip>
-      ]);
-
+        ] : [
+          <Tooltip title="编辑">
+            <Icon
+              type="edit"
+              style={{ fontSize: '18px' }}
+              onClick={this.props.edit}
+            />,
+          </Tooltip>,
+          <Tooltip title="查看更多">
+            <Icon
+              type="ellipsis"
+              onClick={this.props.showDetail.bind(this, {
+                url: this.props.detail_url, title: this.props.title
+              })}
+              style={{ fontSize: '18px' }}
+            />
+          </Tooltip>
+        ]);
   };
 
   render() {

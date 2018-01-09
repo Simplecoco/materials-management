@@ -1,5 +1,6 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { connect } from 'dva';
+import { Menu, Icon, Badge } from 'antd';
 import styles from './SideNav.css';
 
 const SubMenu = Menu.SubMenu;
@@ -54,7 +55,8 @@ class SideNav extends React.Component {
           <Icon type="notification" />
           <span>我的消息</span>
         </Menu.Item>
-        <Menu.Item key="5" path="/user/applyList">
+        <Menu.Item key="5" path="/user/applyList" style={{ overflow: 'visible' }}>
+          <Badge count={this.props.applyCount} style={{ position: 'absolute', top: -27, left: -16 }} />
           <Icon type="shopping-cart" />
           <span>申请清单</span>
         </Menu.Item>
@@ -140,9 +142,11 @@ class SideNav extends React.Component {
 
 // ReactDOM.render(<Sider />, mountNode);
 
-// const mapStateToProps = (state) => {
-//   return {};
-// };
+const mapStateToProps = (state) => {
+  const { applyListMid } = state.applyList;
+  const applyCount = applyListMid.length;
+  return { applyCount };
+};
 
-// export default connect(mapStateToProps)(SideNav);
-export default SideNav;
+export default connect(mapStateToProps)(SideNav);
+// export default SideNav;

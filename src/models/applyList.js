@@ -33,17 +33,25 @@ export default {
     },
     deleteIt(state, { payload: { key, mid } }) {
       console.log(key, mid);
-      return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
-        return item.key !== key;
-      }), applyListMid: state.applyListMid.filter((item) => {
-        return item !== mid;
-      }) });
+      return Object.assign({}, { ...state }, {
+        applyList: state.applyList.filter((item) => {
+          return item.key !== key;
+        }),
+        applyListMid: state.applyListMid.filter((item) => {
+          return item !== mid;
+        }),
+      });
     },
     deleteSuccess(state, { payload: { mids } }) {
-      return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
-        console.log(mids, item.mid, mids.indexOf(item.mid));
-        return mids.indexOf(item.mid) === -1;
-      }) });
+      return Object.assign({}, { ...state }, {
+        applyList: state.applyList.filter((item) => {
+          console.log(mids, item.mid, mids.indexOf(item.mid));
+          return mids.indexOf(item.mid) === -1;
+        }),
+        applyListMid: state.applyListMid.filter((item) => {
+          return mids.indexOf(item) === -1;
+        }),
+      });
     },
   },
   effects: {
