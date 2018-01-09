@@ -12,8 +12,8 @@ export default {
     mine: [],
   },
   reducers: {
-    save(state, { payload: { data: { mine } } }) {
-      return Object.assign({}, { ...state }, { mine });
+    save(state, { payload: { data } }) {
+      return Object.assign({}, { ...state }, { ...data });
     },
   },
   effects: {
@@ -34,6 +34,9 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === ('/admin/requestList')) {
+          dispatch({ type: 'fetch', payload: query });
+        }
+        if (pathname === ('/user/records')) {
           dispatch({ type: 'fetch', payload: query });
         }
       });

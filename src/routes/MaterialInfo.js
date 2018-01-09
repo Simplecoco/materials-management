@@ -52,6 +52,14 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  modifyMaterial = (values) => {
+    console.log(values);
+    this.props.dispatch({
+      type: 'MaterialInfo/modifyMaterial',
+      payload: { values }
+    });
+  };
+
   resetReqItem = () => {
     this.props.dispatch({
       type: 'MaterialInfo/resetReqItem',
@@ -64,7 +72,6 @@ class MaterialInfo extends React.Component {
   };
 
   pageHandle = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.dispatch(routerRedux.push({
       pathname: '/admin/materialInfo',
       query: {
@@ -125,6 +132,7 @@ class MaterialInfo extends React.Component {
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
+            modifyMaterial={this.modifyMaterial}
           />
         );
       }

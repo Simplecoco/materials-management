@@ -60,7 +60,6 @@ export default {
       yield put({ type: 'detailLoadingChange', payload: { loading: false } });
     },
     *addMaterial({ payload: { values } }, { call, put }) {
-      console.log(values);
       yield put({ type: 'addLoadingChange', payload: { loading: true } });
       const { data, code, msg, codes } = yield call(adminService.addMaterial, { values });
       if (code === 0) {
@@ -73,6 +72,10 @@ export default {
         yield put({ type: 'saveAddCode', payload: { code: codes, msg } });
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
       }
+    },
+    *modifyMaterial({ payload: { values } }, { call }) {
+      const { data, code, msg } = yield call(adminService.modifyMaterial, { values });
+      console.log({ data, code, msg });
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });

@@ -116,7 +116,7 @@ class ApplyForm extends React.Component {
               })(
                 <Input
                   placeholder="用户id"
-                  addonBefore="用户id"
+                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>用户id</span>}
                   prefix={<Icon type="user" />}
                   disabled
                 />
@@ -129,7 +129,7 @@ class ApplyForm extends React.Component {
               })(
                 <Input
                   placeholder="请输入手机号码"
-                  addonBefore="手机号码"
+                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>手机号码</span>}
                   prefix={<Icon type="phone" />}
                   disabled
                 />
@@ -141,7 +141,7 @@ class ApplyForm extends React.Component {
               })(
                 <Input
                   placeholder="请输入标题"
-                  addonBefore="标题"
+                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>标题</span>}
                   prefix={<Icon type="tag-o" />}
                 />
               )}
@@ -153,6 +153,7 @@ class ApplyForm extends React.Component {
                 <RangePicker
                   format={dateFormat}
                   addonBefore="借用结束时间"
+                  style={{ width: '100%' }}
                 />
               )}
             </FormItem>

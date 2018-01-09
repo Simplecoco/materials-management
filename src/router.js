@@ -46,7 +46,7 @@ function RouterConfig({ history }) {
         <IndexRoute component={Test1} />
         <Route path="personalInfo" component={PersonalInfo} />
         <Route path="result" component={Result} />
-        <Route path="records" component={Records} />
+        <Route path="records" component={RequestList} />
         <Route path="message" component={Message} />
         <Route path="applyList" component={ApplyList} />
       </Route>

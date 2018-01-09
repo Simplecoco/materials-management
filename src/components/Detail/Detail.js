@@ -75,7 +75,14 @@ class Detail extends React.Component {
       }
       if (type === 'admin') {
         return (
-          <InfoEditing showBtClassName="editButton" showBtTitle="编辑" btType="default" onClick={this.applyIt} />
+          <InfoEditing
+            showBtClassName="editButton"
+            showBtTitle="编辑"
+            btType="default"
+            onClick={this.applyIt}
+            reqItem={reqItem}
+            modifyMaterial={this.props.modifyMaterial}
+          />
         );
       }
     };

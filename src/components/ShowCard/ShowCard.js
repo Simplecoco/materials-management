@@ -20,7 +20,6 @@ class ShowCard extends React.Component {
   };
 
   showActions = () => {
-    console.log(this.props);
     if (this.props.sta === 'order') {
       return ([
         <div>

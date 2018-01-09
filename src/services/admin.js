@@ -26,8 +26,19 @@ function fetchDetails({ url }) {
 }
 
 function addMaterial({ values }) {
-  console.log(values);
   return request('/v1/supply/materials/add', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify(values),
+  });
+}
+
+function modifyMaterial({ values }) {
+  console.log({ values });
+  return request('/v1/supply/materials/mod', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -58,9 +69,9 @@ function fetchOrders() {
   });
 }
 
-function fetchOrderDetail({ orderId }) {
-  console.log(orderId);
-  return request(`/v1/supply/orders/${orderId}`, {
+function fetchOrderDetail({ orderid }) {
+  console.log(orderid);
+  return request(`/v1/supply/orders/${orderid}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -74,6 +85,7 @@ export {
   fetchUsers,
   fetchDetails,
   addMaterial,
+  modifyMaterial,
   searchMaterial,
   fetchOrders,
   fetchOrderDetail
