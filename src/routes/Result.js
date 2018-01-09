@@ -24,6 +24,7 @@ class Result extends React.Component {
   };
 
   pageHandle = (page, pageSize) => {
+    console.log(page, pageSize);
     this.props.dispatch(routerRedux.push({
       pathname: '/user/result',
       query: {
@@ -39,9 +40,9 @@ class Result extends React.Component {
     this.setState({ currentPage: 1 });
   };
 
-  showDetail = ({ url, title, addSta }, e) => {
+  showDetail = ({ url, title }, e) => {
     e.preventDefault();
-    this.setState({ detailTitle: title, detailAddSta: addSta });
+    this.setState({ detailTitle: title });
     this.hide = message.loading('正在努力加载~~~', 0);
     this.changeDetailVisible(true);
     this.props.dispatch({
@@ -68,7 +69,6 @@ class Result extends React.Component {
       type: 'applyList/addToList',
       payload: { mid, pic, title, content },
     });
-    message.success('添加成功!');
   };
 
   render() {
@@ -100,7 +100,6 @@ class Result extends React.Component {
             reqItem={reqItem}
             detailLoading={detailLoading}
             detailTitle={this.state.detailTitle}
-            detailAddSta={this.state.detailAddSta}
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}

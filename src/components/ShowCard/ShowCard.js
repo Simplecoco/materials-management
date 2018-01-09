@@ -15,11 +15,12 @@ class ShowCard extends React.Component {
     this.setState({ iconStatus: 'ok' });
   };
 
-  // mouseLeaveHandle = () => {
-  //   this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
-  // };
+  mouseLeaveHandle = () => {
+    this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
+  };
 
   showActions = () => {
+    console.log(this.props);
     if (this.props.sta === 'order') {
       return ([
         <div>
@@ -50,24 +51,25 @@ class ShowCard extends React.Component {
               })}
             />
           </Tooltip>
-        ] : [
-        // <Tooltip title="编辑">
-        //   <Icon
-        //     type="edit"
-        //     style={{ fontSize: '18px' }}
-        //     onClick={this.props.edit}
-        //   />,
-        // </Tooltip>,
-          <Tooltip title="查看更多">
-            <Icon
-              type="ellipsis"
-              onClick={this.props.showDetail.bind(this, {
-                url: this.props.detail_url, title: this.props.title
-              })}
-              style={{ fontSize: '18px' }}
-            />
-          </Tooltip>
-        ]);
+      ] : [
+        <Tooltip title="编辑">
+          <Icon
+            type="edit"
+            style={{ fontSize: '18px' }}
+            onClick={this.props.edit}
+          />,
+        </Tooltip>,
+        <Tooltip title="查看更多">
+          <Icon
+            type="ellipsis"
+            onClick={this.props.showDetail.bind(this, {
+              url: this.props.detail_url, title: this.props.title
+            })}
+            style={{ fontSize: '18px' }}
+          />
+        </Tooltip>
+      ]);
+
   };
 
   render() {
@@ -85,7 +87,7 @@ class ShowCard extends React.Component {
           <a
             href={this.props.detail_url}
             onClick={this.props.showDetail.bind(this, {
-              url: this.props.detail_url, title: this.props.title, addSta: this.state.iconStatus
+              url: this.props.detail_url, title: this.props.title
             })}
           >
             <img alt="example" width="100%" src={this.props.pic} />

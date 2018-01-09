@@ -14,11 +14,11 @@ class ApplyList extends React.Component {
     };
   }
 
-  deleteIt = ({ key }) => {
-    console.log(key);
+  deleteIt = ({ key, mid }) => {
+    console.log(key, mid);
     this.props.dispatch({
       type: 'applyList/deleteIt',
-      payload: { key }
+      payload: { key, mid }
     });
     const newSelected = this.state.selected.filter((item) => {
       return item.key !== key;

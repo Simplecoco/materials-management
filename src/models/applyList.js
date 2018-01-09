@@ -16,23 +16,27 @@ export default {
   },
   reducers: {
     addToList(state, { payload: listInfo, payload: { mid } }) {
-      console.log({ mid });
-      console.log(listInfo);
+      if (state.applyListMid.indexOf(mid) !== -1) {    // 如果购物车中已存在此物品则不能再添加
+        message.info('清单中已经添加过该物品啦~');
+        return state;
+      }
       const arr1 = state.applyListMid.slice(0);
       const arr2 = state.applyList.slice(0);
       arr1.push(mid);
       arr2.push(listInfo);
-      console.log(arr1, arr2);
+      message.success('添加成功!');
       return Object.assign({}, { ...state }, { applyListMid: arr1, applyList: arr2 });
     },
     saveNewApply(state, { payload: { data } }) {
       console.log(data);
       return Object.assign({}, { ...state }, { ...data });
     },
-    deleteIt(state, { payload: { key } }) {
-      console.log(key);
+    deleteIt(state, { payload: { key, mid } }) {
+      console.log(key, mid);
       return Object.assign({}, { ...state }, { applyList: state.applyList.filter((item) => {
         return item.key !== key;
+      }), applyListMid: state.applyListMid.filter((item) => {
+        return item !== mid;
       }) });
     },
     deleteSuccess(state, { payload: { mids } }) {
