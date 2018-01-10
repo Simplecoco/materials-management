@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input } from 'antd';
+import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List } from 'antd';
 import { fetchOrderDetail } from '../services/admin';
 // import styles from './RequestList.css';
 const TabPane = Tabs.TabPane;
@@ -99,11 +99,22 @@ class RequestList extends React.Component {
         title: '操作',
         key: 'action',
         render: (record) => {
-          const details = this.state.nowData !== '' ? Object.entries(this.state.nowData).map((item, index) => (
-            <div style={{ marginBottom: '0.5em' }} key={index}>
-              <p style={{ borderBottom: '1px solid #eee', fontSize: 14 }}>{ `${item[0]}: ${item[1]}` }</p>
-            </div>
-          )) : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+          const tmpDetails = Object.entries(this.state.nowData).map(item => (
+            <p style={{ fontSize: 14, margin: 0 }}>{ `${item[0]}: ${item[1]}` }</p>
+          ));
+          const detailItems = (
+            <List
+              size="small"
+              bordered
+              dataSource={tmpDetails}
+              renderItem={item => (<List.Item>{item}</List.Item>)}
+              style={{ maxWidth: '350px' }}
+            />
+          );
+
+          const details = this.state.nowData !== ''
+            ? detailItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
           const peccancy = record.peccancy;
           const content = (
             <Tabs defaultActiveKey="1" size="small">
@@ -168,11 +179,14 @@ class RequestList extends React.Component {
         title: '操作',
         key: 'action',
         render: (record) => {
-          const details = this.state.nowData !== '' ? Object.entries(this.state.nowData).map((item, index) => (
+          const detailItems = Object.entries(this.state.nowData).map((item, index) => (
             <div style={{ marginBottom: '0.5em' }} key={index}>
               <p style={{ borderBottom: '1px solid #eee', fontSize: 14 }}>{ `${item[0]}: ${item[1]}` }</p>
             </div>
-          )) : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+          ));
+          const details = this.state.nowData !== ''
+            ? detailItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
           const peccancy = record.peccancy;
           const content = (
             <Tabs defaultActiveKey="1" size="small">

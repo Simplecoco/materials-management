@@ -35,7 +35,6 @@ class Admin extends React.Component {
   };
 
   logout = () => {
-    console.log('2');
     this.props.dispatch({
       type: 'login/logout',
       payload: {},

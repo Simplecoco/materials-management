@@ -82,10 +82,16 @@ export default {
     },
     *searchMaterial({ payload: { key } }, { put, call }) {
       hide = message.loading('请稍等哇~~~', 0);
-      const { data } = yield call(adminService.searchMaterial, { key });
+      const { data, code } = yield call(adminService.searchMaterial, { key });
       console.log({ data });
-      yield put({ type: 'save', payload: { data } });
-      setTimeout(hide, 800);
+      if (code === 0) {
+        yield put({ type: 'save', payload: { data } });
+        setTimeout(hide, 800);
+      }
+      if (code === 610) {
+        setTimeout(hide, 0);
+        message.info('不好意思, 我们搜索到您需要的物品~');
+      }
     }
   },
   subscriptions: {

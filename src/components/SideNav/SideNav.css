@@ -2,7 +2,8 @@
 .sideNav {}
 
 .logo {
-    text-align: center;
-    line-height: 3em;
-    font-size: 20px;
+  text-align: center;
+  /*height: 35px;*/
+  font-size: 20px;
+  margin-top: 20px;
 }

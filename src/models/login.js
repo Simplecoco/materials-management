@@ -44,7 +44,7 @@ export default {
         yield infoArr.forEach((item) => {
           cookie.clearCookie(item);
         });
-        yield put(routerRedux.push('/'));
+        yield put(routerRedux.push('/login'));
       }
       else {
         message.error(`错误啦~,错误信息: ${msg}`);

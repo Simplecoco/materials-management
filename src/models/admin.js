@@ -17,7 +17,7 @@ export default {
             duration: 2,
             placement: 'topRight'
           });
-          dispatch(routerRedux.push('/admin/materialInfo'));    // 用户进入用户首页时自动跳转到MaterialInfo
+          dispatch(routerRedux.push('/admin/materialInfo'));    // 用户进入用户首页时自动跳转到
         }
       });
     },
