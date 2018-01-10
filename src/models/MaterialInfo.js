@@ -61,15 +61,15 @@ export default {
     },
     *addMaterial({ payload: { values } }, { call, put }) {
       yield put({ type: 'addLoadingChange', payload: { loading: true } });
-      const { data, code, msg, codes } = yield call(adminService.addMaterial, { values });
+      const { data, code, msg } = yield call(adminService.addMaterial, { values });
       if (code === 0) {
         console.log(data, 'data added');
         yield put({ type: 'saveAddCode', payload: { code, msg } });
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
         yield put({ type: 'fetch', payload: {} });
-      } else if (code !== 0 || codes !== 0) {
-        console.log(codes, 'codes');
-        yield put({ type: 'saveAddCode', payload: { code: codes, msg } });
+      } else if (code !== 0) {
+        console.log(code, 'code');
+        yield put({ type: 'saveAddCode', payload: { code, msg } });
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
       }
     },

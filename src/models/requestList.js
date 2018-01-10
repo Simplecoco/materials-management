@@ -25,10 +25,21 @@ export default {
         yield put({ type: 'save', payload: { data } });
       }
       else {
-        message.error(`错误信息${msg}`);
+        message.error(`错误信息: ${msg}`);
       }
       // yield put({ type: 'resultLoadingChange', payload: { loading: false } });
     },
+    *review({ payload }, { call, put }) {
+      const { data, code, msg } = yield call(adminService.reviewOrder, payload);
+      console.log({ data, code, msg });
+      if (code === 0) {
+        yield message.success('回复成功啦~');
+        yield put({ type: 'fetch' });
+      }
+      else {
+        yield message.error(`回复失败了呢~, 错误信息: ${msg}`);
+      }
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

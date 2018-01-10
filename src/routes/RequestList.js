@@ -1,17 +1,52 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popover, Button, Popconfirm, Tabs, Icon } from 'antd';
+import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input } from 'antd';
 import { fetchOrderDetail } from '../services/admin';
 // import styles from './RequestList.css';
 const TabPane = Tabs.TabPane;
+const { TextArea } = Input;
 
 class RequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       nowData: '',
+      modalVisible: false,
+      reason: '',
     };
   }
+
+  setReason = (e) => {
+    this.setState({ reason: e.target.value });
+  };
+
+  showModal = () => {
+    this.setState({
+      modalVisible: true,
+    });
+  };
+
+  handleOk = () => {
+    this.props.dispatch({
+      type: 'requestList/review',
+      payload: {
+        orderid: this.state.orderid,
+        pass: this.state.pass,
+        reply: this.state.reason,
+      }
+    });
+    this.setState({
+      reason: '',
+      modalVisible: false,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      reason: '',
+      modalVisible: false,
+    });
+  };
 
   visibleChange = async (orderid, visible) => {
     console.log(visible);
@@ -27,9 +62,13 @@ class RequestList extends React.Component {
     }
   };
 
+  reviewIt = ({ orderid, pass }) => {
+    this.setState({ orderid, pass });
+    this.showModal();
+  };
+
   render() {
     const { to, done, mine } = this.props;
-    console.log(this.props, 'this.props');
     const adminColumns = [
       {
         title: '订单号',
@@ -87,11 +126,11 @@ class RequestList extends React.Component {
                 <Button type="primary">查看详细信息</Button>
               </Popover>
               <span className="ant-divider" />
-              <Popconfirm title="确认同意？" okText="是" cancelText="否" placement="topRight">
+              <Popconfirm title="确认同意？" okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.reviewIt({ ...record, pass: 'yes' }); }}>
                 <Button>同意</Button>
               </Popconfirm>
               <span className="ant-divider" />
-              <Popconfirm title="确认不同意？" okText="是" cancelText="否" placement="topRight">
+              <Popconfirm title="确认不同意？" okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.reviewIt({ ...record, pass: 'no' }); }}>
                 <Button type="danger">不同意</Button>
               </Popconfirm>
             </div>
@@ -172,7 +211,7 @@ class RequestList extends React.Component {
               <Table columns={adminColumns} dataSource={to} size="small" />
             </TabPane>
             <TabPane tab="已处理记录" key="3">
-              <Table columns={adminColumns} dataSource={done} size="small" />
+              <Table columns={userColumns} dataSource={done} size="small" />
             </TabPane>
           </Tabs>
         );
@@ -191,13 +230,20 @@ class RequestList extends React.Component {
     return (
       <div>
         {finalLayout()}
+        <Modal
+          title="Basic Modal"
+          visible={this.state.modalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <TextArea placeholder="请输入您的理由" value={this.state.reason} rows={4} onChange={(e) => { this.setReason(e); }} />
+        </Modal>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  console.log(state.requestList);
   const { mine, to, done } = state.requestList;
   return { mine, to, done };
 }

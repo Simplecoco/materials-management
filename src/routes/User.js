@@ -75,6 +75,7 @@ class User extends React.Component {
             userName="user"
             type="user"
             pageChangeHandler={this.pageChangeHandler}
+            applyCount={this.props.applyCount}
           />
         </Sider>
         <Layout style={{ minWidth: '1100px' }}>
@@ -98,8 +99,13 @@ class User extends React.Component {
   }
 }
 
-function mapStateToProps() {
-  return {};
-}
+// function mapStateToProps() {
+//   return {};
+// }
+const mapStateToProps = (state) => {
+  const { applyListMid } = state.applyList;
+  const applyCount = applyListMid.length;
+  return { applyCount };
+};
 
 export default connect(mapStateToProps)(User);

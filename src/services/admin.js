@@ -80,6 +80,17 @@ function fetchOrderDetail({ orderid }) {
   });
 }
 
+function reviewOrder({ orderid, pass, reply, uid = cookie.getCookie('uid') }) {
+  return request('/v1/supply/orders/review', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ orderid, pass, reply, uid }),
+  });
+}
+
 export {
   fetchCards,
   fetchUsers,
@@ -88,5 +99,6 @@ export {
   modifyMaterial,
   searchMaterial,
   fetchOrders,
-  fetchOrderDetail
+  fetchOrderDetail,
+  reviewOrder
 };

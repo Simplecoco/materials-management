@@ -71,7 +71,7 @@ export default {
         yield okCallback && okCallback();
       }
       else {
-        yield message.error(msg || mes || '出错啦!');
+        yield message.error(`出错啦!, 错误信息: ${msg}` || `出错啦!, 错误信息: ${mes}` || '出错啦!');
       }
     },
   },
