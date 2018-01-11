@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List } from 'antd';
 import { fetchOrderDetail } from '../services/admin';
+import { transName } from '../utils/trans';
 // import styles from './RequestList.css';
 const TabPane = Tabs.TabPane;
 const { TextArea } = Input;
@@ -100,7 +101,7 @@ class RequestList extends React.Component {
         key: 'action',
         render: (record) => {
           const tmpDetails = Object.entries(this.state.nowData).map(item => (
-            <p style={{ fontSize: 14, margin: 0 }}>{ `${item[0]}: ${item[1]}` }</p>
+            <p style={{ fontSize: 14, margin: 0 }}>{ `${transName[item[0]]}: ${item[1]}` }</p>
           ));
           const detailItems = (
             <List
@@ -111,7 +112,6 @@ class RequestList extends React.Component {
               style={{ maxWidth: '350px' }}
             />
           );
-
           const details = this.state.nowData !== ''
             ? detailItems
             : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
@@ -128,10 +128,10 @@ class RequestList extends React.Component {
           return (
             <div>
               <Popover
-                placement="leftTop"
+                placement="leftBottom"
                 content={content}
                 trigger="click"
-                overlayStyle={{ width: 400 }}
+                overlayStyle={{ width: 390 }}
                 onVisibleChange={(visible) => { this.visibleChange(record.orderid, visible); }}
               >
                 <Button type="primary">查看详细信息</Button>
@@ -179,11 +179,18 @@ class RequestList extends React.Component {
         title: '操作',
         key: 'action',
         render: (record) => {
-          const detailItems = Object.entries(this.state.nowData).map((item, index) => (
-            <div style={{ marginBottom: '0.5em' }} key={index}>
-              <p style={{ borderBottom: '1px solid #eee', fontSize: 14 }}>{ `${item[0]}: ${item[1]}` }</p>
-            </div>
+          const tmpDetails = Object.entries(this.state.nowData).map(item => (
+            <p style={{ fontSize: 14, margin: 0 }}>{ `${transName[item[0]]}: ${item[1]}` }</p>
           ));
+          const detailItems = (
+            <List
+              size="small"
+              bordered
+              dataSource={tmpDetails}
+              renderItem={item => (<List.Item>{item}</List.Item>)}
+              style={{ maxWidth: '350px' }}
+            />
+          );
           const details = this.state.nowData !== ''
             ? detailItems
             : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
@@ -200,10 +207,10 @@ class RequestList extends React.Component {
           return (
             <div>
               <Popover
-                placement="leftTop"
+                placement="leftBottom"
                 content={content}
                 trigger="click"
-                overlayStyle={{ width: 400 }}
+                overlayStyle={{ width: 390 }}
                 onVisibleChange={(visible) => { this.visibleChange(record.orderid, visible); }}
               >
                 <Button type="primary">查看详细信息</Button>
@@ -245,12 +252,12 @@ class RequestList extends React.Component {
       <div>
         {finalLayout()}
         <Modal
-          title="Basic Modal"
+          title="请输入您的回复"
           visible={this.state.modalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <TextArea placeholder="请输入您的理由" value={this.state.reason} rows={4} onChange={(e) => { this.setReason(e); }} />
+          <TextArea placeholder="请输入您的回复" value={this.state.reason} rows={4} onChange={(e) => { this.setReason(e); }} />
         </Modal>
       </div>
     );

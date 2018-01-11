@@ -18,7 +18,7 @@ export default {
       if (code !== 0) {
         notification.open({
           message: 'Failed !!!',
-          description: `, 看看用户名密码又没有搞错吧~, 错误信息: ${msg}`,
+          description: `看看用户名密码又没有搞错吧~, 错误信息: ${msg}`,
           icon: <Icon type="frown" style={{ color: 'pink' }} />,
           duration: 2,
           placement: 'topLeft'

@@ -82,16 +82,21 @@ export default {
     },
     *searchMaterial({ payload: { key } }, { put, call }) {
       hide = message.loading('请稍等哇~~~', 0);
-      const { data, code } = yield call(adminService.searchMaterial, { key });
+      const { data, code, msg } = yield call(adminService.searchMaterial, { key });
       console.log({ data });
       if (code === 0) {
         yield put({ type: 'save', payload: { data } });
         setTimeout(hide, 800);
+        return;
       }
       if (code === 610) {
         setTimeout(hide, 0);
-        message.info('不好意思, 我们搜索到您需要的物品~');
+        message.info('不好意思, 我们没有搜索到您需要的物品~');
+        yield put({ type: 'save', payload: { data } });
+        return;
       }
+      setTimeout(hide, 0);
+      message.error(`出错啦~, 错误信息: ${msg}`);
     }
   },
   subscriptions: {

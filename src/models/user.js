@@ -13,9 +13,9 @@ export default {
           notification.open({
             message: 'Hello, My Friend!!!',
             description: '欢迎您来到物资管理系统~',
-            icon: <Icon type="smile-circle" style={{ color: 'pink' }} />,
-            duration: 2,
-            placement: 'top'
+            icon: <Icon type="smile-circle" style={{ color: '#03c463' }} />,
+            duration: 2.5,
+            placement: 'topRight'
           });
           dispatch(routerRedux.push('/user/result'));    // 用户进入用户首页时自动跳转到result
         }

@@ -51,13 +51,13 @@ class ShowCard extends React.Component {
             />
           </Tooltip>
         ] : [
-          <Tooltip title="编辑">
-            <Icon
-              type="edit"
-              style={{ fontSize: '18px' }}
-              onClick={this.props.edit}
-            />,
-          </Tooltip>,
+          // <Tooltip title="编辑">
+          //   <Icon
+          //     type="edit"
+          //     style={{ fontSize: '18px' }}
+          //     onClick={this.props.edit}
+          //   />,
+          // </Tooltip>,
           <Tooltip title="查看更多">
             <Icon
               type="ellipsis"
