@@ -11,7 +11,7 @@ class User extends React.Component {
   constructor() {
     super();
     this.state = {
-      sideCollapsed: true,
+      sideCollapsed: false,
       topTitle: '欢迎来到物资管理系统',
       topNavIcon: 'collapse',
     };
