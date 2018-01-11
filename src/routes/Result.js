@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
+import { routerRedux } from 'dva/router';
+import { Row, Col, message, Pagination, Alert, Breadcrumb, Icon } from 'antd';
 import styles from './Result.css';
 import ShowCard from '../components/ShowCard/ShowCard';
 import Detail from '../components/Detail/Detail';
@@ -10,12 +11,47 @@ class Result extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,
-      detailTitle: ''
+      detailTitle: '',
+      currentPage: 1,
     };
+    this.type = 'user';
   }
+
+  componentDidUpdate = () => {
+    if (this.hide) {
+      setTimeout(this.hide, 800);
+    }
+  };
+
+  pageHandle = (page, pageSize) => {
+    console.log(page, pageSize);
+    this.props.dispatch(routerRedux.push({
+      pathname: '/user/result',
+      query: {
+        from: (pageSize * (page - 1)) + 1,
+        len: pageSize,
+      },
+    }));
+    this.setState({ currentPage: page });
+  };
+
+  backToHomepage = () => {
+    this.props.dispatch(routerRedux.push('/user/result'));
+    this.setState({ currentPage: 1 });
+  };
+
+  fetch = (e) => {
+    e.preventDefault();
+    this.props.dispatch({
+      type: 'result/fetch',
+      payload: { data: {} },
+    });
+  };
+
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
+    this.hide = message.loading('正在努力加载~~~', 0);
     this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'result/fetchDetail',
@@ -36,23 +72,35 @@ class Result extends React.Component {
     });
   };
 
+  addToList = ({ mid, pic, title, content }) => {
+    this.props.dispatch({
+      type: 'applyList/addToList',
+      payload: { mid, pic, title, content },
+    });
+  };
+
   render() {
-    const { items, reqItem, detailLoading, resultLoading } = this.props;
-    const layout = items.map((item, index) => {
+    const { items, reqItem, detailLoading, resultLoading, total } = this.props;
+    console.log(items);
+    const layout = items ? items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
           <ShowCard
+            type={this.type}
             title={item.name}
-            pic={item.pic}
+            pic={item.attach[0]}
             key={index}
+            mid={item.id}
+            sta={item.sta}
             content={item.desc}
             loading={resultLoading}
+            addToList={this.addToList}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
           />
         </Col>
       );
-    });
+    }) : <Col><Alert message={<div>没有搜索到呃, 返回<a onClick={this.fetch}> 物品列表 </a>吧</div>} type="info" showIcon /></Col>;
     const detailLayout = () => {
       if (Object.keys(reqItem).length !== 0 && this.state.detailVisible) {
         return (
@@ -64,16 +112,35 @@ class Result extends React.Component {
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
+            addToList={this.addToList}
+            backToHomepage={this.backToHomepage}
           />
         );
       }
     };
 
+    const breadLayout = (
+      <Breadcrumb style={{ marginBottom: 15 }}>
+        <Breadcrumb.Item href="" onClick={this.fetch}>
+          <Icon type="home" />
+          <span>所有物品</span>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+    );
+
     return (
       <div className={styles.normal}>
-        <Row type="flex" gutter={24}>
+        {breadLayout}
+        <Row type="flex" gutter={24} justify={items ? '' : 'center'}>
           {layout}
         </Row>
+        <Pagination
+          total={total}
+          style={{ textAlign: 'center', marginTop: '20px' }}
+          current={this.state.currentPage}
+          onChange={this.pageHandle}
+          pageSize={20}
+        />
         {detailLayout()}
       </div>
     );
@@ -81,8 +148,8 @@ class Result extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { items, reqItem, detailLoading, resultLoading } = state.result;
-  return { items, reqItem, detailLoading, resultLoading };
+  const { items, reqItem, detailLoading, resultLoading, total } = state.result;
+  return { items, reqItem, detailLoading, resultLoading, total };
 }
 
 export default connect(mapStateToProps)(Result);

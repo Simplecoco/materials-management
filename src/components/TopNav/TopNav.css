@@ -1,14 +1,18 @@
 
 .topNav {
-    /*white-space: nowrap;*/
-    /*height: 100%;*/
+  border-bottom: 0;
 }
 
-.topNav li{
-    /*height: 100%;*/
-    /*display: inline-block;*/
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
 }
 
-/*.topNav li span {*/
-    /*line-height: 100%;*/
-/*}*/
+.trigger:hover {
+  color: #1890ff;
+}
+
+

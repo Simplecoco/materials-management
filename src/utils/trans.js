@@ -15,6 +15,16 @@ const transName = {
   location: '存放位置',
   keyName: '关键字',
   create_time: '创建日期',
+  begtime: '借用开始时间',
+  endtime: '借用结束时间',
+  addtime: '申请时间',
+  r1: '一级管理员回复',
+  r2: '二级管理员回复',
+  remark: '备注',
+  orderid: '订单号',
+  content: '借用原因',
+  title: '标题',
+  username: '用户名',
 };
 
 export { transInfo, transName };

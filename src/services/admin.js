@@ -2,7 +2,7 @@ import request from '../utils/request';
 import * as cookie from '../utils/cookie';
 
 function fetchCards({ from = 0, len = 20 }) {
-  return request(`/api/materials/list?from=${from}&len=${len}`, {
+  return request(`/v1/supply/materials/list?from=${from}&len=${len}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -12,7 +12,7 @@ function fetchCards({ from = 0, len = 20 }) {
 }
 
 function fetchUsers({ limit = 10 }) {
-  return request(`/api/1/supply/users?limit=${limit}`);
+  return request(`/api/users?limit=${limit}`);
 }
 
 function fetchDetails({ url }) {
@@ -26,8 +26,7 @@ function fetchDetails({ url }) {
 }
 
 function addMaterial({ values }) {
-  console.log(values);
-  return request('/api/materials/add', {
+  return request('/v1/supply/materials/add', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -37,4 +36,69 @@ function addMaterial({ values }) {
   });
 }
 
-export { fetchCards, fetchUsers, fetchDetails, addMaterial };
+function modifyMaterial({ values }) {
+  console.log({ values });
+  return request('/v1/supply/materials/mod', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify(values),
+  });
+}
+
+function searchMaterial({ key }) {
+  return request('/v1/supply/materials/search', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ key }),
+  });
+}
+
+function fetchOrders() {
+  return request('/v1/supply/orders/mine', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
+}
+
+function fetchOrderDetail({ orderid }) {
+  console.log(orderid);
+  return request(`/v1/supply/orders/${orderid}`, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
+}
+
+function reviewOrder({ orderid, pass, reply, uid = cookie.getCookie('uid') }) {
+  return request('/v1/supply/orders/review', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ orderid, pass, reply, uid }),
+  });
+}
+
+export {
+  fetchCards,
+  fetchUsers,
+  fetchDetails,
+  addMaterial,
+  modifyMaterial,
+  searchMaterial,
+  fetchOrders,
+  fetchOrderDetail,
+  reviewOrder
+};

@@ -1,18 +1,9 @@
 
-.sideNav {
-    /*width: 250px;*/
-    /*min-height: 100vh;*/
-    /*opacity: 0.95;*/
-    /*position: fixed;*/
-}
+.sideNav {}
 
 .logo {
-    text-align: center;
-    line-height: 3em;
-    font-size: 20px;
+  text-align: center;
+  /*height: 35px;*/
+  font-size: 20px;
+  margin-top: 20px;
 }
-
-
-/*.sideNav * {*/
-    /*transition: all 0.2s;*/
-/*}*/

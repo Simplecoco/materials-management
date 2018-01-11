@@ -1,31 +1,102 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Icon, Tooltip } from 'antd';
 import styles from './ShowCard.css';
 
-function ShowCard(props) {
-  return (
-    <Card
-      loading={props.loading}
-      title={props.title}
-      style={{ width: '100%', margin: '0 1em 2em 0' }}
-      bodyStyle={{ padding: 0 }}
-      key={props.index}
-    >
-      <div className={styles.cardPic}>
-        <a
-          href={props.detail_url}
-          onClick={props.showDetail.bind(this, {
-            url: props.detail_url, title: props.title
-          })}
-        >
-          <img alt="example" width="100%" src={props.pic} />
-        </a>
-      </div>
-      <div className={styles.cardContent}>
-        <p>{props.content || props.title}</p>
-      </div>
-    </Card>
-  );
+class ShowCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      iconStatus: 'plus'
+    };
+  }
+
+  addIt = () => {
+    this.props.addToList({ ...this.props });
+    this.setState({ iconStatus: 'ok' });
+  };
+
+  mouseLeaveHandle = () => {
+    this.state.iconStatus === 'ok' && this.setState({ iconStatus: 'plus' });
+  };
+
+  showActions = () => {
+    if (this.props.sta === 'order') {
+      return ([
+        <div>
+          <Icon
+            type="frown"
+            style={{ fontSize: '18px', marginRight: '10px', verticalAlign: 'text-top' }}
+          />
+          <span>物品已被借用</span>
+        </div>
+      ]);
+    }
+    return (
+      this.props.type === 'user'
+        ? [
+          <Tooltip title={this.state.iconStatus === 'plus' ? '添加到清单' : '添加成功!'} onVisibleChange={this.mouseLeaveHandle}>
+            <Icon
+              type={this.state.iconStatus === 'plus' ? 'plus-square-o' : 'check'}
+              onClick={this.state.iconStatus === 'plus' ? this.addIt : ''}
+              style={{ fontSize: '18px' }}
+            />
+          </Tooltip>,
+          <Tooltip title="查看更多">
+            <Icon
+              type="ellipsis"
+              style={{ fontSize: '18px' }}
+              onClick={this.props.showDetail.bind(this, {
+                url: this.props.detail_url, title: this.props.title
+              })}
+            />
+          </Tooltip>
+        ] : [
+          // <Tooltip title="编辑">
+          //   <Icon
+          //     type="edit"
+          //     style={{ fontSize: '18px' }}
+          //     onClick={this.props.edit}
+          //   />,
+          // </Tooltip>,
+          <Tooltip title="查看更多">
+            <Icon
+              type="ellipsis"
+              onClick={this.props.showDetail.bind(this, {
+                url: this.props.detail_url, title: this.props.title
+              })}
+              style={{ fontSize: '18px' }}
+            />
+          </Tooltip>
+        ]);
+  };
+
+  render() {
+    return (
+      <Card
+        loading={this.props.loading}
+        title={this.props.title}
+        style={{ width: '100%', margin: '0 1em 2em 0' }}
+        bodyStyle={{ padding: 0 }}
+        key={this.props.index}
+        hoverable={true}
+        actions={this.showActions()}
+      >
+        <div className={styles.cardPic}>
+          <a
+            href={this.props.detail_url}
+            onClick={this.props.showDetail.bind(this, {
+              url: this.props.detail_url, title: this.props.title
+            })}
+          >
+            <img alt="example" width="100%" src={this.props.pic} />
+          </a>
+        </div>
+        <div className={styles.cardContent}>
+          <p>{this.props.content || this.props.title}</p>
+        </div>
+      </Card>
+    );
+  }
 }
 
 export default ShowCard;

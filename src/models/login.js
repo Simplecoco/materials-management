@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
-import loginService from '../services/login';
+import { notification, Icon, message } from 'antd';
+import * as loginService from '../services/login';
 import * as cookie from '../utils/cookie';
 
 export default {
@@ -12,9 +13,17 @@ export default {
   reducers: {},
   effects: {
     *login({ payload }, { call, put }) {
-      const { data, code, msg } = yield call(loginService, payload);
+      const { data, code, msg } = yield call(loginService.login, payload);
+      console.log(code);
       if (code !== 0) {
-        throw msg;
+        notification.open({
+          message: 'Failed !!!',
+          description: `看看用户名密码又没有搞错吧~, 错误信息: ${msg}`,
+          icon: <Icon type="frown" style={{ color: 'pink' }} />,
+          duration: 2,
+          placement: 'topLeft'
+        });
+        return;
       }
       yield put({ type: 'setLoginState', payload: data });
     },
@@ -26,6 +35,20 @@ export default {
     },
     *switchPage({ payload }, { put }) {
       yield put(routerRedux.push('/user'));
+    },
+    *logout({ payload }, { put, call }) {
+      const { data, code, msg } = yield call(loginService.logout);
+      console.log(data);
+      if (code === 0 || code === 604 || code === 606) {
+        const infoArr = ['name', 'uid', 'avatar', 'token'];
+        yield infoArr.forEach((item) => {
+          cookie.clearCookie(item);
+        });
+        yield put(routerRedux.push('/login'));
+      }
+      else {
+        message.error(`错误啦~,错误信息: ${msg}`);
+      }
     },
   },
   subscriptions: {

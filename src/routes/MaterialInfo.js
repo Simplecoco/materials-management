@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
+import { routerRedux } from 'dva/router';
+import { Row, Col, Pagination, Alert, Breadcrumb, Icon } from 'antd';
 import styles from './MaterialInfo.css';
 import ShowCard from '../components/ShowCard/ShowCard';
 import InfoEditing from '../components/InfoEditing/InfoEditing';
@@ -11,13 +12,22 @@ class MaterialInfo extends React.Component {
     super(props);
     this.state = {
       detailVisible: false,     // 暂时
-      detailTitle: ''
+      detailTitle: '',
+      currentPage: 1,
     };
+    this.type = 'admin';
   }
+
+  componentDidUpdate = () => {
+    // if (this.hide) {
+    //   setTimeout(this.hide, 800);
+    // }
+  };
 
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
+    // this.hide = message.loading('正在努力加载~~~', 0);
     this.changeDetailVisible(true);
     this.props.dispatch({
       type: 'MaterialInfo/fetchDetail',
@@ -31,9 +41,21 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  // edit = (values) => {
+  //
+  // };
+
   addMaterial = (values) => {
     this.props.dispatch({
       type: 'MaterialInfo/addMaterial',
+      payload: { values }
+    });
+  };
+
+  modifyMaterial = (values) => {
+    console.log(values);
+    this.props.dispatch({
+      type: 'MaterialInfo/modifyMaterial',
       payload: { values }
     });
   };
@@ -45,6 +67,28 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  backToHomepage = () => {
+    this.setState({ currentPage: 1 });
+  };
+
+  fetch = (e) => {
+    e.preventDefault();
+    this.props.dispatch({
+      type: 'MaterialInfo/fetch',
+      payload: { data: {} },
+    });
+  };
+
+  pageHandle = (page, pageSize) => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/admin/materialInfo',
+      query: {
+        from: (pageSize * (page - 1)) + 1,
+        len: pageSize,
+      },
+    }));
+    this.setState({ currentPage: page });
+  };
 
 //   changeEditVisible = (bool) => {
 //   this.setState({
@@ -61,24 +105,29 @@ class MaterialInfo extends React.Component {
       addLoading,
       detailLoading,
       addCode,
-      addMsg
+      addMsg,
+      total
     } = this.props;
 
-    const layout = items.map((item, index) => {
+    const layout = items ? items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
           <ShowCard
+            type={this.type}
             title={item.name}
-            pic={item.pic}
+            pic={item.attach[0]}
             key={index}
+            cardId={item.id}
+            sta={item.sta}
             content={item.desc}
             loading={resultLoading}
+            eidt={this.edit}
             detail_url={item.detail_url}   //  传入给showCard作为回调函数, 点击showCard触发回调,
             showDetail={this.showDetail}   //  dispatch请求数据, 返回改变store状态后传入更新后的reqItem给Detail去展示
           />
         </Col>
       );
-    });
+    }) : <Col><Alert message={<div>没有搜索到呃, 返回<a onClick={this.fetch}> 物品列表 </a>吧</div>} type="info" showIcon /></Col>;
 
     const detailLayout = () => {
       if (Object.keys(reqItem).length !== 0 && this.state.detailVisible) {
@@ -91,16 +140,34 @@ class MaterialInfo extends React.Component {
             detailVisible={this.state.detailVisible}
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
+            modifyMaterial={this.modifyMaterial}
           />
         );
       }
     };
 
+    const breadLayout = (
+      <Breadcrumb style={{ marginBottom: 15 }}>
+        <Breadcrumb.Item href="" onClick={this.fetch}>
+          <Icon type="home" />
+          <span>所有物品</span>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+    );
+
     return (
       <div className={styles.normal}>
-        <Row type="flex" gutter={24}>
+        {breadLayout}
+        <Row type="flex" gutter={24} justify={items ? '' : 'center'}>
           {layout}
         </Row>
+        <Pagination
+          total={total}
+          style={{ textAlign: 'center', marginTop: '20px' }}
+          current={this.state.currentPage}
+          onChange={this.pageHandle}
+          pageSize={20}
+        />
         {detailLayout()}
         <InfoEditing
           addMaterial={this.addMaterial}
@@ -108,6 +175,7 @@ class MaterialInfo extends React.Component {
           addCode={addCode}
           addMsg={addMsg}
           dispatch={this.props.dispatch}
+          backToHomepage
         />
       </div>
     );
@@ -122,7 +190,8 @@ function mapStateToProps(state) {
     resultLoading,
     addLoading,
     addCode,
-    addMsg
+    addMsg,
+    total
   } = state.MaterialInfo;
   return {
     items,
@@ -131,7 +200,8 @@ function mapStateToProps(state) {
     resultLoading,
     addLoading,
     addCode,
-    addMsg
+    addMsg,
+    total
   };
 }
 

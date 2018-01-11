@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import * as userService from '../services/user';
 
 const fetchQuery = {
@@ -5,10 +6,13 @@ const fetchQuery = {
   len: 20,
 };
 
+let hide;
+
 export default {
   namespace: 'result',
   state: {
     items: [],
+    total: 0,
     reqItem: {},
     detailLoading: false,
     resultLoading: false,
@@ -19,8 +23,8 @@ export default {
     },
   },
   reducers: {
-    save(state, { payload: { data: { list: items } } }) {
-      return Object.assign({}, { ...state }, { items });
+    save(state, { payload: { data: { list: items, total } } }) {
+      return Object.assign({}, { ...state }, { items }, { total });
     },
     saveDetails(state, { payload: { data: reqItem } }) {
       return Object.assign({}, { ...state }, { reqItem });
@@ -47,6 +51,24 @@ export default {
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });
+    },
+    *searchMaterial({ payload: { key } }, { put, call }) {
+      hide = message.loading('请稍等哇~~~', 0);
+      const { data, code, msg } = yield call(userService.searchMaterial, { key });
+      console.log({ data });
+      if (code === 0) {
+        yield put({ type: 'save', payload: { data } });
+        setTimeout(hide, 800);
+        return;
+      }
+      if (code === 610) {
+        setTimeout(hide, 0);
+        message.info('不好意思, 我们没有搜索到您需要的物品~');
+        yield put({ type: 'save', payload: { data } });
+        return;
+      }
+      setTimeout(hide, 0);
+      message.info(`出错啦~, 错误信息: ${msg}`);
     }
   },
   subscriptions: {

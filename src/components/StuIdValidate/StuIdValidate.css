@@ -3,13 +3,14 @@
 }
 
 .stuForm {
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
   box-shadow: 1px 2px 5px #D2D2D2;
-  padding: 16px;
+  padding: 30px 40px;
   border-radius: 3px;
 }
 
 .stuFormButton {
   width: 100%;
+  z-index: 100;
 }

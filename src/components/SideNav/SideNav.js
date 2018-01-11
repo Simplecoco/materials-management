@@ -1,20 +1,32 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Badge, Avatar } from 'antd';
+import * as cookie from '../../utils/cookie';
+
 import styles from './SideNav.css';
 
 const SubMenu = Menu.SubMenu;
 
 class SideNav extends React.Component {
   static defaultProps = {
-    userName: 'balabala',
     type: 'user',
   };
   constructor() {
     super();
     this.state = {
       openKeys: ['sub1'],
+      name: 'user',
+      avatar: '',
     };
   }
+
+  componentDidMount = () => {
+    this.setState({
+      name: cookie.getCookie('name'),
+      avatar: cookie.getCookie('avatar'),
+      uid: cookie.getCookie('uid'),
+    });
+  };
+
   onOpenChange = (openKeys) => {
     const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
     if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -30,17 +42,18 @@ class SideNav extends React.Component {
   rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
   render() {
-    const { pageChangeHandler, userName, type } = this.props;
+    const { pageChangeHandler, type } = this.props;
+    const { name } = this.state;
     const userLayout = () => (                                // 这里layout待处理,想通过传入数据去自动构造
       <Menu
         mode="inline"
-        theme="dark"
+        theme="light"
         onOpenChange={this.onOpenChange}
         onClick={pageChangeHandler}
       >
         <Menu.Item key="1" path="/user/personalInfo">
           <Icon type="user" />
-          <span>{userName}</span>
+          <span>{name}</span>
         </Menu.Item>
         <Menu.Item key="2" path="/user/result">
           <Icon type="appstore" />
@@ -54,7 +67,8 @@ class SideNav extends React.Component {
           <Icon type="notification" />
           <span>我的消息</span>
         </Menu.Item>
-        <Menu.Item key="5">
+        <Menu.Item key="5" path="/user/applyList" style={{ overflow: 'visible' }}>
+          <Badge count={this.props.applyCount} style={{ position: 'absolute', top: -26, left: -18 }} />
           <Icon type="shopping-cart" />
           <span>申请清单</span>
         </Menu.Item>
@@ -78,18 +92,22 @@ class SideNav extends React.Component {
           <Icon type="setting" />
           <span>设置</span>
         </Menu.Item>
+        <Menu.Item key="logout">
+          <Icon type="logout" />
+          <span>退出登录</span>
+        </Menu.Item>
       </Menu>
     );
     const adminLayout = () => ((
       <Menu
         mode="inline"
-        theme="dark"
+        theme="light"
         onOpenChange={this.onOpenChange}
         onClick={pageChangeHandler}
       >
         <Menu.Item key="1" path="/admin/personalInfo">
           <Icon type="user" />
-          <span>{userName}</span>
+          <span>{name}</span>
         </Menu.Item>
         <SubMenu
           key="sub1"
@@ -119,22 +137,21 @@ class SideNav extends React.Component {
           <Icon type="setting" />
           <span>设置</span>
         </Menu.Item>
+        <Menu.Item key="logout">
+          <Icon type="logout" />
+          <span>退出登录</span>
+        </Menu.Item>
       </Menu>
     ));
     return (
       <div className={styles.sideNav}>
-        <div className={styles.logo}>LOGO</div>
+        <div className={styles.logo}>
+          <Avatar src={this.state.avatar} style={{ border: '2px solid #d9d9d9' }} size="large" />
+        </div>
         {type === 'admin' ? adminLayout() : userLayout()}
       </div>
     );
   }
 }
 
-// ReactDOM.render(<Sider />, mountNode);
-
-// const mapStateToProps = (state) => {
-//   return {};
-// };
-
-// export default connect(mapStateToProps)(SideNav);
 export default SideNav;

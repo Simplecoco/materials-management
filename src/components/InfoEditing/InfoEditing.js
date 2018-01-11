@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button, Upload, Input, Icon, Form, message } from 'antd';
 import styles from './InfoEditing.less';
 import { transInfo } from '../../utils/trans';
+import * as cookie from '../../utils/cookie';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -9,9 +10,8 @@ const FormItem = Form.Item;
 class InfoEditing extends React.Component {
   static defaultProps = {
     showBtClassName: 'addButton',
-    showBtTitle: '+add',
+    showBtTitle: '+',
     btType: 'primary',
-    Operator: 'xxxxx',
   };
   constructor(props) {
     super(props);
@@ -24,21 +24,21 @@ class InfoEditing extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    message.config({
-      duration: 2,
-      top: 45,
-    });
     if (this.props.addLoading === true && nextProps.addLoading === false) {
-      console.log(this.props.addCode);
+      message.config({
+        duration: 2,
+        top: 45,
+      });
       if (this.props.addCode !== 0) {
         // this.props.dispatch({ type: 'addLoadingChange', payload: { loading: false } });
-        message.error(`添加物品失败啦! 错误信息: ${transInfo[this.props.addMsg]}`);
+        message.error(`添加物品失败啦! 错误信息: ${transInfo[this.props.addMsg] || this.props.addMsg}`);
         return;
       }
       message.success('添加物品成功啦!');
       setTimeout(() => {
-        console.log(this);  // this指向infoEditing
+        // console.log(this);  // this指向infoEditing
         this.resetForm();
+        this.props.backToHomepage && this.props.backToHomepage();
       }, 1500);
     }
   };
@@ -47,6 +47,16 @@ class InfoEditing extends React.Component {
     this.setState({
       visible: true,
     });
+    if (this.props.reqItem) {
+      const reqItemAttach = this.props.reqItem.attach.map((item, index) => {
+        return {
+          uid: index,
+          status: 'done',
+          url: item,
+        };
+      });
+      this.setState({ fileList: reqItemAttach });
+    }
   };
 
   resetForm = () => {
@@ -61,14 +71,13 @@ class InfoEditing extends React.Component {
       visible: false,
     });
   };
-  handlePreviewCancel = (e) => {
-    console.log(e);
+  handlePreviewCancel = () => {
     this.setState({
       previewVisible: false,
     });
   };
   handlePreview = (file) => {
-    console.log(this.state.fileList);
+    // console.log(this.state.fileList);
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
@@ -82,25 +91,30 @@ class InfoEditing extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        this.props.addMaterial(values);
+        const { name, location, price, attach, desc } = values;
+        this.props.addMaterial && this.props.addMaterial(values);
+        this.props.modifyMaterial && this.props.modifyMaterial({
+          moddata: { name, location, price, attach, desc },
+          mid: this.props.reqItem.id,
+          uid: cookie.getCookie('uid'),
+        });
       }
     });
   };
 
   normFile = (e) => {
-    console.log('Upload event:', e);
+    // console.log('Upload event:', e.fileList);
     return e.fileList.map((item) => {
-      console.log(item);
       try {
         return item.response.data;
       } catch (error) {
-        return '';
+        return item.url;
       }
     });
   };
 
   render() {
-    const { showBtClassName, showBtTitle, btType, Operator, addLoading } = this.props;
+    const { showBtClassName, showBtTitle, btType, addLoading, reqItem } = this.props;
     const { previewVisible, previewImage, fileList, visible } = this.state;
     const { getFieldDecorator } = this.props.form;
 
@@ -125,6 +139,7 @@ class InfoEditing extends React.Component {
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           confirmLoading={addLoading}
+          style={{ marginTop: '-50px' }}
         >
           <div className="clearfix">
             <Form onSubmit={this.handleSubmit} className={styles.infoEditingForm}>
@@ -132,6 +147,7 @@ class InfoEditing extends React.Component {
                 {getFieldDecorator('attach', {
                   rules: [{ required: true, message: '请上传物资图片' }],
                   getValueFromEvent: this.normFile,
+                  initialValue: reqItem ? reqItem.attach : '',
                 })(
                   <Upload
                     action="http://cdn.stuhome.com/upload/"
@@ -151,14 +167,15 @@ class InfoEditing extends React.Component {
                 <Input
                   placeholder="操作者名称"
                   prefix={<Icon type="user" />}
-                  addonBefore="操作者"
-                  defaultValue={Operator}
+                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>操作者</span>}
+                  defaultValue={cookie.getCookie('uid')}
                   disabled
                 />
               </FormItem>
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: '请输入物资名称' }],
+                  initialValue: reqItem ? reqItem.name : '',
                 })(
                   <Input
                     placeholder="请输入物资名称"
@@ -170,10 +187,11 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('location', {
                   rules: [{ required: true, message: '请输入存放位置' }],
+                  initialValue: reqItem ? reqItem.location : '',
                 })(
                   <Input
                     placeholder="请输入存放位置"
-                    addonBefore="存放位置"
+                    addonBefore={<span style={{ width: 56, display: 'inline-block' }}>存放位置</span>}
                     prefix={<Icon type="compass" />}
                   />
                 )}
@@ -181,10 +199,11 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('price', {
                   rules: [{ required: true, message: '请输入价格' }],
+                  initialValue: reqItem ? reqItem.price : '',
                 })(
                   <Input
                     placeholder="请输入价格"
-                    addonBefore="价格"
+                    addonBefore={<span style={{ width: 56, display: 'inline-block' }}>价格</span>}
                     prefix={<Icon type="pay-circle-o" />}
                   />
                 )}
@@ -192,10 +211,11 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('snum', {
                   rules: [{ required: true, message: '请输入snum' }],
+                  initialValue: reqItem ? reqItem.snum : '',
                 })(
                   <Input
                     placeholder="请输入snum"
-                    addonBefore="snum"
+                    addonBefore={<span style={{ width: 56, display: 'inline-block' }}>snum</span>}
                     prefix={<Icon type="tag" />}
                   />
                 )}
@@ -203,10 +223,11 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('manufacturer', {
                   rules: [{ required: true, message: '请输入物资所有者' }],
+                  initialValue: reqItem ? reqItem.manufacturer : '',
                 })(
                   <Input
                     placeholder="请输入物资所有者"
-                    addonBefore="所有者"
+                    addonBefore={<span style={{ width: 56, display: 'inline-block' }}>所有者</span>}
                     prefix={<Icon type="user" />}
                   />
                 )}
@@ -214,6 +235,7 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('desc', {
                   rules: [{ required: true, message: '请输入没有空格的物资描述哦', whitespace: true, }],
+                  initialValue: reqItem ? reqItem.desc : '',
                 })(
                   <TextArea
                     placeholder="请输入详细物资描述"
