@@ -25,6 +25,31 @@ const transName = {
   content: '借用原因',
   title: '标题',
   username: '用户名',
+  sta: '状态',
 };
 
-export { transInfo, transName };
+const transValue = {
+  submit: '已提交',
+  fyes: '一级管理同意',
+  fno: '一级管理不同意',
+  syes: '借用中',
+  sno: '二级管理不同意',
+  overdue: '逾期',
+  done: '借用结束',
+  order: '借用中',
+  can: '可借用'
+};
+
+const transColor = {
+  submit: 'blue',
+  fyes: 'lime',
+  fno: 'volcano',
+  syes: 'green',
+  sno: 'red',
+  overdue: '#f50',
+  done: 'orange',
+  order: 'volcano',
+  can: 'green'
+};
+
+export { transInfo, transName, transValue, transColor };

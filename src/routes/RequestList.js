@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List } from 'antd';
+import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List, Collapse, Tag } from 'antd';
 import { fetchOrderDetail } from '../services/admin';
-import { transName } from '../utils/trans';
+import { transName, transValue, transColor } from '../utils/trans';
 // import styles from './RequestList.css';
-const TabPane = Tabs.TabPane;
+
+const { TabPane } = Tabs;
 const { TextArea } = Input;
+const { Panel } = Collapse;
 
 class RequestList extends React.Component {
   constructor(props) {
@@ -95,14 +97,31 @@ class RequestList extends React.Component {
         title: '状态',
         dataIndex: 'sta',
         key: 'sta',
+        render: text => (
+          <Tag color={transColor[text] || 'darkgray'}>{transValue[text] || text}</Tag>
+        ),
       },
       {
         title: '操作',
         key: 'action',
         render: (record) => {
-          const tmpDetails = Object.entries(this.state.nowData).map(item => (
-            <p style={{ fontSize: 14, margin: 0 }}>{ `${transName[item[0]]}: ${item[1]}` }</p>
-          ));
+          const hiddenItem = ['mids', 'attach', 'r1', 'r2', 'remark', 'content'];
+          const { r1, r2, remark, content: reason, mids } = this.state.nowData;
+          const tmpDetailsArr = Object.entries(this.state.nowData).map((item, index) => {
+            if (hiddenItem.indexOf(item[0]) === -1) {
+              return (
+                <li key={index}>
+                  <span style={{ color: '#314659', fontWeight: 500 }}>{ `${transName[item[0]] || item[0]}: ` }</span>
+                  <span>{`${transValue[item[1]] || item[1]}` }</span>
+                </li>
+              );
+            }
+            return false;
+          });
+          const tmpDetails = tmpDetailsArr.filter((item) => {
+            console.log(item);
+            return item;
+          });
           const detailItems = (
             <List
               size="small"
@@ -112,16 +131,63 @@ class RequestList extends React.Component {
               style={{ maxWidth: '350px' }}
             />
           );
+          const otherItems = (
+            <Collapse accordion>
+              <Panel header="借用原因" key="1">
+                <p>{reason}</p>
+              </Panel>
+              <Panel header="一级管理员回复" key="2">
+                <p>{r1}</p>
+              </Panel>
+              <Panel header="二级管理员回复" key="3">
+                <p>{r2}</p>
+              </Panel>
+              <Panel header="备注" key="4">
+                <p>{remark}</p>
+              </Panel>
+            </Collapse>
+          );
+          const materialItems = (
+            <List
+              itemLayout="vertical"
+              size="large"
+              dataSource={mids}
+              renderItem={item => (
+                <List.Item
+                  key={item.id}
+                  extra={<img width={100} alt="logo" src={item.attach[0]} />}
+                >
+                  <List.Item.Meta
+                    title={<a href={item.detail_url}>{item.name}</a>}
+                    description={
+                      <Tag color={transColor[item.sta] || '#d9d9d9'}>
+                        {transValue[item.sta] || item.sta}
+                      </Tag>
+                    }
+                  />
+                  {item.desc}
+                </List.Item>
+              )}
+            />
+          );
+
           const details = this.state.nowData !== ''
             ? detailItems
             : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
-          const peccancy = record.peccancy;
+
+          const others = this.state.nowData !== ''
+            ? otherItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+
+          const materials = this.state.nowData !== ''
+            ? materialItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+
           const content = (
             <Tabs defaultActiveKey="1" size="small">
-              <TabPane tab="详细信息" key="1">
-                {details}
-              </TabPane>
-              <TabPane tab="违章记录" key="2">{peccancy}</TabPane>
+              <TabPane tab="详细信息" key="1" style={{ maxHeight: 300, overflow: 'auto' }}>{details}</TabPane>
+              <TabPane tab="其他详情" key="2" style={{ maxHeight: 300, overflow: 'auto' }}>{others}</TabPane>
+              <TabPane tab="物品详情" key="3" style={{ maxHeight: 300, overflow: 'auto' }}>{materials}</TabPane>
             </Tabs>
           );
 
@@ -174,33 +240,100 @@ class RequestList extends React.Component {
         title: '状态',
         dataIndex: 'sta',
         key: 'sta',
+        render: text => (
+          <Tag color={transColor[text] || '#d9d9d9'}>{transValue[text] || text}</Tag>
+        ),
       },
       {
         title: '操作',
         key: 'action',
         render: (record) => {
-          const tmpDetails = Object.entries(this.state.nowData).map(item => (
-            <p style={{ fontSize: 14, margin: 0 }}>{ `${transName[item[0]]}: ${item[1]}` }</p>
-          ));
+          const hiddenItem = ['mids', 'attach', 'r1', 'r2', 'remark', 'content'];
+          const { r1, r2, remark, content: reason, mids } = this.state.nowData;
+          console.log(this.state.nowData);
+          const tmpDetailsArr = Object.entries(this.state.nowData).map((item, index) => {
+            if (hiddenItem.indexOf(item[0]) === -1) {
+              return (
+                <li key={index}>
+                  <span style={{ color: '#314659', fontWeight: 500 }}>{ `${transName[item[0]] || item[0]}: ` }</span>
+                  <span>{`${transValue[item[1]] || item[1]}` }</span>
+                </li>
+              );
+            }
+            return false;
+          });
+          const tmpDetails = tmpDetailsArr.filter((item) => {
+            console.log(item);
+            return item;
+          });
+
+          const otherItems = (
+            <Collapse accordion>
+              <Panel header="借用原因" key="1">
+                <p>{reason}</p>
+              </Panel>
+              <Panel header="一级管理员回复" key="2">
+                <p>{r1}</p>
+              </Panel>
+              <Panel header="二级管理员回复" key="3">
+                <p>{r2}</p>
+              </Panel>
+              <Panel header="备注" key="4">
+                <p>{remark}</p>
+              </Panel>
+            </Collapse>
+          );
           const detailItems = (
+            <div>
+              <List
+                size="small"
+                bordered
+                dataSource={tmpDetails}
+                renderItem={item => (<List.Item>{item}</List.Item>)}
+              />
+            </div>
+          );
+          const materialItems = (
             <List
-              size="small"
-              bordered
-              dataSource={tmpDetails}
-              renderItem={item => (<List.Item>{item}</List.Item>)}
-              style={{ maxWidth: '350px' }}
+              itemLayout="vertical"
+              size="large"
+              dataSource={mids}
+              renderItem={item => (
+                <List.Item
+                  key={item.id}
+                  extra={<img width={100} alt="logo" src={item.attach[0]} />}
+                >
+                  <List.Item.Meta
+                    title={<a href={item.detail_url}>{item.name}</a>}
+                    description={
+                      <Tag color={transColor[item.sta]}>
+                        {transValue[item.sta] || item.sta}
+                      </Tag>
+                    }
+                  />
+                  {item.desc}
+                </List.Item>
+              )}
             />
           );
+
           const details = this.state.nowData !== ''
             ? detailItems
             : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
-          const peccancy = record.peccancy;
+
+          const others = this.state.nowData !== ''
+            ? otherItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+
+          const materials = this.state.nowData !== ''
+            ? materialItems
+            : <div style={{ textAlign: 'center' }}><Icon type="star" style={{ fontSize: 18 }} spin={true} /></div>;
+
           const content = (
             <Tabs defaultActiveKey="1" size="small">
-              <TabPane tab="详细信息" key="1">
-                {details}
-              </TabPane>
-              <TabPane tab="违章记录" key="2">{peccancy}</TabPane>
+              <TabPane tab="详细信息" key="1" style={{ maxHeight: 300, overflow: 'auto' }}>{details}</TabPane>
+              <TabPane tab="其他详情" key="2" style={{ maxHeight: 300, overflow: 'auto' }}>{others}</TabPane>
+              <TabPane tab="物品详情" key="3" style={{ maxHeight: 300, overflow: 'auto' }}>{materials}</TabPane>
             </Tabs>
           );
 
@@ -210,7 +343,7 @@ class RequestList extends React.Component {
                 placement="leftBottom"
                 content={content}
                 trigger="click"
-                overlayStyle={{ width: 390 }}
+                overlayStyle={{ width: 400 }}
                 onVisibleChange={(visible) => { this.visibleChange(record.orderid, visible); }}
               >
                 <Button type="primary">查看详细信息</Button>
