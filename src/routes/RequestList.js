@@ -185,9 +185,9 @@ class RequestList extends React.Component {
 
           const content = (
             <Tabs defaultActiveKey="1" size="small">
-              <TabPane tab="详细信息" key="1" style={{ maxHeight: 300, overflow: 'auto' }}>{details}</TabPane>
-              <TabPane tab="其他详情" key="2" style={{ maxHeight: 300, overflow: 'auto' }}>{others}</TabPane>
-              <TabPane tab="物品详情" key="3" style={{ maxHeight: 300, overflow: 'auto' }}>{materials}</TabPane>
+              <TabPane tab="详细信息" key="1" style={{ maxHeight: 350, overflow: 'auto' }}>{details}</TabPane>
+              <TabPane tab="其他详情" key="2" style={{ maxHeight: 350, overflow: 'auto' }}>{others}</TabPane>
+              <TabPane tab="物品详情" key="3" style={{ maxHeight: 350, overflow: 'auto' }}>{materials}</TabPane>
             </Tabs>
           );
 
@@ -331,9 +331,9 @@ class RequestList extends React.Component {
 
           const content = (
             <Tabs defaultActiveKey="1" size="small">
-              <TabPane tab="详细信息" key="1" style={{ maxHeight: 300, overflow: 'auto' }}>{details}</TabPane>
-              <TabPane tab="其他详情" key="2" style={{ maxHeight: 300, overflow: 'auto' }}>{others}</TabPane>
-              <TabPane tab="物品详情" key="3" style={{ maxHeight: 300, overflow: 'auto' }}>{materials}</TabPane>
+              <TabPane tab="详细信息" key="1" style={{ maxHeight: 350, overflow: 'auto' }}>{details}</TabPane>
+              <TabPane tab="其他详情" key="2" style={{ maxHeight: 350, overflow: 'auto' }}>{others}</TabPane>
+              <TabPane tab="物品详情" key="3" style={{ maxHeight: 350, overflow: 'auto' }}>{materials}</TabPane>
             </Tabs>
           );
 

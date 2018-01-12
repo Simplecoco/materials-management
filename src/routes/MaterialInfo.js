@@ -16,6 +16,7 @@ class MaterialInfo extends React.Component {
       currentPage: 1,
     };
     this.type = 'admin';
+    this.pageSize = 20;
   }
 
   componentDidUpdate = () => {
@@ -75,7 +76,10 @@ class MaterialInfo extends React.Component {
     e.preventDefault();
     this.props.dispatch({
       type: 'MaterialInfo/fetch',
-      payload: { data: {} },
+      payload: {
+        from: (this.pageSize * (this.state.currentPage - 1)) + 1,
+        len: this.pageSize,
+      },
     });
   };
 
@@ -166,7 +170,7 @@ class MaterialInfo extends React.Component {
           style={{ textAlign: 'center', marginTop: '20px' }}
           current={this.state.currentPage}
           onChange={this.pageHandle}
-          pageSize={20}
+          pageSize={this.pageSize}
         />
         {detailLayout()}
         <InfoEditing

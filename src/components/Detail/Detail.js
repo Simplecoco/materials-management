@@ -131,7 +131,7 @@ class Detail extends React.Component {
             style={{ maxWidth: '350px' }}
           />
         </TabPane>
-        <TabPane tab="物品描述" key="2" style={{ maxHeight: 400, minHeight: 235, overflow: 'auto' }}>{reqItem.desc}</TabPane>
+        <TabPane tab="物品描述" key="2" style={{ maxHeight: 350, minHeight: 235, overflow: 'auto' }}>{reqItem.desc}</TabPane>
       </Tabs>
     );
 

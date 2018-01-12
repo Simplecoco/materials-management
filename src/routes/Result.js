@@ -15,6 +15,7 @@ class Result extends React.Component {
       currentPage: 1,
     };
     this.type = 'user';
+    this.pageSize = 20;
   }
 
   componentDidUpdate = () => {
@@ -44,7 +45,10 @@ class Result extends React.Component {
     e.preventDefault();
     this.props.dispatch({
       type: 'result/fetch',
-      payload: { data: {} },
+      payload: {
+        from: (this.pageSize * (this.state.currentPage - 1)) + 1,
+        len: this.pageSize,
+      },
     });
   };
 
@@ -139,7 +143,7 @@ class Result extends React.Component {
           style={{ textAlign: 'center', marginTop: '20px' }}
           current={this.state.currentPage}
           onChange={this.pageHandle}
-          pageSize={20}
+          pageSize={this.pageSize}
         />
         {detailLayout()}
       </div>
