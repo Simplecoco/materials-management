@@ -27,6 +27,5 @@
       "pathRewrite": { "^/api": "/api/1/supply/" }
     }
   },
-  "less": true,
-  "publicPath": "/static"
+  "less": true
 }
