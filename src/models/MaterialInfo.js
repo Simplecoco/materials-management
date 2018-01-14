@@ -70,9 +70,19 @@ export default {
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
       }
     },
-    *modifyMaterial({ payload: { values } }, { call }) {
-      const { data, code, msg } = yield call(adminService.modifyMaterial, { values });
+    *modifyMaterial({ payload: { values, changeDetailVisible, fetch } }, { call }) {
+      const { data, code, msg, mes } = yield call(adminService.modifyMaterial, { values });
       console.log({ data, code, msg });
+      if (code === 0) {
+        message.success('修改成功~');
+        changeDetailVisible();
+        fetch();
+      }
+      else {
+        message.error(`出错啦, 错误信息: ${msg || mes}`);
+        changeDetailVisible();
+        fetch();
+      }
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });

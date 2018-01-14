@@ -42,10 +42,6 @@ class MaterialInfo extends React.Component {
     });
   };
 
-  // edit = (values) => {
-  //
-  // };
-
   addMaterial = (values) => {
     this.props.dispatch({
       type: 'MaterialInfo/addMaterial',
@@ -56,7 +52,7 @@ class MaterialInfo extends React.Component {
   modifyMaterial = (values) => {
     this.props.dispatch({
       type: 'MaterialInfo/modifyMaterial',
-      payload: { values }
+      payload: { values, changeDetailVisible: this.changeDetailVisible, fetch: this.fetch }
     });
   };
 
@@ -72,7 +68,7 @@ class MaterialInfo extends React.Component {
   };
 
   fetch = (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
     this.props.dispatch({
       type: 'MaterialInfo/fetch',
       payload: {
