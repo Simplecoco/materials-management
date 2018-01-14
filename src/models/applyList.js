@@ -28,11 +28,9 @@ export default {
       return Object.assign({}, { ...state }, { applyListMid: arr1, applyList: arr2 });
     },
     saveNewApply(state, { payload: { data } }) {
-      console.log(data);
       return Object.assign({}, { ...state }, { ...data });
     },
     deleteIt(state, { payload: { key, mid } }) {
-      console.log(key, mid);
       return Object.assign({}, { ...state }, {
         applyList: state.applyList.filter((item) => {
           return item.key !== key;
@@ -45,7 +43,6 @@ export default {
     deleteSuccess(state, { payload: { mids } }) {
       return Object.assign({}, { ...state }, {
         applyList: state.applyList.filter((item) => {
-          console.log(mids, item.mid, mids.indexOf(item.mid));
           return mids.indexOf(item.mid) === -1;
         }),
         applyListMid: state.applyListMid.filter((item) => {
@@ -57,14 +54,11 @@ export default {
   effects: {
     *newApply({ payload }, { call, put }) {
       const { data } = yield call(userService.newApply);
-      console.log(data);
       yield put({ type: 'saveNewApply', payload: { data } });
     },
 
     *submitApply({ payload, payload: { mids, okCallback } }, { call, put }) {
-      console.log(payload, mids, 'mids');
-      const { data, code, msg, mes } = yield call(userService.submitApply, payload);
-      console.log({ data, msg }, 'data', 'msg');
+      const { code, msg, mes } = yield call(userService.submitApply, payload);
       if (code === 0) {
         yield message.success('提交申请成功啦~');
         yield put({ type: 'deleteSuccess', payload: { mids } });

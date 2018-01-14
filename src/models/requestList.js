@@ -20,7 +20,6 @@ export default {
     *fetch({ payload }, { call, put }) {
       // yield put({ type: 'resultLoadingChange', payload: { loading: true } });
       const { data, code, msg } = yield call(adminService.fetchOrders);
-      console.log({ data });
       if (code === 0) {
         yield put({ type: 'save', payload: { data } });
       }
@@ -30,8 +29,7 @@ export default {
       // yield put({ type: 'resultLoadingChange', payload: { loading: false } });
     },
     *review({ payload }, { call, put }) {
-      const { data, code, msg } = yield call(adminService.reviewOrder, payload);
-      console.log({ data, code, msg });
+      const { code, msg } = yield call(adminService.reviewOrder, payload);
       if (code === 0) {
         yield message.success('回复成功啦~');
         yield put({ type: 'fetch' });

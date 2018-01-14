@@ -25,7 +25,6 @@ class Result extends React.Component {
   };
 
   pageHandle = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.dispatch(routerRedux.push({
       pathname: '/user/result',
       query: {
@@ -85,7 +84,6 @@ class Result extends React.Component {
 
   render() {
     const { items, reqItem, detailLoading, resultLoading, total } = this.props;
-    console.log(items);
     const layout = items ? items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>

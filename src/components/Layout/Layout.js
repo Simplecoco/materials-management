@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './Layout.css';
 
-function Layout(props) {
-  console.log(props);
+function Layout() {
   return <div className={styles.normal}>Component: Layout</div>;
 }
 

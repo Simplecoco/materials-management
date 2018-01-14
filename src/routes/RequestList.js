@@ -337,13 +337,13 @@ class RequestList extends React.Component {
             <Tabs defaultActiveKey="1" size="small">
               <TabPane tab="详细信息" key="1" style={{ maxHeight: 350, overflow: 'auto' }}>
                 {details}
-                </TabPane>
+              </TabPane>
               <TabPane tab="其他详情" key="2" style={{ maxHeight: 350, overflow: 'auto' }}>
                 {others}
-                </TabPane>
+              </TabPane>
               <TabPane tab="物品详情" key="3" style={{ maxHeight: 350, overflow: 'auto' }}>
                 {materials}
-                </TabPane>
+              </TabPane>
             </Tabs>
           );
 
@@ -384,7 +384,7 @@ class RequestList extends React.Component {
         return (
           <Tabs defaultActiveKey="1" size="small">
             <TabPane tab="我的借用记录" key="1">
-              <Table columns={userColumns} dataSource={mine} size="small"/>
+              <Table columns={userColumns} dataSource={mine} size="small" />
             </TabPane>
           </Tabs>
         );

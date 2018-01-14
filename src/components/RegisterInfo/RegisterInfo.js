@@ -58,7 +58,6 @@ class RegisterInfo extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.props.register(values);
       }
     });
@@ -72,7 +71,6 @@ class RegisterInfo extends React.Component {
   telValidate = () => {
     this.props.form.validateFields(['tel'], (err, value) => {
       if (!err) {
-        console.log('Received values of form: ', value);
         this.props.telValidate(value);
         this.setState({ telButtonContent: '请稍后...', telButton: true });
       }
@@ -97,7 +95,6 @@ class RegisterInfo extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className={styles.RegisterInfoForm}>

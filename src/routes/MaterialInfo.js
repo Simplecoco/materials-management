@@ -54,7 +54,6 @@ class MaterialInfo extends React.Component {
   };
 
   modifyMaterial = (values) => {
-    console.log(values);
     this.props.dispatch({
       type: 'MaterialInfo/modifyMaterial',
       payload: { values }

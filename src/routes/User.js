@@ -25,7 +25,6 @@ class User extends React.Component {
   };
 
   logout = () => {
-    console.log('222');
     this.props.dispatch({
       type: 'login/logout',
       payload: {},
@@ -33,7 +32,6 @@ class User extends React.Component {
   };
 
   pageChangeHandler = ({ item, key }) => {
-    console.log(key);
     if (item.props.path) {
       this.props.dispatch(routerRedux.push(item.props.path));
     }

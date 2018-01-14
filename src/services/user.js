@@ -12,7 +12,6 @@ function fetchCards({ from = 0, len = 20 }) {
 }
 
 function fetchDetails({ url }) {
-  console.log(url);
   return request(url, {
     method: 'GET',
     headers: {
@@ -44,7 +43,6 @@ function newApply() {
 }
 
 function submitApply({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark }) {
-  console.log({ orderid, uid, tel, title, mids, begtime, endtime, reason, remark });
   return request('/v1/supply/orders/add', {
     method: 'POST',
     headers: {

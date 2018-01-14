@@ -14,7 +14,6 @@ export default {
   effects: {
     *login({ payload: { type, ...payload } }, { call, put }) {
       const { data, code, msg } = yield call(loginService.login, payload);
-      console.log(code);
       if (code !== 0) {
         notification.open({
           message: 'Failed !!!',
@@ -42,8 +41,7 @@ export default {
       }
     },
     *logout({ payload }, { put, call }) {
-      const { data, code, msg } = yield call(loginService.logout);
-      console.log(data);
+      const { code, msg } = yield call(loginService.logout);
       if (code === 0 || code === 604 || code === 606) {
         const infoArr = ['name', 'uid', 'avatar', 'token'];
         yield infoArr.forEach((item) => {

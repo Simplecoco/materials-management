@@ -14,7 +14,6 @@ class Register extends React.Component {
 
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps.token);
     if (nextProps.token !== '' && this.changeNext) {
       this.toNext();
       this.changeNext = false;
@@ -22,7 +21,6 @@ class Register extends React.Component {
   };
 
   toNext = () => {
-    console.log(this.slider, 'ss');
     notification.open({
       message: 'Welcome Here !!!',
       description: '欢迎注册物资管理系统, 祝好~',
@@ -35,7 +33,6 @@ class Register extends React.Component {
   };
 
   stuIdValidate = ({ stuid, stupasswd }) => {
-    // console.log(value);
     this.props.dispatch({
       type: 'register/stuIdValidate',
       payload: {
@@ -46,7 +43,6 @@ class Register extends React.Component {
   };
 
   telValidate = ({ tel }) => {
-    console.log({ tel });
     this.props.dispatch({
       type: 'register/telValidate',
       payload: {
@@ -57,7 +53,6 @@ class Register extends React.Component {
   };
 
   register = (values) => {
-    console.log(values);
     this.props.dispatch({
       type: 'register/register',
       payload: { ...values, token: this.props.token },
@@ -65,7 +60,6 @@ class Register extends React.Component {
   };
 
   render() {
-    console.log(this.children);
     return (
       <div className={styles.normal}>
         <div>
@@ -93,7 +87,6 @@ class Register extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.register);
   return { ...state.register };
 }
 

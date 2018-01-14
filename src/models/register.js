@@ -21,7 +21,6 @@ export default {
   effects: {
     *stuIdValidate({ payload }, { call, put }) {
       const { code, data: { token } } = yield call(registerService.stuIdValidate, payload);
-      console.log({ code, token });
       if (code === 0) {
         yield put({ type: 'save', payload: { token } });
       }
@@ -30,11 +29,8 @@ export default {
       }
     },
     *telValidate({ payload }, { call, put }) {
-      console.log(payload);
-      const { code, msg, data } = yield call(registerService.telValidate, payload);
-      console.log(code);
+      const { code, msg } = yield call(registerService.telValidate, payload);
       if (code === 0) {
-        console.log(data);
         yield put({ type: 'saveTelCode', payload: { telCode: code } });
       }
       else {
@@ -43,9 +39,7 @@ export default {
       }
     },
     *register({ payload }, { call, put }) {
-      console.log(payload);
-      const { data, code, msg } = yield call(registerService.register, payload);
-      console.log(data, code);
+      const { code, msg } = yield call(registerService.register, payload);
       if (code === 0) {
         notification.open({
           message: 'Success !!!',
