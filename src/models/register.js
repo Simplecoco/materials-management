@@ -42,7 +42,7 @@ export default {
         yield put({ type: 'saveTelCode', payload: { telCode: code } });
       }
     },
-    *register({ payload }, { call }) {
+    *register({ payload }, { call, put }) {
       console.log(payload);
       const { data, code, msg } = yield call(registerService.register, payload);
       console.log(data, code);
