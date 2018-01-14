@@ -1,17 +1,9 @@
-import React from 'react';
-import { connect } from 'dva';
-import styles from './Records.css';
+import RequestList from './RequestList';
 
 function Records() {
   return (
-    <div className={styles.normal}>
-      Route Component: Records
-    </div>
-  );
+    <RequestList type="user" />
+  )
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-export default connect(mapStateToProps)(Records);
+export default Records;

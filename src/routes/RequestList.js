@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List, Collapse, Tag } from 'antd';
+import { Table, Popover, Button, Popconfirm, Tabs, Icon, Modal, Input, List, Collapse, Tag, Divider } from 'antd';
 import { fetchOrderDetail } from '../services/admin';
 import { transName, transValue, transColor } from '../utils/trans';
 // import styles from './RequestList.css';
@@ -16,6 +16,7 @@ class RequestList extends React.Component {
       nowData: '',
       modalVisible: false,
       reason: '',
+      iconLoading: false,
     };
   }
 
@@ -52,8 +53,6 @@ class RequestList extends React.Component {
   };
 
   visibleChange = async (orderid, visible) => {
-    console.log(visible);
-    console.log(orderid);
     if (visible === true) {
       const { data } = await fetchOrderDetail({ orderid });
       setTimeout(() => {
@@ -70,8 +69,16 @@ class RequestList extends React.Component {
     this.showModal();
   };
 
+  refresh = () => {
+    this.setState({ iconLoading: true });
+    this.props.dispatch({ type: 'requestList/fetch', payload: {} });
+    setTimeout(() => {
+      this.setState({ iconLoading: false });
+    }, 1500);
+  };
+
   render() {
-    const { to, done, mine } = this.props;
+    const { to, done, mine, type } = this.props;
     const adminColumns = [
       {
         title: '订单号',
@@ -119,7 +126,6 @@ class RequestList extends React.Component {
             return false;
           });
           const tmpDetails = tmpDetailsArr.filter((item) => {
-            console.log(item);
             return item;
           });
           const detailItems = (
@@ -250,7 +256,6 @@ class RequestList extends React.Component {
         render: (record) => {
           const hiddenItem = ['mids', 'attach', 'r1', 'r2', 'remark', 'content'];
           const { r1, r2, remark, content: reason, mids } = this.state.nowData;
-          console.log(this.state.nowData);
           const tmpDetailsArr = Object.entries(this.state.nowData).map((item, index) => {
             if (hiddenItem.indexOf(item[0]) === -1) {
               return (
@@ -263,7 +268,6 @@ class RequestList extends React.Component {
             return false;
           });
           const tmpDetails = tmpDetailsArr.filter((item) => {
-            console.log(item);
             return item;
           });
 
@@ -331,9 +335,15 @@ class RequestList extends React.Component {
 
           const content = (
             <Tabs defaultActiveKey="1" size="small">
-              <TabPane tab="详细信息" key="1" style={{ maxHeight: 350, overflow: 'auto' }}>{details}</TabPane>
-              <TabPane tab="其他详情" key="2" style={{ maxHeight: 350, overflow: 'auto' }}>{others}</TabPane>
-              <TabPane tab="物品详情" key="3" style={{ maxHeight: 350, overflow: 'auto' }}>{materials}</TabPane>
+              <TabPane tab="详细信息" key="1" style={{ maxHeight: 350, overflow: 'auto' }}>
+                {details}
+                </TabPane>
+              <TabPane tab="其他详情" key="2" style={{ maxHeight: 350, overflow: 'auto' }}>
+                {others}
+                </TabPane>
+              <TabPane tab="物品详情" key="3" style={{ maxHeight: 350, overflow: 'auto' }}>
+                {materials}
+                </TabPane>
             </Tabs>
           );
 
@@ -354,27 +364,41 @@ class RequestList extends React.Component {
       },
     ];
 
+    const refreshButton = (
+      <Divider style={{ color: 'lightgray' }}>
+        <Button
+          type="default"
+          size="small"
+          icon="poweroff"
+          style={{ color: 'inherit' }}
+          loading={this.state.iconLoading}
+          onClick={this.refresh}
+        >
+          刷新消息
+        </Button>
+      </Divider>
+    );
+
     const finalLayout = () => {
-      if (to && done && mine) {
+      if (type === 'user') {
         return (
           <Tabs defaultActiveKey="1" size="small">
             <TabPane tab="我的借用记录" key="1">
-              <Table columns={userColumns} dataSource={mine} size="small" rowKey={record => record.orderid} />
-            </TabPane>
-            <TabPane tab="未处理记录" key="2">
-              <Table columns={adminColumns} dataSource={to} size="small" />
-            </TabPane>
-            <TabPane tab="已处理记录" key="3">
-              <Table columns={userColumns} dataSource={done} size="small" />
+              <Table columns={userColumns} dataSource={mine} size="small"/>
             </TabPane>
           </Tabs>
         );
       }
-      if (mine) {
+      if (to && done && mine) {
         return (
           <Tabs defaultActiveKey="1" size="small">
-            <TabPane tab="我的借用记录" key="1">
-              <Table columns={userColumns} dataSource={mine} size="small" />
+            <TabPane tab="未处理记录" key="1">
+              {refreshButton}
+              <Table columns={adminColumns} dataSource={to} size="small" />
+            </TabPane>
+            <TabPane tab="已处理记录" key="2">
+              {refreshButton}
+              <Table columns={userColumns} dataSource={done} size="small" />
             </TabPane>
           </Tabs>
         );
