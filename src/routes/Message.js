@@ -5,7 +5,7 @@ import styles from './Message.css';
 function Message() {
   return (
     <div className={styles.normal}>
-      Route Component: Message
+      您还没有任何消息哦~
     </div>
   );
 }

@@ -16,6 +16,7 @@ class MaterialInfo extends React.Component {
       currentPage: 1,
     };
     this.type = 'admin';
+    this.pageSize = 20;
   }
 
   componentDidUpdate = () => {
@@ -41,10 +42,6 @@ class MaterialInfo extends React.Component {
     });
   };
 
-  // edit = (values) => {
-  //
-  // };
-
   addMaterial = (values) => {
     this.props.dispatch({
       type: 'MaterialInfo/addMaterial',
@@ -53,10 +50,9 @@ class MaterialInfo extends React.Component {
   };
 
   modifyMaterial = (values) => {
-    console.log(values);
     this.props.dispatch({
       type: 'MaterialInfo/modifyMaterial',
-      payload: { values }
+      payload: { values, changeDetailVisible: this.changeDetailVisible, fetch: this.fetch }
     });
   };
 
@@ -72,10 +68,13 @@ class MaterialInfo extends React.Component {
   };
 
   fetch = (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
     this.props.dispatch({
       type: 'MaterialInfo/fetch',
-      payload: { data: {} },
+      payload: {
+        from: (this.pageSize * (this.state.currentPage - 1)) + 1,
+        len: this.pageSize,
+      },
     });
   };
 
@@ -166,7 +165,7 @@ class MaterialInfo extends React.Component {
           style={{ textAlign: 'center', marginTop: '20px' }}
           current={this.state.currentPage}
           onChange={this.pageHandle}
-          pageSize={20}
+          pageSize={this.pageSize}
         />
         {detailLayout()}
         <InfoEditing

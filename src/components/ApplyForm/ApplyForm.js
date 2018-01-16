@@ -31,7 +31,6 @@ class ApplyForm extends React.Component {
   };
 
   submitApply = (values) => {
-    console.log(values, 'values');
     this.props.dispatch({
       type: 'applyList/submitApply',
       payload: {
@@ -69,8 +68,6 @@ class ApplyForm extends React.Component {
         const rangeValue = values['range-picker'];
         const begtime = new Date(rangeValue[0].format('YYYY-MM-DD')).valueOf();
         const endtime = new Date(rangeValue[1].format('YYYY-MM-DD')).valueOf();
-        console.log(begtime, endtime);
-        console.log('Received values of form: ', { ...values, begtime, endtime, mids: this.getMids() });
         this.submitApply({ ...values, begtime, endtime, mids: this.getMids() });
       }
     });
@@ -188,7 +185,6 @@ class ApplyForm extends React.Component {
 const WrappedNormalApplyForm = Form.create()(ApplyForm);
 
 function mapStateToProps(state) {
-  console.log(state.applyList);
   const { tel, orderid } = state.applyList;
   return { tel, orderid };
 }

@@ -47,7 +47,6 @@ export default {
   },
   effects: {
     *fetch({ payload: { from = fetchQuery.from, len = fetchQuery.len } }, { call, put }) {
-      console.log(from, len);
       yield put({ type: 'resultLoadingChange', payload: { loading: true } });
       const { data } = yield call(adminService.fetchCards, { from, len });
       yield put({ type: 'save', payload: { data } });
@@ -61,21 +60,29 @@ export default {
     },
     *addMaterial({ payload: { values } }, { call, put }) {
       yield put({ type: 'addLoadingChange', payload: { loading: true } });
-      const { data, code, msg } = yield call(adminService.addMaterial, { values });
+      const { code, msg } = yield call(adminService.addMaterial, { values });
       if (code === 0) {
-        console.log(data, 'data added');
         yield put({ type: 'saveAddCode', payload: { code, msg } });
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
         yield put({ type: 'fetch', payload: {} });
       } else if (code !== 0) {
-        console.log(code, 'code');
         yield put({ type: 'saveAddCode', payload: { code, msg } });
         yield put({ type: 'addLoadingChange', payload: { loading: false } });
       }
     },
-    *modifyMaterial({ payload: { values } }, { call }) {
-      const { data, code, msg } = yield call(adminService.modifyMaterial, { values });
+    *modifyMaterial({ payload: { values, changeDetailVisible, fetch } }, { call }) {
+      const { data, code, msg, mes } = yield call(adminService.modifyMaterial, { values });
       console.log({ data, code, msg });
+      if (code === 0) {
+        message.success('修改成功~');
+        changeDetailVisible();
+        fetch();
+      }
+      else {
+        message.error(`出错啦, 错误信息: ${msg || mes}`);
+        changeDetailVisible();
+        fetch();
+      }
     },
     *resetReqItem({ payload: { data } }, { put }) {
       yield put({ type: 'saveDetails', payload: { data } });
@@ -83,7 +90,6 @@ export default {
     *searchMaterial({ payload: { key } }, { put, call }) {
       hide = message.loading('请稍等哇~~~', 0);
       const { data, code, msg } = yield call(adminService.searchMaterial, { key });
-      console.log({ data });
       if (code === 0) {
         yield put({ type: 'save', payload: { data } });
         setTimeout(hide, 800);

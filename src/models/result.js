@@ -55,7 +55,6 @@ export default {
     *searchMaterial({ payload: { key } }, { put, call }) {
       hide = message.loading('请稍等哇~~~', 0);
       const { data, code, msg } = yield call(userService.searchMaterial, { key });
-      console.log({ data });
       if (code === 0) {
         yield put({ type: 'save', payload: { data } });
         setTimeout(hide, 800);

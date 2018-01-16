@@ -77,7 +77,6 @@ class InfoEditing extends React.Component {
     });
   };
   handlePreview = (file) => {
-    // console.log(this.state.fileList);
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
@@ -90,7 +89,6 @@ class InfoEditing extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const { name, location, price, attach, desc } = values;
         this.props.addMaterial && this.props.addMaterial(values);
         this.props.modifyMaterial && this.props.modifyMaterial({
@@ -103,7 +101,6 @@ class InfoEditing extends React.Component {
   };
 
   normFile = (e) => {
-    // console.log('Upload event:', e.fileList);
     return e.fileList.map((item) => {
       try {
         return item.response.data;

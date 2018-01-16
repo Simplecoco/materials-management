@@ -51,7 +51,7 @@ class SideNav extends React.Component {
         onOpenChange={this.onOpenChange}
         onClick={pageChangeHandler}
       >
-        <Menu.Item key="1" path="/user/personalInfo">
+        <Menu.Item key="1" path="/user/personalInfo" disabled>
           <Icon type="user" />
           <span>{name}</span>
         </Menu.Item>
@@ -76,8 +76,8 @@ class SideNav extends React.Component {
           key="sub2"
           title={
             <span>
-              <Icon type="usergroup-add" />
-              <span>我的用户组</span>
+              <Icon type="appstore-o" />
+              <span>物资分类</span>
             </span>
           }
         >
@@ -88,10 +88,6 @@ class SideNav extends React.Component {
             <Menu.Item key="9">Option 9</Menu.Item>
           </SubMenu>
         </SubMenu>
-        <Menu.Item key="10">
-          <Icon type="setting" />
-          <span>设置</span>
-        </Menu.Item>
         <Menu.Item key="logout">
           <Icon type="logout" />
           <span>退出登录</span>
@@ -103,9 +99,10 @@ class SideNav extends React.Component {
         mode="inline"
         theme="light"
         onOpenChange={this.onOpenChange}
+        defaultOpenKeys={['sub1']}
         onClick={pageChangeHandler}
       >
-        <Menu.Item key="1" path="/admin/personalInfo">
+        <Menu.Item key="1" path="/admin/personalInfo" disabled>
           <Icon type="user" />
           <span>{name}</span>
         </Menu.Item>
@@ -133,10 +130,22 @@ class SideNav extends React.Component {
           <Icon type="folder" />
           <span>借用记录</span>
         </Menu.Item>
-        <Menu.Item key="6">
-          <Icon type="setting" />
-          <span>设置</span>
-        </Menu.Item>
+        <SubMenu
+          key="sub2"
+          title={
+            <span>
+              <Icon type="appstore-o" />
+              <span>物资分类</span>
+            </span>
+          }
+        >
+          <Menu.Item key="6">Option 6</Menu.Item>
+          <Menu.Item key="7">Option 7</Menu.Item>
+          <SubMenu key="sub3" title="Submenu">
+            <Menu.Item key="8">Option 8</Menu.Item>
+            <Menu.Item key="9">Option 9</Menu.Item>
+          </SubMenu>
+        </SubMenu>
         <Menu.Item key="logout">
           <Icon type="logout" />
           <span>退出登录</span>
@@ -153,5 +162,10 @@ class SideNav extends React.Component {
     );
   }
 }
+
+// <Menu.Item key="10">
+//   <Icon type="setting" />
+//   <span>设置</span>
+// </Menu.Item>
 
 export default SideNav;

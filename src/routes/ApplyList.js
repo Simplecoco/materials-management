@@ -15,7 +15,6 @@ class ApplyList extends React.Component {
   }
 
   deleteIt = ({ key, mid }) => {
-    console.log(key, mid);
     this.props.dispatch({
       type: 'applyList/deleteIt',
       payload: { key, mid }
@@ -31,7 +30,6 @@ class ApplyList extends React.Component {
   };
 
   render() {
-    console.log(this.state.selected, 'selected');
     const columns = [
       {
         title: '图片',
@@ -51,7 +49,6 @@ class ApplyList extends React.Component {
         title: '操作',
         key: 'action',
         render: (record) => {
-          console.log(record);
           return (
             <div>
               <Popconfirm title="确认删除？" okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.deleteIt(record); }}>
@@ -70,7 +67,6 @@ class ApplyList extends React.Component {
     const rowSelection = {
       selectedRowKeys: this.state.selectedRowKeys,
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         this.setState({ selected: selectedRows, selectedRowKeys });
       },
       getCheckboxProps: record => ({

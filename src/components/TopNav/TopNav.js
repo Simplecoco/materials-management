@@ -58,7 +58,7 @@ class TopNav extends React.Component {
               title={
                 <div style={{ fontSize: '14px' }}>
                   <Icon type="setting" style={{ lineHeight: '64px' }} />
-                  <span>选择排序规则</span>
+                  <span>请选择物品分类</span>
                 </div>
               }
             >

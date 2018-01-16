@@ -15,6 +15,7 @@ class Result extends React.Component {
       currentPage: 1,
     };
     this.type = 'user';
+    this.pageSize = 20;
   }
 
   componentDidUpdate = () => {
@@ -24,7 +25,6 @@ class Result extends React.Component {
   };
 
   pageHandle = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.dispatch(routerRedux.push({
       pathname: '/user/result',
       query: {
@@ -44,7 +44,10 @@ class Result extends React.Component {
     e.preventDefault();
     this.props.dispatch({
       type: 'result/fetch',
-      payload: { data: {} },
+      payload: {
+        from: (this.pageSize * (this.state.currentPage - 1)) + 1,
+        len: this.pageSize,
+      },
     });
   };
 
@@ -81,7 +84,6 @@ class Result extends React.Component {
 
   render() {
     const { items, reqItem, detailLoading, resultLoading, total } = this.props;
-    console.log(items);
     const layout = items ? items.map((item, index) => {
       return (
         <Col span={5} key={index} offset={index % 4 === 0 ? 2 : 0}>
@@ -139,7 +141,7 @@ class Result extends React.Component {
           style={{ textAlign: 'center', marginTop: '20px' }}
           current={this.state.currentPage}
           onChange={this.pageHandle}
-          pageSize={20}
+          pageSize={this.pageSize}
         />
         {detailLayout()}
       </div>

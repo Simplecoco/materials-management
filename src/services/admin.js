@@ -37,7 +37,6 @@ function addMaterial({ values }) {
 }
 
 function modifyMaterial({ values }) {
-  console.log({ values });
   return request('/v1/supply/materials/mod', {
     method: 'POST',
     headers: {
@@ -70,7 +69,6 @@ function fetchOrders() {
 }
 
 function fetchOrderDetail({ orderid }) {
-  console.log(orderid);
   return request(`/v1/supply/orders/${orderid}`, {
     method: 'GET',
     headers: {

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Modal, Icon, Carousel, List, Button } from 'antd';
+import { Modal, Icon, Carousel, List, Button, Tabs } from 'antd';
 import styles from './Detail.less';
 import InfoEditing from '../InfoEditing/InfoEditing';
 import ApplyForm from '../ApplyForm/ApplyForm';
 import { transName } from '../../utils/trans';
+
+const { TabPane } = Tabs;
 
 class Detail extends React.Component {
   static defaultProps = {
@@ -22,18 +24,18 @@ class Detail extends React.Component {
 
   handleOk = () => {
     if (this.props.reqItem.sta !== 'order') {
-      this.props.addToList(this.getInfo());
+      this.props.addToList && this.props.addToList(this.getInfo());
     }
     this.props.changeDetailVisible(false);
   };
   handleCancel = () => {
     this.props.changeDetailVisible(false);
-    this.props.resetReqItem();
+    this.props.resetReqItem && this.props.resetReqItem();
   };
 
   applyIt = () => {
     const item = this.props.reqItem;
-    this.props.addToList({
+    this.props.addToList && this.props.addToList({
       mid: item.id,
       pic: item.attach[0],
       title: item.name,
@@ -88,7 +90,7 @@ class Detail extends React.Component {
 
     const okText = ((type === 'user') && (reqItem.sta !== 'order')) ? '加入借用清单' : '确定';
 
-    const hiddenItem = ['pic', 'qrCode', 'attach', 'count', 'snum', 'sta'];
+    const hiddenItem = ['pic', 'qrCode', 'attach', 'count', 'snum', 'sta', 'desc'];
 
     const detailsLayout = () => {
       const tmp = Object.entries(reqItem).map((item, index) => {
@@ -117,6 +119,22 @@ class Detail extends React.Component {
       })
     );
 
+    const tabLayout = (
+      <Tabs defaultActiveKey="1" size="small">
+        <TabPane tab="详细信息" key="1">
+          <List
+            size="small"
+            bordered
+            dataSource={detailsLayout()}
+            renderItem={item => (<List.Item>{item}</List.Item>)}
+            className={styles.detailList}
+            style={{ maxWidth: '350px' }}
+          />
+        </TabPane>
+        <TabPane tab="物品描述" key="2" style={{ maxHeight: 350, minHeight: 235, overflow: 'auto' }}>{reqItem.desc}</TabPane>
+      </Tabs>
+    );
+
     const finalLayout = () => {
       if (detailLoading || Object.keys(reqItem).length === 0) {
         return (
@@ -137,14 +155,7 @@ class Detail extends React.Component {
               {extraBtn()}
             </div>
           </div>
-          <List
-            size="small"
-            bordered
-            dataSource={detailsLayout()}
-            renderItem={item => (<List.Item>{item}</List.Item>)}
-            className={styles.detailList}
-            style={{ maxWidth: '350px' }}
-          />
+          {tabLayout}
         </div>
       );
     };

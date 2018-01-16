@@ -12,9 +12,8 @@ export default {
   },
   reducers: {},
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload: { type, ...payload } }, { call, put }) {
       const { data, code, msg } = yield call(loginService.login, payload);
-      console.log(code);
       if (code !== 0) {
         notification.open({
           message: 'Failed !!!',
@@ -25,20 +24,24 @@ export default {
         });
         return;
       }
-      yield put({ type: 'setLoginState', payload: data });
+      yield put({ type: 'setLoginState', payload: { data, type } });
     },
-    *setLoginState({ payload: data }, { put }) {
+    *setLoginState({ payload: { data, type } }, { put }) {
       yield Object.keys(data).forEach((dataName) => {
         cookie.setCookie(dataName, data[dataName]);
       });
-      yield put({ type: 'switchPage' });
+      yield put({ type: 'switchPage', payload: { type } });
     },
-    *switchPage({ payload }, { put }) {
-      yield put(routerRedux.push('/user'));
+    *switchPage({ payload: { type } }, { put }) {
+      if (type === 'user') {
+        yield put(routerRedux.push('/user'));
+      }
+      if (type === 'admin') {
+        yield put(routerRedux.push('/admin'));
+      }
     },
     *logout({ payload }, { put, call }) {
-      const { data, code, msg } = yield call(loginService.logout);
-      console.log(data);
+      const { code, msg } = yield call(loginService.logout);
       if (code === 0 || code === 604 || code === 606) {
         const infoArr = ['name', 'uid', 'avatar', 'token'];
         yield infoArr.forEach((item) => {
