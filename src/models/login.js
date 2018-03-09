@@ -19,7 +19,7 @@ export default {
           message: 'Failed !!!',
           description: `看看用户名密码又没有搞错吧~, 错误信息: ${msg}`,
           icon: <Icon type="frown" style={{ color: 'pink' }} />,
-          duration: 2,
+          duration: 3.5,
           placement: 'topLeft'
         });
         return;

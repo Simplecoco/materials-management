@@ -20,9 +20,9 @@ class NormalLoginForm extends React.Component {
       <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
         <FormItem>
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入您的账号' }],
+            rules: [{ required: true, message: '请输入您的用户名' }],
           })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="请输入您的账号" />,
+            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="请输入您的用户名" />,
           )}
         </FormItem>
         <FormItem>
@@ -39,7 +39,6 @@ class NormalLoginForm extends React.Component {
           })(
             <Checkbox>记住密码</Checkbox>,
           )}
-          <a className={styles.loginFormForgot} href="">忘记密码</a>
           <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
             点我登录
           </Button>
@@ -55,3 +54,5 @@ const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 export default WrappedNormalLoginForm;
 
 // ReactDOM.render(<WrappedNormalLoginForm />, mountNode);
+// <a className={styles.loginFormForgot} href="">忘记密码</a>
+

@@ -32,8 +32,17 @@ class User extends React.Component {
   };
 
   pageChangeHandler = ({ item, key }) => {
+    if (item.props.type === 'tag') {
+      this.props.dispatch(routerRedux.push('/user/result'));
+      this.props.dispatch({
+        type: 'result/fetchTagsMaterial',
+        payload: { tid: item.props.tid }
+      });
+      return;
+    }
     if (item.props.path) {
       this.props.dispatch(routerRedux.push(item.props.path));
+      return;
     }
     if (key === 'logout') {
       this.logout();
@@ -56,6 +65,7 @@ class User extends React.Component {
   };
 
   render() {
+    const { tags } = this.props;
     return (
       <Layout style={{ minHeight: '100%' }}>
         <Sider
@@ -74,6 +84,7 @@ class User extends React.Component {
             type="user"
             pageChangeHandler={this.pageChangeHandler}
             applyCount={this.props.applyCount}
+            tags={tags}
           />
         </Sider>
         <Layout style={{ minWidth: '1100px' }}>
@@ -85,6 +96,8 @@ class User extends React.Component {
                 sideCollapsed={this.state.sideCollapsed}
                 topNavIcon={this.state.topNavIcon}
                 searchHandle={this.searchHandle}
+                pageChangeHandler={this.pageChangeHandler}
+                tags={tags}
               />
             </Header>
           </Affix>
@@ -101,9 +114,10 @@ class User extends React.Component {
 //   return {};
 // }
 const mapStateToProps = (state) => {
+  const { tags } = state.result;
   const { applyListMid } = state.applyList;
   const applyCount = applyListMid.length;
-  return { applyCount };
+  return { applyCount, tags };
 };
 
 export default connect(mapStateToProps)(User);

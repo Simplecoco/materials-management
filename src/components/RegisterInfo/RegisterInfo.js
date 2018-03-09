@@ -12,7 +12,7 @@ class RegisterInfo extends React.Component {
       telButton: false,
       telButtonContent: '点击发送',
     };
-    this.second = 6;
+    this.second = 60;
     this.timer = '';
   }
 
@@ -50,7 +50,7 @@ class RegisterInfo extends React.Component {
       });
       this.setState({ telButtonContent: '点击发送', telButton: false });
       this.timer = '';
-      this.second = 5;
+      this.second = 60;
     }
   };
 

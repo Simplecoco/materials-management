@@ -91,19 +91,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Register);
-
-
-//
-// <StuIdValidate stuIdValidate={this.stuIdValidate} />
-// {(() => {
-//   if (this.props.token !== '') {
-//     return (
-//       <RegisterInfo
-//         telValidate={this.telValidate}
-//         telCode={this.props.telCode}
-//         dispatch={this.props.dispatch}
-//         register={this.register}
-//       />
-//     );
-//   }
-// })()}
