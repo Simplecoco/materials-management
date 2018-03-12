@@ -211,9 +211,9 @@ class InfoEditing extends React.Component {
               <FormItem className={styles.infoEditingFormItem}>
                 {getFieldDecorator('tid', {
                   rules: [{ required: true, message: '请选择物品分类标签' }],
-                  initialValue: reqItem ? reqItem.tid : undefined,
+                  initialValue: reqItem ? reqItem.tag.id : undefined,
                 })(
-                  <Select placeholder="请选择物品分类标签">
+                  <Select placeholder={ reqItem ? reqItem.tag.name : '请选择物品分类标签' }>
                     {tagsLayout()}
                   </Select>
                 )}
