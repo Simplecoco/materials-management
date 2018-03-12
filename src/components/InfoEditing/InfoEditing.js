@@ -213,7 +213,7 @@ class InfoEditing extends React.Component {
                   rules: [{ required: true, message: '请选择物品分类标签' }],
                   initialValue: reqItem ? reqItem.tag.id : undefined,
                 })(
-                  <Select placeholder={ reqItem ? reqItem.tag.name : '请选择物品分类标签' }>
+                  <Select placeholder={reqItem ? reqItem.tag.name : '请选择物品分类标签'}>
                     {tagsLayout()}
                   </Select>
                 )}

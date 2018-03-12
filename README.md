@@ -1,10 +1,13 @@
 # materials-management
 
-#### 暂时的查看方式
-- git clone http://git.stuhome.com/Simplecoco/materials-management.git
-- cd 项目的根目录
-- npm run start
-- 浏览器地址栏输入 http://localhost:8000/#/user 或者 http://localhost:8000/#/admin ，呈现页面的左边有导航栏，有些页面可以查看
+#### 线上地址
+[点击查看线上地址](http://asset.starstudio.org)（注册需要电子科技大学信息门户身份验证）
+
+#### ~~暂时的查看方式~~
+- ~~git clone http://git.stuhome.com/Simplecoco/materials-management.git~~
+- ~~cd 项目的根目录~~
+- ~~npm run start~~
+- ~~浏览器地址栏输入 http://localhost:8000/#/user 或者 http://localhost:8000/#/admin ，呈现页面的左边有导航栏，有些页面可以查看~~
 
 - done
 	* ~~物品信息列表展示(用户端与管理员端不同, 包含已借用物品提示)~~
@@ -25,17 +28,16 @@
   * ~~关于订单详情展示~~
   * ~~关于字典更新~~
   * ~~刷新消息按钮~~
+  * ~~等物品修改接口尽快修复~~
+  * ~~关于物品分类tag~~
 
 - doing
-  * 等物品修改接口尽快修复
   * 关于新消息通知
-  * 关于物品分类tag(前端先有着)
   * 关于物品详情回车以及过长省略(想要后端返回富文本)
 
 - todo
 
 	* 人员信息上传
 	* 人员信息编辑（出现上传表，若此人员有信息，则将信息作为value值填入各个字段）   	    
-	* 关于出库待讨论
 	* 申请过程流程图，申请之后admin收到信息流
 	* 催还等
