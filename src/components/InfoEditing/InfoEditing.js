@@ -1,11 +1,12 @@
 import React from 'react';
-import { Modal, Button, Upload, Input, Icon, Form, message } from 'antd';
+import { Modal, Button, Upload, Input, Icon, Form, message, Select } from 'antd';
 import styles from './InfoEditing.less';
 import { transInfo } from '../../utils/trans';
 import * as cookie from '../../utils/cookie';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 class InfoEditing extends React.Component {
   static defaultProps = {
@@ -89,6 +90,7 @@ class InfoEditing extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         const { name, location, price, attach, desc } = values;
         this.props.addMaterial && this.props.addMaterial(values);
         this.props.modifyMaterial && this.props.modifyMaterial({
@@ -110,6 +112,10 @@ class InfoEditing extends React.Component {
     });
   };
 
+  // getAllTag = () => {
+    // this.props.getAllTag();
+  // };
+
   render() {
     const { showBtClassName, showBtTitle, btType, addLoading, reqItem } = this.props;
     const { previewVisible, previewImage, fileList, visible } = this.state;
@@ -121,6 +127,15 @@ class InfoEditing extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
+
+    const tagsLayout = () => {
+      return this.props.tags.map((item) => {
+        return (
+          <Option value={item.id} key={item.id}>{item.name}</Option>
+        );
+      });
+    };
+
     return (
       <div className={styles.infoEditing}>
         <Button
@@ -136,7 +151,7 @@ class InfoEditing extends React.Component {
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
           confirmLoading={addLoading}
-          style={{ marginTop: '-50px' }}
+          style={{ marginTop: '-90px' }}
         >
           <div className="clearfix">
             <Form onSubmit={this.handleSubmit} className={styles.infoEditingForm}>
@@ -191,6 +206,16 @@ class InfoEditing extends React.Component {
                     addonBefore={<span style={{ width: 56, display: 'inline-block' }}>存放位置</span>}
                     prefix={<Icon type="compass" />}
                   />
+                )}
+              </FormItem>
+              <FormItem className={styles.infoEditingFormItem}>
+                {getFieldDecorator('tid', {
+                  rules: [{ required: true, message: '请选择物品分类标签' }],
+                  initialValue: reqItem ? reqItem.tag.id : undefined,
+                })(
+                  <Select placeholder={reqItem ? reqItem.tag.name : '请选择物品分类标签'}>
+                    {tagsLayout()}
+                  </Select>
                 )}
               </FormItem>
               <FormItem className={styles.infoEditingFormItem}>

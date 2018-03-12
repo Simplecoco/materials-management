@@ -11,8 +11,14 @@ function fetchCards({ from = 0, len = 20 }) {
   });
 }
 
-function fetchUsers({ limit = 10 }) {
-  return request(`/api/users?limit=${limit}`);
+function fetchUsers() {
+  return request('/v1/supply/user/list', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+  });
 }
 
 function fetchDetails({ url }) {

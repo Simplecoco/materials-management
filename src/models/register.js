@@ -45,7 +45,7 @@ export default {
           message: 'Success !!!',
           description: '注册成功啦, 祝好~',
           icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
-          duration: 1.8,
+          duration: 2,
           placement: 'topLeft'
         });
         yield put(routerRedux.push('/login'));
@@ -55,7 +55,7 @@ export default {
           message: 'Failed !!!',
           description: `注册失败哦, 再试试吧~, 错误信息: ${msg}`,
           icon: <Icon type="frown" style={{ color: 'pink' }} />,
-          duration: 1.8,
+          duration: 5,
           placement: 'topLeft'
         });
       }

@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import * as adminService from '../services/admin';
+import * as commonService from '../services/common';
 
 const fetchQuery = {
   from: 0,
@@ -14,6 +15,7 @@ export default {
     items: [],
     total: 0,
     reqItem: {},
+    tags: [],
     detailLoading: false,
     resultLoading: false,
     addLoading: false,
@@ -31,6 +33,9 @@ export default {
     },
     saveDetails(state, { payload: { data: reqItem } }) {
       return Object.assign({}, { ...state }, { reqItem });
+    },
+    saveAllTags(state, { payload: { data: { list: tags } } }) {
+      return Object.assign({}, { ...state }, { tags });
     },
     detailLoadingChange(state, { payload: { loading } }) {
       return Object.assign({}, { ...state }, { detailLoading: loading });
@@ -58,6 +63,15 @@ export default {
       yield put({ type: 'saveDetails', payload: { data } });
       yield put({ type: 'detailLoadingChange', payload: { loading: false } });
     },
+    *fetchAllTags({ payload }, { call, put }) {
+      const { data, code, msg } = yield call(commonService.fetchAllTags);
+      if (code !== 0) {
+        message.error(`出错啦, 错误信息: ${msg}`);
+      }
+      else {
+        yield put({ type: 'saveAllTags', payload: { data } });
+      }
+    },
     *addMaterial({ payload: { values } }, { call, put }) {
       yield put({ type: 'addLoadingChange', payload: { loading: true } });
       const { code, msg } = yield call(adminService.addMaterial, { values });
@@ -72,7 +86,7 @@ export default {
     },
     *modifyMaterial({ payload: { values, changeDetailVisible, fetch } }, { call }) {
       const { data, code, msg, mes } = yield call(adminService.modifyMaterial, { values });
-      console.log({ data, code, msg });
+      console.log({ data });
       if (code === 0) {
         message.success('修改成功~');
         changeDetailVisible();
@@ -103,6 +117,19 @@ export default {
       }
       setTimeout(hide, 0);
       message.error(`出错啦~, 错误信息: ${msg}`);
+    },
+    *fetchTagsMaterial({ payload: { tid } }, { call, put }) {
+      const { data, code, msg } = yield call(commonService.fetchTagsMaterial, { tid });
+      if (code === 0) {
+        yield put({ type: 'save', payload: { data } });
+        return;
+      }
+      if (code === 611) {
+        message.info('不好意思, 我们没有找到您需要的物品~');
+        yield put({ type: 'save', payload: { data } });
+        return;
+      }
+      message.error(`出错啦~, 错误信息: ${msg}`);
     }
   },
   subscriptions: {
@@ -110,6 +137,8 @@ export default {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/admin/materialInfo') {
           dispatch({ type: 'fetch', payload: query });
+          dispatch({ type: 'fetchAllTags', payload: {} });
+          // dispatch({ type: 'admin/saveAllTags', payload: {} });
         }
       });
     },

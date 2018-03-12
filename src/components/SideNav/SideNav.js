@@ -42,8 +42,16 @@ class SideNav extends React.Component {
   rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
   render() {
-    const { pageChangeHandler, type } = this.props;
+    const { pageChangeHandler, type, tags } = this.props;
     const { name } = this.state;
+    const tagsLayout = () => {
+      return tags.map((item) => {
+        return (
+          <Menu.Item key={item.id} tid={item.id} type="tag">{item.name}</Menu.Item>
+        );
+      });
+    };
+
     const userLayout = () => (                                // 这里layout待处理,想通过传入数据去自动构造
       <Menu
         mode="inline"
@@ -81,12 +89,7 @@ class SideNav extends React.Component {
             </span>
           }
         >
-          <Menu.Item key="6">Option 6</Menu.Item>
-          <Menu.Item key="7">Option 7</Menu.Item>
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="8">Option 8</Menu.Item>
-            <Menu.Item key="9">Option 9</Menu.Item>
-          </SubMenu>
+          {tagsLayout()}
         </SubMenu>
         <Menu.Item key="logout">
           <Icon type="logout" />
@@ -139,12 +142,7 @@ class SideNav extends React.Component {
             </span>
           }
         >
-          <Menu.Item key="6">Option 6</Menu.Item>
-          <Menu.Item key="7">Option 7</Menu.Item>
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="8">Option 8</Menu.Item>
-            <Menu.Item key="9">Option 9</Menu.Item>
-          </SubMenu>
+          {tagsLayout()}
         </SubMenu>
         <Menu.Item key="logout">
           <Icon type="logout" />

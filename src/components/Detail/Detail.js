@@ -46,7 +46,7 @@ class Detail extends React.Component {
   };
 
   render() {
-    const { changeDetailVisible, type, reqItem, detailLoading, detailVisible } = this.props;
+    const { changeDetailVisible, type, reqItem, detailLoading, detailVisible, tags } = this.props;
     const selected = [this.getInfo()];
 
     const extraBtn = () => {
@@ -82,6 +82,7 @@ class Detail extends React.Component {
             btType="default"
             onClick={this.applyIt}
             reqItem={reqItem}
+            tags={tags}
             modifyMaterial={this.props.modifyMaterial}
           />
         );
@@ -90,7 +91,7 @@ class Detail extends React.Component {
 
     const okText = ((type === 'user') && (reqItem.sta !== 'order')) ? '加入借用清单' : '确定';
 
-    const hiddenItem = ['pic', 'qrCode', 'attach', 'count', 'snum', 'sta', 'desc'];
+    const hiddenItem = ['pic', 'qrCode', 'attach', 'count', 'snum', 'sta', 'desc', 'tag'];
 
     const detailsLayout = () => {
       const tmp = Object.entries(reqItem).map((item, index) => {

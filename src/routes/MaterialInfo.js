@@ -25,6 +25,12 @@ class MaterialInfo extends React.Component {
     // }
   };
 
+  getAllTag = () => {
+    this.props.dispatch({
+      type: 'MaterialInfo/getAllTag',
+    });
+  };
+
   showDetail = ({ url, title }, e) => {
     e.preventDefault();
     this.setState({ detailTitle: title });
@@ -89,13 +95,6 @@ class MaterialInfo extends React.Component {
     this.setState({ currentPage: page });
   };
 
-//   changeEditVisible = (bool) => {
-//   this.setState({
-//     editVisible: bool,
-//
-// });
-// };
-
   render() {
     const {
       items,
@@ -105,7 +104,8 @@ class MaterialInfo extends React.Component {
       detailLoading,
       addCode,
       addMsg,
-      total
+      total,
+      tags
     } = this.props;
 
     const layout = items ? items.map((item, index) => {
@@ -134,6 +134,7 @@ class MaterialInfo extends React.Component {
           <Detail
             type="admin"
             reqItem={reqItem}
+            tags={tags}
             detailLoading={detailLoading}
             detailTitle={this.state.detailTitle}
             detailVisible={this.state.detailVisible}
@@ -174,6 +175,8 @@ class MaterialInfo extends React.Component {
           addCode={addCode}
           addMsg={addMsg}
           dispatch={this.props.dispatch}
+          getAllTag={this.getAllTag}
+          tags={tags}
           backToHomepage
         />
       </div>
@@ -190,7 +193,8 @@ function mapStateToProps(state) {
     addLoading,
     addCode,
     addMsg,
-    total
+    total,
+    tags
   } = state.MaterialInfo;
   return {
     items,
@@ -200,7 +204,8 @@ function mapStateToProps(state) {
     addLoading,
     addCode,
     addMsg,
-    total
+    total,
+    tags
   };
 }
 

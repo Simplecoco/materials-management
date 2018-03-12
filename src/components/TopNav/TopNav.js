@@ -3,13 +3,19 @@ import { Menu, Icon, Input, Row, Col, BackTop } from 'antd';
 import styles from './TopNav.css';
 
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 const Search = Input.Search;
 
 class TopNav extends React.Component {
 
   render() {
-    const { title, sideCollapsed, sideToggle, topNavIcon } = this.props;
+    const { title, sideCollapsed, sideToggle, topNavIcon, tags, pageChangeHandler } = this.props;
+    const tagsLayout = () => {
+      return tags.map((item) => {
+        return (
+          <Menu.Item key={item.id} tid={item.id} type="tag">{item.name}</Menu.Item>
+        );
+      });
+    };
     const iconLayout = () => {
       if (topNavIcon === 'goTop') {
         return (
@@ -37,7 +43,7 @@ class TopNav extends React.Component {
       <Row type="flex" align="stretch">
         <Col span={15}>
           <Menu
-            onClick={this.handleClick}
+            onClick={pageChangeHandler}
             mode="horizontal"
             theme="light"
             className={styles.topNav}
@@ -62,14 +68,7 @@ class TopNav extends React.Component {
                 </div>
               }
             >
-              <MenuItemGroup title="Item 1">
-                <Menu.Item key="setting:1">Option 1</Menu.Item>
-                <Menu.Item key="setting:2">Option 2</Menu.Item>
-              </MenuItemGroup>
-              <MenuItemGroup title="Item 2">
-                <Menu.Item key="setting:3">Option 3</Menu.Item>
-                <Menu.Item key="setting:4">Option 4</Menu.Item>
-              </MenuItemGroup>
+              {tagsLayout()}
             </SubMenu>
           </Menu>
         </Col>

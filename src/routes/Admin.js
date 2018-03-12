@@ -25,8 +25,17 @@ class Admin extends React.Component {
   };
 
   pageChangeHandler = ({ item, key }) => {
+    if (item.props.type === 'tag') {
+      this.props.dispatch(routerRedux.push('/admin/materialInfo'));
+      this.props.dispatch({
+        type: 'MaterialInfo/fetchTagsMaterial',
+        payload: { tid: item.props.tid }
+      });
+      return;
+    }
     if (item.props.path) {
       this.props.dispatch(routerRedux.push(item.props.path));
+      return;
     }
     if (key === 'logout') {
       this.logout();
@@ -56,6 +65,7 @@ class Admin extends React.Component {
   };
 
   render() {
+    const { tags } = this.props;
     return (
       <Layout style={{ minHeight: '100%' }}>
         <Sider
@@ -73,6 +83,7 @@ class Admin extends React.Component {
             userName="admin"
             type="admin"
             pageChangeHandler={this.pageChangeHandler}
+            tags={tags}
           />
         </Sider>
         <Layout style={{ minWidth: '1100px' }}>
@@ -84,6 +95,8 @@ class Admin extends React.Component {
                 sideCollapsed={this.state.sideCollapsed}
                 topNavIcon={this.state.topNavIcon}
                 searchHandle={this.searchHandle}
+                pageChangeHandler={this.pageChangeHandler}
+                tags={tags}
               />
             </Header>
           </Affix>
@@ -97,16 +110,15 @@ class Admin extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    admin: state.admin,
-  };
+  const { tags } = state.MaterialInfo;
+  return { tags };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch, // 为什么要显示传入dispatch, 这就十分僵硬了。。。。。
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     dispatch, // 为什么要显示传入dispatch, 这就十分僵硬了。。。。。
+//   };
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+export default connect(mapStateToProps)(Admin);
 // export default Admin;
