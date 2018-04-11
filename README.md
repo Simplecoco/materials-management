@@ -2,6 +2,7 @@
 
 #### 线上地址
 [点击查看线上地址](http://asset.starstudio.org)（注册需要电子科技大学信息门户身份验证）
+[备用地址](http://asset.stuhome.com/)
 
 #### ~~暂时的查看方式~~
 - ~~git clone http://git.stuhome.com/Simplecoco/materials-management.git~~

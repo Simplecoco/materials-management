@@ -164,7 +164,7 @@ class RegisterInfo extends React.Component {
           )}
         </FormItem>
         <Button type="primary" htmlType="submit" className={styles.RegisterInfoFormButton}>
-          点我验证
+          点我注册
         </Button>
       </Form>
     );
