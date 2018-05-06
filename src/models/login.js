@@ -59,12 +59,12 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         if (pathname === '/login' && cookie.getCookie('token')) {
-            if (cookie.getCookie('type') === 'user') {
-                dispatch(routerRedux.push('/user'));    // 用户进入首页时自动跳转到result
-            }
-            if (cookie.getCookie('type') === 'admin') {
-                dispatch(routerRedux.push('/admin'));    // 用户进入首页时自动跳转到MaterialInfo
-            }
+          if (cookie.getCookie('type') === 'user') {
+            dispatch(routerRedux.push('/user'));    // 用户进入首页时自动跳转到result
+          }
+          if (cookie.getCookie('type') === 'admin') {
+            dispatch(routerRedux.push('/admin'));    // 用户进入首页时自动跳转到MaterialInfo
+          }
         }
       });
     },
