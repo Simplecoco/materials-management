@@ -13,7 +13,6 @@ export default {
   effects: {
     *fetch({ payload: { limit } }, { call, put }) {
       const { data } = yield call(adminService.fetchUsers, { limit });
-      console.log({ data });
       yield put({ type: 'save', payload: { data } });
     },
   },

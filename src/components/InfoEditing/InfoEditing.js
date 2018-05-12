@@ -37,7 +37,6 @@ class InfoEditing extends React.Component {
       }
       message.success('添加物品成功啦!');
       setTimeout(() => {
-        // console.log(this);  // this指向infoEditing
         this.resetForm();
         this.props.backToHomepage && this.props.backToHomepage();
       }, 1500);
@@ -90,7 +89,6 @@ class InfoEditing extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         const { name, location, price, attach, desc } = values;
         this.props.addMaterial && this.props.addMaterial(values);
         this.props.modifyMaterial && this.props.modifyMaterial({

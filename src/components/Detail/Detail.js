@@ -46,8 +46,7 @@ class Detail extends React.Component {
     this.props.changeDetailVisible(false);
   };
 
-  deleteIt = (test) => {
-    console.log(test);
+  deleteIt = () => {
     this.props.deleteMaterial && this.props.deleteMaterial({
       mid: this.props.reqItem.id,
       uid: cookie.getCookie('uid')
