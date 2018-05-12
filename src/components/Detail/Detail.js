@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, Icon, Carousel, List, Button, Tabs } from 'antd';
+import { Modal, Icon, Carousel, List, Button, Tabs, Popconfirm, Row, Col } from 'antd';
 import styles from './Detail.less';
 import InfoEditing from '../InfoEditing/InfoEditing';
 import ApplyForm from '../ApplyForm/ApplyForm';
 import { transName } from '../../utils/trans';
+import * as cookie from '../../utils/cookie';
 
 const { TabPane } = Tabs;
 
@@ -11,6 +12,14 @@ class Detail extends React.Component {
   static defaultProps = {
     reqItem: '',
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      previewVisible: false,
+      previewImage: ''
+    };
+  }
 
   getInfo = () => {
     const item = this.props.reqItem;
@@ -20,6 +29,21 @@ class Detail extends React.Component {
       title: item.name,
       content: item.desc,
     };
+  };
+
+  handlePreview = (e) => {
+    console.log(e.target);
+    e.preventDefault();
+    this.setState({
+      previewImage: e.target.src || e.target.firstChild.src,
+      previewVisible: true,
+    });
+  };
+
+  handlePreviewCancel = () => {
+    this.setState({
+      previewVisible: false,
+    });
   };
 
   handleOk = () => {
@@ -45,8 +69,16 @@ class Detail extends React.Component {
     this.props.changeDetailVisible(false);
   };
 
+  deleteIt = () => {
+    this.props.deleteMaterial && this.props.deleteMaterial({
+      mid: this.props.reqItem.id,
+      uid: cookie.getCookie('uid')
+    });
+  }
+
   render() {
     const { changeDetailVisible, type, reqItem, detailLoading, detailVisible, tags } = this.props;
+    const { previewVisible, previewImage } = this.state;
     const selected = [this.getInfo()];
 
     const extraBtn = () => {
@@ -76,15 +108,25 @@ class Detail extends React.Component {
       }
       if (type === 'admin') {
         return (
-          <InfoEditing
-            showBtClassName="editButton"
-            showBtTitle="编辑"
-            btType="default"
-            onClick={this.applyIt}
-            reqItem={reqItem}
-            tags={tags}
-            modifyMaterial={this.props.modifyMaterial}
-          />
+          <Row type="flex">
+            <Col span={12}>
+              <InfoEditing
+                showBtClassName="editButton"
+                showBtTitle="编辑"
+                headTitle="编辑物品"
+                btType="default"
+                onClick={this.applyIt}
+                reqItem={reqItem}
+                tags={tags}
+                modifyMaterial={this.props.modifyMaterial}
+              />
+            </Col>
+            <Col span={12}>
+              <Popconfirm placement="bottom" title="确认删除吗？" onConfirm={this.deleteIt} okText="Yes" cancelText="No">
+                <Button type="danger">删除</Button>
+              </Popconfirm>
+            </Col>
+          </Row>
         );
       }
     };
@@ -113,7 +155,7 @@ class Detail extends React.Component {
     const carouselLayout = () => (
       reqItem.attach.map((item, index) => {
         return (
-          <div key={`attach${index}`} className={styles.slide}>
+          <div key={`attach${index}`} className={styles.slide} onClick={this.handlePreview} style={{ cursor: 'pointer' }}>
             <img src={item} alt="" style={{ lineHeight: 0 }} className={styles.pic} />
           </div>
         );
@@ -151,6 +193,9 @@ class Detail extends React.Component {
               <Carousel className={styles.carousel} autoplay effect="scrollx">
                 {carouselLayout()}
               </Carousel>
+              <Modal visible={previewVisible} footer={null} onCancel={this.handlePreviewCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+              </Modal>
             </div>
             <div className={styles.extraWrap}>
               {extraBtn()}

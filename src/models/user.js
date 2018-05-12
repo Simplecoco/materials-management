@@ -15,7 +15,6 @@ export default {
   effects: {
     *fetchAllTags({ payload }, { call, put }) {
       const { data, code, msg } = yield call(commonService.fetchAllTags);
-      console.log({ data }, '2222');
       if (code !== 0) {
         message.error(`出错啦, 错误信息: ${msg}`);
       }

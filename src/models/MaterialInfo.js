@@ -85,14 +85,25 @@ export default {
       }
     },
     *modifyMaterial({ payload: { values, changeDetailVisible, fetch } }, { call }) {
-      const { data, code, msg, mes } = yield call(adminService.modifyMaterial, { values });
-      console.log({ data });
+      const { code, msg, mes } = yield call(adminService.modifyMaterial, { values });
       if (code === 0) {
         message.success('修改成功~');
         changeDetailVisible();
         fetch();
       }
       else {
+        message.error(`出错啦, 错误信息: ${msg || mes}`);
+        changeDetailVisible();
+        fetch();
+      }
+    },
+    *deleteMaterial({ payload: { values, changeDetailVisible, fetch } }, { call }) {
+      const { code, msg } = yield call(adminService.deleteMaterial, { values });
+      if (code === 0) {
+        message.success('删除成功~');
+        changeDetailVisible();
+        fetch();
+      } else {
         message.error(`出错啦, 错误信息: ${msg || mes}`);
         changeDetailVisible();
         fetch();

@@ -17,7 +17,7 @@
   },
   "proxy": {
     "/v1/supply/": {
-      "target": "http://asset.starstudio.org",
+      "target": "http://asset.stuhome.com/",
       "changeOrigin": true,
       "pathRewrite": { "^/v1/supply/": "/v1/supply/" }
     },

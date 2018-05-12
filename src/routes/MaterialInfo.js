@@ -62,6 +62,13 @@ class MaterialInfo extends React.Component {
     });
   };
 
+  deleteMaterial = (values) => {
+    this.props.dispatch({
+      type: 'MaterialInfo/deleteMaterial',
+      payload: { values, changeDetailVisible: this.changeDetailVisible, fetch: this.fetch }
+    });
+  }
+
   resetReqItem = () => {
     this.props.dispatch({
       type: 'MaterialInfo/resetReqItem',
@@ -141,6 +148,7 @@ class MaterialInfo extends React.Component {
             changeDetailVisible={this.changeDetailVisible}
             resetReqItem={this.resetReqItem}
             modifyMaterial={this.modifyMaterial}
+            deleteMaterial={this.deleteMaterial}
           />
         );
       }
@@ -171,6 +179,7 @@ class MaterialInfo extends React.Component {
         {detailLayout()}
         <InfoEditing
           addMaterial={this.addMaterial}
+          headTitle="添加物品"
           addLoading={addLoading}
           addCode={addCode}
           addMsg={addMsg}

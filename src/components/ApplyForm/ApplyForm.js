@@ -87,7 +87,7 @@ class ApplyForm extends React.Component {
       if (this.props.selected) {
         return this.props.selected.map((item) => {
           return (
-            <Tag color="cyan">{item.title}</Tag>
+            <Tag color="cyan" key={item.mid}>{item.title}</Tag>
           );
         });
       }

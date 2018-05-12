@@ -53,6 +53,17 @@ function modifyMaterial({ values }) {
   });
 }
 
+function deleteMaterial({ values }) {
+  return request('/v1/supply/materials/del', {
+    method: 'POST',
+    headers: {
+      'Contet-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify(values),
+  });
+}
+
 function searchMaterial({ key }) {
   return request('/v1/supply/materials/search', {
     method: 'POST',
@@ -101,6 +112,7 @@ export {
   fetchDetails,
   addMaterial,
   modifyMaterial,
+  deleteMaterial,
   searchMaterial,
   fetchOrders,
   fetchOrderDetail,

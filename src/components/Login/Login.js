@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import styles from './Login.css';
 
 const FormItem = Form.Item;
@@ -33,12 +33,6 @@ class NormalLoginForm extends React.Component {
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(
-            <Checkbox>记住密码</Checkbox>,
-          )}
           <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
             点我登录
           </Button>

@@ -37,7 +37,6 @@ class InfoEditing extends React.Component {
       }
       message.success('添加物品成功啦!');
       setTimeout(() => {
-        // console.log(this);  // this指向infoEditing
         this.resetForm();
         this.props.backToHomepage && this.props.backToHomepage();
       }, 1500);
@@ -90,7 +89,6 @@ class InfoEditing extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         const { name, location, price, attach, desc } = values;
         this.props.addMaterial && this.props.addMaterial(values);
         this.props.modifyMaterial && this.props.modifyMaterial({
@@ -117,7 +115,7 @@ class InfoEditing extends React.Component {
   // };
 
   render() {
-    const { showBtClassName, showBtTitle, btType, addLoading, reqItem } = this.props;
+    const { showBtClassName, showBtTitle, btType, addLoading, reqItem, headTitle } = this.props;
     const { previewVisible, previewImage, fileList, visible } = this.state;
     const { getFieldDecorator } = this.props.form;
 
@@ -146,7 +144,7 @@ class InfoEditing extends React.Component {
           {showBtTitle}
         </Button>
         <Modal
-          title="添加物品"
+          title={headTitle || '添加物品'}
           visible={visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
