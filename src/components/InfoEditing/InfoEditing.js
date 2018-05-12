@@ -117,7 +117,7 @@ class InfoEditing extends React.Component {
   // };
 
   render() {
-    const { showBtClassName, showBtTitle, btType, addLoading, reqItem } = this.props;
+    const { showBtClassName, showBtTitle, btType, addLoading, reqItem, headTitle } = this.props;
     const { previewVisible, previewImage, fileList, visible } = this.state;
     const { getFieldDecorator } = this.props.form;
 
@@ -146,7 +146,7 @@ class InfoEditing extends React.Component {
           {showBtTitle}
         </Button>
         <Modal
-          title="添加物品"
+          title={headTitle || '添加物品'}
           visible={visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}

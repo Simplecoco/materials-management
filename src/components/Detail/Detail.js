@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, Icon, Carousel, List, Button, Tabs } from 'antd';
+import { Modal, Icon, Carousel, List, Button, Tabs, Popconfirm, Row, Col } from 'antd';
 import styles from './Detail.less';
 import InfoEditing from '../InfoEditing/InfoEditing';
 import ApplyForm from '../ApplyForm/ApplyForm';
 import { transName } from '../../utils/trans';
+import * as cookie from '../../utils/cookie';
 
 const { TabPane } = Tabs;
 
@@ -45,6 +46,14 @@ class Detail extends React.Component {
     this.props.changeDetailVisible(false);
   };
 
+  deleteIt = (test) => {
+    console.log(test);
+    this.props.deleteMaterial && this.props.deleteMaterial({
+      mid: this.props.reqItem.id,
+      uid: cookie.getCookie('uid')
+    });
+  }
+
   render() {
     const { changeDetailVisible, type, reqItem, detailLoading, detailVisible, tags } = this.props;
     const selected = [this.getInfo()];
@@ -76,15 +85,25 @@ class Detail extends React.Component {
       }
       if (type === 'admin') {
         return (
-          <InfoEditing
-            showBtClassName="editButton"
-            showBtTitle="编辑"
-            btType="default"
-            onClick={this.applyIt}
-            reqItem={reqItem}
-            tags={tags}
-            modifyMaterial={this.props.modifyMaterial}
-          />
+          <Row type="flex">
+            <Col span={12}>
+              <InfoEditing
+                showBtClassName="editButton"
+                showBtTitle="编辑"
+                headTitle="编辑物品"
+                btType="default"
+                onClick={this.applyIt}
+                reqItem={reqItem}
+                tags={tags}
+                modifyMaterial={this.props.modifyMaterial}
+              />
+            </Col>
+            <Col span={12}>
+              <Popconfirm placement="bottom" title="确认删除吗？" onConfirm={this.deleteIt} okText="Yes" cancelText="No">
+                <Button type="danger">删除</Button>
+              </Popconfirm>
+            </Col>
+          </Row>
         );
       }
     };

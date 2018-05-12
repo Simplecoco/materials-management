@@ -302,22 +302,29 @@ class RequestList extends React.Component {
               itemLayout="vertical"
               size="large"
               dataSource={mids}
-              renderItem={item => (
-                <List.Item
-                  key={item.id}
-                  extra={<img width={100} alt="logo" src={item.attach[0]} />}
-                >
-                  <List.Item.Meta
-                    title={<a href={item.detail_url}>{item.name}</a>}
-                    description={
-                      <Tag color={transColor[item.sta]}>
-                        {transValue[item.sta] || item.sta}
-                      </Tag>
-                    }
-                  />
-                  {item.desc}
-                </List.Item>
-              )}
+              renderItem={(item) => {
+                if (Object.keys(item).length === 0) {
+                  return (
+                    <List.Item key={item.id}>暂时没有相关信息</List.Item>
+                  );
+                }
+                return (
+                  <List.Item
+                    key={item.id}
+                    extra={<img width={100} alt="logo" src={item.attach[0]} />}
+                  >
+                    <List.Item.Meta
+                      title={<a href={item.detail_url}>{item.name}</a>}
+                      description={
+                        <Tag color={transColor[item.sta]}>
+                          {transValue[item.sta] || item.sta}
+                        </Tag>
+                      }
+                    />
+                    {item.desc}
+                  </List.Item>
+                );
+              }}
             />
           );
 
