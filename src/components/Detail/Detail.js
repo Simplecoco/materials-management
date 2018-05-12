@@ -13,6 +13,14 @@ class Detail extends React.Component {
     reqItem: '',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      previewVisible: false,
+      previewImage: ''
+    };
+  }
+
   getInfo = () => {
     const item = this.props.reqItem;
     return {
@@ -21,6 +29,21 @@ class Detail extends React.Component {
       title: item.name,
       content: item.desc,
     };
+  };
+
+  handlePreview = (e) => {
+    console.log(e.target);
+    e.preventDefault();
+    this.setState({
+      previewImage: e.target.src || e.target.firstChild.src,
+      previewVisible: true,
+    });
+  };
+
+  handlePreviewCancel = () => {
+    this.setState({
+      previewVisible: false,
+    });
   };
 
   handleOk = () => {
@@ -55,6 +78,7 @@ class Detail extends React.Component {
 
   render() {
     const { changeDetailVisible, type, reqItem, detailLoading, detailVisible, tags } = this.props;
+    const { previewVisible, previewImage } = this.state;
     const selected = [this.getInfo()];
 
     const extraBtn = () => {
@@ -131,7 +155,7 @@ class Detail extends React.Component {
     const carouselLayout = () => (
       reqItem.attach.map((item, index) => {
         return (
-          <div key={`attach${index}`} className={styles.slide}>
+          <div key={`attach${index}`} className={styles.slide} onClick={this.handlePreview} style={{ cursor: 'pointer' }}>
             <img src={item} alt="" style={{ lineHeight: 0 }} className={styles.pic} />
           </div>
         );
@@ -169,6 +193,9 @@ class Detail extends React.Component {
               <Carousel className={styles.carousel} autoplay effect="scrollx">
                 {carouselLayout()}
               </Carousel>
+              <Modal visible={previewVisible} footer={null} onCancel={this.handlePreviewCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+              </Modal>
             </div>
             <div className={styles.extraWrap}>
               {extraBtn()}
