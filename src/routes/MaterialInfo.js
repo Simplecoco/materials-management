@@ -101,6 +101,15 @@ class MaterialInfo extends React.Component {
     }));
     this.setState({ currentPage: page });
   };
+  
+  typeChangeHandler = (item, e) => {
+    e.preventDefault();
+    this.props.dispatch(routerRedux.push('/user/result'));
+    this.props.dispatch({
+      type: 'result/fetchTagsMaterial',
+      payload: { tid: item.id }
+    });
+  };
 
   render() {
     const {
@@ -114,6 +123,7 @@ class MaterialInfo extends React.Component {
       total,
       tags
     } = this.props;
+    const breadIcons = ['camera', 'video-camera', 'bulb', 'appstore-o'];
 
     const layout = items ? items.map((item, index) => {
       return (
@@ -160,6 +170,14 @@ class MaterialInfo extends React.Component {
           <Icon type="home" />
           <span>所有物品</span>
         </Breadcrumb.Item>
+        {tags.map((item, index) => {
+          return (
+            <Breadcrumb.Item href="" onClick={this.typeChangeHandler.bind(this, item)} key={item.id}>
+              <Icon type={breadIcons[index]} />
+              <span>{item.name}</span>
+            </Breadcrumb.Item>
+          );
+        })}
       </Breadcrumb>
     );
 

@@ -135,11 +135,11 @@ class ApplyForm extends React.Component {
             </FormItem>
             <FormItem className={styles.ApplyFormItem}>
               {getFieldDecorator('title', {
-                rules: [{ required: true, message: '请输入标题' }],
+                rules: [{ required: true, message: '请输入借用事件' }],
               })(
                 <Input
-                  placeholder="请输入标题"
-                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>标题</span>}
+                  placeholder="请输入借用事件"
+                  addonBefore={<span style={{ width: 56, display: 'inline-block' }}>借用事件</span>}
                   prefix={<Icon type="tag-o" />}
                 />
               )}
@@ -167,7 +167,7 @@ class ApplyForm extends React.Component {
             </FormItem>
             <FormItem className={styles.ApplyFormItem}>
               {getFieldDecorator('remark', {
-                rules: [{ required: true, message: '请输入备注', whitespace: true, }],
+                rules: [{ required: false, message: '请输入备注', whitespace: true, }],
               })(
                 <TextArea
                   placeholder="备注"
