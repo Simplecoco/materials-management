@@ -168,6 +168,7 @@ class ApplyForm extends React.Component {
             <FormItem className={styles.ApplyFormItem}>
               {getFieldDecorator('remark', {
                 rules: [{ required: false, message: '请输入备注', whitespace: true, }],
+                initialValue: '',
               })(
                 <TextArea
                   placeholder="备注"

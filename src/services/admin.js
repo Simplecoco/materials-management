@@ -57,7 +57,7 @@ function deleteMaterial({ values }) {
   return request('/v1/supply/materials/del', {
     method: 'POST',
     headers: {
-      'Contet-type': 'application/json',
+      'Content-type': 'application/json',
       token: cookie.getCookie('token'),
     },
     body: JSON.stringify(values),
