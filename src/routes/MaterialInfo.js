@@ -101,12 +101,12 @@ class MaterialInfo extends React.Component {
     }));
     this.setState({ currentPage: page });
   };
-  
+
   typeChangeHandler = (item, e) => {
     e.preventDefault();
-    this.props.dispatch(routerRedux.push('/user/result'));
+    this.props.dispatch(routerRedux.push('/admin/materialInfo'));
     this.props.dispatch({
-      type: 'result/fetchTagsMaterial',
+      type: 'MaterialInfo/fetchTagsMaterial',
       payload: { tid: item.id }
     });
   };

@@ -42,7 +42,7 @@ class SideNav extends React.Component {
   rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
   render() {
-    const { pageChangeHandler, type, tags } = this.props;
+    const { pageChangeHandler, type, tags, applyCount, requestCount, overdueCount } = this.props;
     const { name } = this.state;
     const tagsLayout = () => {
       return tags.map((item) => {
@@ -68,6 +68,7 @@ class SideNav extends React.Component {
           <span>物资借用</span>
         </Menu.Item>
         <Menu.Item key="3" path="/user/records">
+          <Badge count={overdueCount} style={{ position: 'absolute', top: -20, left: -18 }} />
           <Icon type="folder" />
           <span>我的借用记录</span>
         </Menu.Item>
@@ -76,7 +77,7 @@ class SideNav extends React.Component {
           <span>我的消息</span>
         </Menu.Item>
         <Menu.Item key="5" path="/user/applyList" style={{ overflow: 'visible' }}>
-          <Badge count={this.props.applyCount} style={{ position: 'absolute', top: -26, left: -18 }} />
+          <Badge count={applyCount} style={{ position: 'absolute', top: -20, left: -18 }} />
           <Icon type="shopping-cart" />
           <span>申请清单</span>
         </Menu.Item>
@@ -126,10 +127,12 @@ class SideNav extends React.Component {
           </Menu.Item>
         </SubMenu>
         <Menu.Item key="4" path="/admin/requestList">
+          <Badge count={requestCount} style={{ position: 'absolute', top: -20, left: -18 }} />
           <Icon type="notification" />
           <span>物资申请</span>
         </Menu.Item>
         <Menu.Item key="5" path="/admin/records">
+          <Badge count={overdueCount} style={{ position: 'absolute', top: -20, left: -18 }} />
           <Icon type="folder" />
           <span>借用记录</span>
         </Menu.Item>

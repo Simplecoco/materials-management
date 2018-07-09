@@ -11,8 +11,8 @@ function fetchCards({ from = 0, len = 20 }) {
   });
 }
 
-function fetchUsers() {
-  return request('/v1/supply/user/list', {
+function fetchUsers({ from = 0, len = 10 }) {
+  return request(`/v1/supply/user/list?from=${from}&len=${len}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -57,7 +57,7 @@ function deleteMaterial({ values }) {
   return request('/v1/supply/materials/del', {
     method: 'POST',
     headers: {
-      'Contet-type': 'application/json',
+      'Content-type': 'application/json',
       token: cookie.getCookie('token'),
     },
     body: JSON.stringify(values),
@@ -106,6 +106,17 @@ function reviewOrder({ orderid, pass, reply, uid = cookie.getCookie('uid') }) {
   });
 }
 
+function rechargeOrder({ orderid }) {
+  return request('/v1/supply/orders/overdue', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      token: cookie.getCookie('token'),
+    },
+    body: JSON.stringify({ orderid }),
+  });
+}
+
 export {
   fetchCards,
   fetchUsers,
@@ -116,5 +127,6 @@ export {
   searchMaterial,
   fetchOrders,
   fetchOrderDetail,
-  reviewOrder
+  reviewOrder,
+  rechargeOrder
 };

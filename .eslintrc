@@ -31,7 +31,8 @@
     "no-unused-expressions": [0],
     "react/jsx-boolean-value": [0],
     "no-param-reassign": [0],
-    "react/react-in-jsx-scope": [0]
+    "react/react-in-jsx-scope": [0],
+    "no-underscore-dangle": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

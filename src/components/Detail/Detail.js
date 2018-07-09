@@ -32,7 +32,6 @@ class Detail extends React.Component {
   };
 
   handlePreview = (e) => {
-    console.log(e.target);
     e.preventDefault();
     this.setState({
       previewImage: e.target.src || e.target.firstChild.src,

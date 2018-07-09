@@ -31,7 +31,7 @@ export default {
             message: 'Hello, My Friend!!!',
             description: '欢迎您来到物资管理系统~',
             icon: <Icon type="smile-circle" style={{ color: '#03c463' }} />,
-            duration: 3,
+            duration: 5,
             placement: 'topRight'
           });
           dispatch({ type: 'fetchAllTags', payload: {} });
