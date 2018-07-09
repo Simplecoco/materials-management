@@ -81,7 +81,6 @@ class UserInfo extends React.Component {
       //     ));
       //     const peccancy = record.peccancy;
       //     const callback = (key) => {
-      //       console.log(key);
       //     };
       //     const content = (
       //       <Tabs defaultActiveKey="1" onChange={callback} size="small">

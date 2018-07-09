@@ -43,7 +43,6 @@ class SideNav extends React.Component {
 
   render() {
     const { pageChangeHandler, type, tags, applyCount, requestCount, overdueCount } = this.props;
-    console.log(overdueCount);
     const { name } = this.state;
     const tagsLayout = () => {
       return tags.map((item) => {
