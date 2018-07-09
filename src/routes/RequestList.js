@@ -10,6 +10,10 @@ const { TextArea } = Input;
 const { Panel } = Collapse;
 
 class RequestList extends React.Component {
+  static defaultProps = {
+    type: 'admin'
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -63,6 +67,13 @@ class RequestList extends React.Component {
       this.setState({ nowData: '' });
     }
   };
+
+  rechargeConfirm = (orderid) => {
+    this.props.dispatch({ type: 'requestList/recharge', payload: { orderid } });
+    // setTimeout(() => {
+    //   this.setState({ iconLoading: false });
+    // }, 1500);
+  }
 
   reviewIt = ({ orderid, pass }) => {
     this.setState({ orderid, pass });
@@ -221,6 +232,7 @@ class RequestList extends React.Component {
         },
       },
     ];
+
     const userColumns = [
       {
         title: '订单号',
@@ -365,6 +377,12 @@ class RequestList extends React.Component {
               >
                 <Button type="primary">查看详细信息</Button>
               </Popover>
+              {type === 'admin' && record.sta === 'syes' ? (
+                <Popconfirm title={`确认催还 ${record.orderid} 吗`} okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.rechargeConfirm(record.orderid); }}>
+                  <span className="ant-divider" />
+                  <Button>催还</Button>
+                </Popconfirm>
+              ) : null}
             </div>
           );
         },
@@ -396,7 +414,7 @@ class RequestList extends React.Component {
           </Tabs>
         );
       }
-      if (to && done && mine) {
+      if (to && done && mine && type === 'admin') {
         return (
           <Tabs defaultActiveKey="1" size="small">
             <TabPane tab="未处理记录" key="1">

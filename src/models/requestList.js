@@ -6,14 +6,24 @@ import * as adminService from '../services/admin';
 //   len: 20,
 // };
 
+const countOverdue = (arr) => {
+  return arr.filter((item) => { return item.sta === 'overdue'; });
+};
+
 export default {
   namespace: 'requestList',
   state: {
     mine: [],
+    to: [],
+    done: [],
+    overdue: []
   },
   reducers: {
     save(state, { payload: { data } }) {
-      return Object.assign({}, { ...state }, { ...data });
+      const { mine } = data;
+      const overdue = countOverdue(mine);
+      const newData = Object.assign({}, data, { overdue });
+      return Object.assign({}, { ...state }, { ...newData });
     },
   },
   effects: {
@@ -33,6 +43,16 @@ export default {
       if (code === 0) {
         yield message.success('回复成功啦~');
         yield put({ type: 'fetch' });
+      }
+      else {
+        yield message.error(`回复失败了呢~, 错误信息: ${msg}`);
+      }
+    },
+    *recharge({ payload }, { call }) {
+      const { code, msg } = yield call(adminService.rechargeOrder, payload);
+      if (code === 0) {
+        yield message.success('回复成功啦~');
+        // yield put({ type: 'fetch' });
       }
       else {
         yield message.error(`回复失败了呢~, 错误信息: ${msg}`);

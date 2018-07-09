@@ -17,6 +17,11 @@ class Admin extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    this.props.dispatch({ type: 'requestList/fetch' });
+    // this.props.dispatch({ type: 'requestList/fetch' });
+  };
+
   searchHandle = (key) => {
     this.props.dispatch({
       type: 'MaterialInfo/searchMaterial',
@@ -65,7 +70,7 @@ class Admin extends React.Component {
   };
 
   render() {
-    const { tags } = this.props;
+    const { tags, requestCount, overdueCount } = this.props;
     return (
       <Layout style={{ minHeight: '100%' }}>
         <Sider
@@ -82,6 +87,8 @@ class Admin extends React.Component {
           <SideNav
             userName="admin"
             type="admin"
+            requestCount={requestCount}
+            overdueCount={overdueCount}
             pageChangeHandler={this.pageChangeHandler}
             tags={tags}
           />
@@ -111,7 +118,10 @@ class Admin extends React.Component {
 
 function mapStateToProps(state) {
   const { tags } = state.MaterialInfo;
-  return { tags };
+  const { to, overdue } = state.requestList;
+  const requestCount = to ? to.length : 0;
+  const overdueCount = overdue ? overdue.length : 0;
+  return { tags, requestCount, overdueCount };
 }
 
 // function mapDispatchToProps(dispatch) {
