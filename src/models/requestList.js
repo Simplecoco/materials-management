@@ -51,11 +51,11 @@ export default {
     *recharge({ payload }, { call }) {
       const { code, msg } = yield call(adminService.rechargeOrder, payload);
       if (code === 0) {
-        yield message.success('回复成功啦~');
+        yield message.success('催还成功啦~');
         // yield put({ type: 'fetch' });
       }
       else {
-        yield message.error(`回复失败了呢~, 错误信息: ${msg}`);
+        yield message.error(`催还失败了呢~, 错误信息: ${msg}`);
       }
     }
   },
