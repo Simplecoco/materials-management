@@ -377,7 +377,7 @@ class RequestList extends React.Component {
               >
                 <Button type="primary">查看详细信息</Button>
               </Popover>
-              {type === 'admin' && record.sta === 'syes' ? (
+              {type === 'admin' && (record.sta === 'syes' || record.sta === 'overdue') ? (
                 <Popconfirm title={`确认催还 ${record.orderid} 吗`} okText="是" cancelText="否" placement="topRight" onConfirm={() => { this.rechargeConfirm(record.orderid); }}>
                   <span className="ant-divider" />
                   <Button>催还</Button>
